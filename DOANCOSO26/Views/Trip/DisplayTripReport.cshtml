@@ -1,0 +1,234 @@
+﻿@model DOANCOSO26.Models.TripReport
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+
+<!-- Mirrored from ivonne-seven.vercel.app/gst-invoice.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Jun 2024 09:19:11 GMT -->
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <!-- Meta Tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="ThemeMarch">
+    <!-- Site Title -->
+    <title>GST Invoice</title>
+    <link rel="stylesheet" href="/Ticket/assets/css/style.css">
+</head>
+
+<body>
+    <button   class="cs-invoice_btn cs-color2">
+        <a asp-controller="Home" asp-action="Index"> Quay lại trang chủ</a>
+        </button>
+    <div class="cs-container">
+        <div class="cs-invoice cs-style1">
+            <div class="cs-invoice_in" id="download_section">
+                <div class="cs-invoice_head cs-type1 cs-mb25 column border-bottom-none">
+                    <div class="cs-invoice_left w-70 display-flex">
+                        <div class="cs-logo cs-mb5 cs-mr20"><img src="/Ticket/assets/img/Logo.png" alt="Logo"></div>
+                        <div class="cs-ml22">
+                            <div class="cs-invoice_number cs-primary_color cs-mb0 cs-f16">
+                                <h5 class="cs-width_12 cs-dip_green_color" style="font-size; 30px;  font-weight: bold;  ">PHIẾU BÁO CÁO CHUYẾN</h5>
+                            </div>
+                            <div class="cs-invoice_number cs-primary_color cs-mb0 cs-f16 display-flex space-between  gap-20">
+                                <p class="cs-mb0 cs-primary_color cs-mr15"><b>Địa chỉ: </b></p>
+                                <p class="cs-mb0">Số 01 Tô Hiến Thành, Phường 3, Thành phố Đà Lạt, Tỉnh Lâm Đồng, Việt Nam</p>
+                            </div>
+                            <div class="cs-invoice_number cs-primary_color cs-mb0 cs-f16  display-flex space-between ">
+                                <p class="cs-primary_color cs-mb0"><b>Mail:</b></p>
+                                <p class="cs-mb0 cs-mr28"> Wheely@gmail.com</p>
+                            </div>
+                            <div class="cs-invoice_number cs-primary_color cs-mb0 cs-f16  display-flex space-between">
+                                <p class="cs-primary_color cs-mb0"><b>Số điện thoại: </b></p>
+                                <p class="cs-mb0 cs-mr15">+012 345 67890</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cs-invoice_right cs-text_right">
+
+                        <div class="cs-invoice_number cs-primary_color cs-mb0 cs-f16  display-flex justify-content-flex-end">
+                            <p class="cs-primary_color cs"><b>Ngày lập phiếu:</b></p>
+                            <p class="cs-mb0">@Model.CreateTime</p>
+                        </div>
+                        <div class="cs-invoice_number cs-primary_color cs-mb0 cs-f16  display-flex justify-content-flex-end">
+                            <p class="cs-primary_color cs-mb0"><b>Mã phiếu :</b></p>
+                            <p class="cs-mb0">#SM75692</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="display-flex cs-text_center">
+                    <div class="cs-border-1"></div>
+                    <h5 class="cs-width_12 cs-dip_green_color">THÔNG TIN CHUYẾN XE</h5>
+                    <div class="cs-border-1"></div>
+                </div>
+
+                <div class="cs-invoice_head cs-mb10 ">
+                    <div class="cs-invoice_left cs-mr97">
+                  
+                    </div>
+                    <div class="cs-invoice_left cs-mr97">
+                        <b class="cs-primary_color">Tài xế:</b>
+                        <p class="cs-mb8">@Model.Driver?.FullName</p>
+                        <p><b class="cs-primary_color cs-semi_bold">Số điện thọai: </b> <br>@Model.Driver.PhoneNumber</p>
+                        <p><b class="cs-primary_color cs-semi_bold">EMail: </b> <br>@Model.Driver.Email</p>
+                    </div>
+                    <div class="cs-invoice_left cs-mr97">
+                        <b class="cs-primary_color">Ngày đi</b>
+                        <p class="cs-mb8">@Model.BusTrip.DepartureDate.ToString("dd/MM/yyyy")</p>
+                        <p><b class="cs-primary_color cs-semi_bold">Giờ xuất phát:  </b> <br>@Model.BusTrip.DepartureTime.ToString("hh:mm")</p>
+                        <p><b class="cs-primary_color cs-semi_bold">EMail: </b> <br>@Model.Driver.Email</p>
+                    </div>
+
+                    <div class="cs-invoice_right">
+                        <ul class="cs-bar_list">
+                            <li><b class="cs-primary_color">Điểm đi/ From:</b> @Model.BusTrip.BusRoute.Start</li>
+                            <li><b class="cs-primary_color">Điểm đến/ To:</b> @Model.BusTrip.BusRoute.End</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <div class="cs-border"></div>
+                <ul class="cs-grid_row cs-col_3 cs-mb0 cs-mt20">
+                    <li>
+                        <p class="cs-mb20">
+                            <b class="cs-primary_color">Số hiệu xe:</b> <span class="cs-primary_color">@Model.BusTrip.Bus.BusNumber</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p class="cs-mb20">
+                            <b class="cs-primary_color">Hãng xe:</b> <span class="cs-primary_color"></span>@Model.BusTrip.Bus.Company
+                        </p>
+                    </li>
+                    <li>
+                        <p class="cs-mb20">
+                            <b class="cs-primary_color">Số ghế đặt:</b> <span class="cs-primary_color">@Model.BusTrip.GetBookedSeat()</span>
+                        </p>
+                    </li>
+                </ul>
+                <div class="cs-border cs-mb30"></div>
+                <div class="cs-table cs-style2 cs-f12">
+                    <div class="cs-round_border">
+                        <div class="cs-table_responsive">
+                            <table>
+                                <thead>
+                                    <tr class="cs-focus_bg">
+                                        <th class="cs-width_1 cs-semi_bold cs-primary_color">STT</th>
+                                        <th class="cs-width_3 cs-semi_bold cs-primary_color">Họ và tên</th>
+                                        <th class="cs-width_2 cs-semi_bold cs-primary_color">Số điện thoại</th>
+                                        <th class="cs-width_1 cs-semi_bold cs-primary_color">Vị trí ngồi</th>
+                                        <th class="cs-width_1 cs-semi_bold cs-primary_color">Ghi chú</th>
+                                        <th class="cs-width_1 cs-semi_bold cs-primary_color">Đã lên xe</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var booking in ViewBag.Bookings)
+                                    {
+                                        var seat = ViewBag.SeatInfoByBookingId[booking.Id];
+                                        <tr>
+                                            <!-- Display booking and seat information -->
+                                            <td>@booking.Id</td>
+                                            <td>@booking.UserName</td>
+                                            <td>@booking.SDT</td>
+                                            <td>@seat.SeatNumber</td>
+                                            <td>@booking.Note</td>
+                                            <td>@booking.StatusOnBus</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+                <ul class="cs-grid_row cs-col_3 cs-mb0 cs-mt20" style="margin-top: 30px;">
+                    <li>
+                        <p class="cs-mb20">
+                            <b class="cs-primary_color">Chí phí đơn gía xăng:</b> <span class="cs-primary_color">@Model.Gascost</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p class="cs-mb20">
+                            <b class="cs-primary_color">Chí phí xăng :</b> <span class="cs-primary_color">@Model.Gascost</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p class="cs-mb20">
+                            <b class="cs-primary_color">Chí phí sửa chữa: </b> <span class="cs-primary_color"></span>@Model.Repaircosts
+                        </p>
+                    </li>
+                    <li>
+                        <p class="cs-mb20">
+                            <b class="cs-primary_color">Chí phí khác :</b> <span class="cs-primary_color">@Model.Anothercost</span>
+                        </p>
+                    </li>
+                </ul>
+                <p class="cs-mb20">
+                    <b class="cs-primary_color">Thông tin ghi chú: </b> <span class="cs-primary_color">@Model.Note</span>
+                </p>
+                <div class="cs-table cs-style2 cs-mt20">
+                    <div class="cs-table_responsive">
+                        <table>
+                            <tbody>
+
+                                <tr class="cs-table_baseline">
+
+
+                                    <td class="cs-width_6 cs-primary_color">
+                                        <span style="color: #000; font-weight: bold;">Kiểm tra Đầy Đủ:</span> Trước khi xe khởi hành, hãy đảm bảo bạn đã kiểm tra toàn bộ danh sách hành khách. Không bỏ sót bất kỳ ai.
+
+                                    </td>
+                                 
+                                    <td class="cs-width_3 cs-text_right">
+
+                                        <p class="cs-primary_color cs-bold cs-f16 cs-mb5 ">Chữ kí tài xế</p>
+                                        <p class="cs-border border-none"></p>
+
+                                    </td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="cs-invoice_btns cs-hide_print">
+                <a href="javascript:window.print()" class="cs-invoice_btn cs-color1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+                        <path d="M384 368h24a40.12 40.12 0 0040-40V168a40.12 40.12 0 00-40-40H104a40.12 40.12 0 00-40 40v160a40.12 40.12 0 0040 40h24"
+                              fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32" />
+                        <rect x="128" y="240" width="256" height="208" rx="24.32" ry="24.32" fill="none"
+                              stroke="currentColor" stroke-linejoin="round" stroke-width="32" />
+                        <path d="M384 128v-24a40.12 40.12 0 00-40-40H168a40.12 40.12 0 00-40 40v24" fill="none"
+                              stroke="currentColor" stroke-linejoin="round" stroke-width="32" />
+                        <circle cx="392" cy="184" r="24" />
+                    </svg>
+                    <span>Print</span>
+                </a>
+                <button id="download_btn" class="cs-invoice_btn cs-color2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+                        <title>Download</title>
+                        <path d="M336 176h40a40 40 0 0140 40v208a40 40 0 01-40 40H136a40 40 0 01-40-40V216a40 40 0 0140-40h40"
+                              fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="32" />
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="32" d="M176 272l80 80 80-80M256 48v288" />
+                    </svg>
+                    <span>Download</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="/Ticket/assets/js/jquery.min.js"></script>
+    <script src="/Ticket/assets/js/jspdf.min.js"></script>
+    <script src="/Ticket/assets/js/html2canvas.min.js"></script>
+    <script src="/Ticket/assets/js/main.js"></script>
+</body>
+
+
+<!-- Mirrored from ivonne-seven.vercel.app/gst-invoice.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Jun 2024 09:19:12 GMT -->
+</html>

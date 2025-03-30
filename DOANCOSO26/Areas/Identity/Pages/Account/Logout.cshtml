@@ -1,106 +1,238 @@
 ﻿@page
 @model LogoutModel
-@{
-    ViewData["Title"] = "Log out";
-}
-
 
 
 
 
 <!-- Added Bootstrap CSS for proper styling -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Makaan - Real Estate HTML Template</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="~/SearchBooking/img/favicon.ico" rel="icon">
 
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
+    <!-- Libraries Stylesheet -->
+    <link href="~/SearchBooking/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="~/SearchBooking/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="~/SearchBooking/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="~/SearchBooking/css/style.css" rel="stylesheet">
+</head>
 <style>
-    /* Existing CSS styles */
-
-    /* Additional CSS for custom styling */
-    .login-form {
-        background-color: #fff; /* Set background color for the login form */
-        border: 2px solid #fff; /* Set border color to white */
-        border-radius: 15px; /* Adjusted border-radius for a slightly rounded look */
-        padding: 30px; /* Decreased padding for a smaller form */
-        box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1); /* Optional: Add box shadow for depth */
+    body {
+        background-color: #EFFDF5;
+        margin: 0;
     }
 
-    .form-input {
-        background-color: #ebebeb !important; /* Override input background color */
-    }
-
-    .form-floating label {
-        color: #000 !important; /* Override label color */
-    }
-
-    .form-floating span {
-        color: #dc3545 !important; /* Override validation message color */
-    }
-
-    /* Align social icons in the same row */
-    .social-icons {
+    .form-wrapper {
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 10px; /* Add some gap between icons */
+        min-height: calc(100vh - 56px);
     }
 
-    /* Adjust the size of social icons */
-    .social-icon {
-        width: 129px;
-        height: 37px;
+    .form-container {
+        background-color: #fff;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        border-radius: 10px;
+        padding: 20px 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 350px;
+        margin-left: 20px;
     }
 
-    /* Caption for login frame size */
-    .login-frame-caption {
-        font-size: 12px;
-        color: #666;
+    .form-container-img {
+        background-color: #fff;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        border-radius: 10px;
+        padding: 20px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: fit-content;
+    }
+
+    .img-fluid {
+        object-fit: contain;
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .title {
         text-align: center;
-        margin-top: 10px;
+        font-family: "Noto Sans", sans-serif;
+        margin: 10px 0 30px 0;
+        font-size: 32px;
+        font-weight: 800;
+        color: darkslategrey;
+    }
+
+    .form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        margin-bottom: 15px;
+    }
+
+    .input {
+        border-radius: 20px;
+        border: 1px solid #c0c0c0;
+        outline: 0 !important;
+        box-sizing: border-box;
+        padding: 12px 15px;
+    }
+
+    .page-link {
+        text-decoration: underline;
+        margin: 0;
+        text-align: end;
+        color: #747474;
+        text-decoration-color: #747474;
+    }
+
+    .page-link-label {
+        cursor: pointer;
+        font-family: "Lucida Sans", sans-serif;
+        font-size: 9px;
+        font-weight: 700;
+    }
+
+        .page-link-label:hover {
+            color: #000;
+        }
+
+    .form-btn {
+        padding: 10px 15px;
+        font-family: "Lucida Sans", sans-serif;
+        border-radius: 20px;
+        border: 0 !important;
+        outline: 0 !important;
+        background: teal;
+        color: white;
+        cursor: pointer;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
+
+        .form-btn:active {
+            box-shadow: none;
+        }
+
+    .sign-up-label {
+        margin: 0;
+        font-size: 10px;
+        color: #747474;
+        font-family: "Lucida Sans", sans-serif;
+    }
+
+    .sign-up-link {
+        margin-left: 1px;
+        font-size: 11px;
+        text-decoration: underline;
+        text-decoration-color: teal;
+        color: teal;
+        cursor: pointer;
+        font-weight: 800;
+        font-family: "Lucida Sans", sans-serif;
+    }
+
+    .buttons-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        margin-top: 20px;
+        gap: 15px;
+    }
+
+    .apple-login-button,
+    .google-login-button {
+        border-radius: 20px;
+        box-sizing: border-box;
+        padding: 10px 15px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: "Lucida Sans", sans-serif;
+        font-size: 11px;
+        gap: 5px;
+    }
+
+    .apple-login-button {
+        background-color: #000;
+        color: #fff;
+        border: 2px solid #000;
+    }
+
+    .google-login-button {
+        border: 2px solid #747474;
+    }
+
+    .apple-icon,
+    .google-icon {
+        font-size: 18px;
+        margin-bottom: 1px;
     }
 </style>
-<header>
-    <div class="container">
-        <div class="row justify-content-center">
-            <!-- Center-align the form -->
-            <div class="col-md-5">
-                <!-- Slightly smaller login form -->
-                <section class="text-white login-form">
-                    <form id="account" method="post">
-                        <h2 class="text-center text-black">ĐĂNG XUẤT</h2>
-                        <h6 class=" text-center text-black fs-20 mb-4">Bạn có chắc muốn đăng xuất </h6>
-                        <div>
-                            @{
-                                if (User.Identity?.IsAuthenticated ?? false)
-                                {
-                                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                                        <button type="submit" class="w-100 btn btn-dark btn-outline-light">Click here to Logout</button>
-                                    </form>
-                                    <a class="w-100 btn btn-dark btn-outline-light" asp-area="Home" asp-controller="Home" asp-action="Index">Trở về trang chủ</a>
-                                }
-                                else
-                                {
-                                    <p>You have successfully logged out of the application.</p>
-                                }
-                            }
-                        </div>
-                    </form>
-                </section>
-            </div>
+<body>
+    <div class="form-wrapper">
+     
+        <div class="form-container">
+
+            <form id="account" method="post">
+                <h2 class="text-center text-black">ĐĂNG XUẤT</h2>
+                <h6 class=" text-center text-black fs-20 mb-4">Bạn có chắc muốn đăng xuất? </h6>
+                <div>
+                    @{
+                        if (User.Identity?.IsAuthenticated ?? false)
+                        {
+                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                                <button type="submit" class="w-100 btn btn-dark btn-outline-light p2">Click here to Logout</button>
+                            </form>
+                            <a class="w-100 btn btn-dark btn-outline-light p2" asp-area="Home" asp-controller="Home" asp-action="Index">Trở về trang chủ</a>
+                        }
+                        else
+                        {
+                            <p>You have successfully logged out of the application.</p>
+                        }
+                    }
+                </div>
+            </form>
+            
+            
         </div>
     </div>
-</header>
 
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/SearchBooking/lib/wow/wow.min.js"></script>
+    <script src="~/SearchBooking/lib/easing/easing.min.js"></script>
+    <script src="~/SearchBooking/lib/waypoints/waypoints.min.js"></script>
+    <script src="~/SearchBooking/lib/owlcarousel/owl.carousel.min.js"></script>
 
-<!-- Existing code -->
-<!-- Existing code -->
-<!-- Existing code -->
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
-
-<!-- Bootstrap JavaScript for responsive behavior -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <!-- Template Javascript -->
+    <script src="~/SearchBooking/js/main.js"></script>
+</body>
+</html>

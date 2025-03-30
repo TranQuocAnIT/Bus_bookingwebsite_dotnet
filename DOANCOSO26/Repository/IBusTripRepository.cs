@@ -9,5 +9,7 @@ namespace DOANCOSO26.Repository
         Task AddAsync(BusTrip bustrip);
         Task UpdateAsync(BusTrip bustrip);
         Task DeleteAsync(int id);
+        Task<IEnumerable<BusTrip>> GetAllByUserIdAsync(string userId);
+     
     }
 }

@@ -1,54 +1,154 @@
 ﻿@model DOANCOSO26.Models.BusTrip
+<style>
+    #seatMap td {
+        width: 30px;
+        height: 30px;
+        border: 1px solid black;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    #seatMap .available {
+        background-color: green;
+    }
+
+    #seatMap .booked {
+        background-color: red;
+    }
+
+    #seatMap .selected {
+        background-color: blue;
+    }
+
+    #seatMap .unavailable {
+        background-color: gray;
+        cursor: not-allowed;
+    }</style>
 
 <div>
     <h4>BusTrip</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StartLocation)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BusRoute.Start)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StartLocation)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BusRoute.Start)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EndLocation)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BusRoute.End)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EndLocation)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BusRoute.End)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Bus)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Bus.BusNumber)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Bus.Id)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Bus.BusNumber)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageUrl)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImageUrl)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DepartureTime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DepartureTime)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DepartureDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DepartureDate)
-        </dd>
+        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+        {
+            <img src="@Model.ImageUrl" alt="Product Image" style="max-width: 250px;" />
+        }
+           </div>
+         <div class="row  mt-2">
+    @if (ViewBag.lsImage != null)
+    {
+        foreach (var img in ViewBag.lsImage)
+        {
+            <img class="m-1" src="@img.Url" alt="Product Image" style="max-width: 100px; max-height: 100px" />
+        }
+    }
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.DepartureTime)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.DepartureTime)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.DepartureDate)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.DepartureDate)
+    </dd>
     </dl>
+</div>
+<div class="row mt-2">
+    <h5>Sơ đồ ghế</h5>
+    <table id="seatMap">
+        @for (int row = 0; row < (Model.Seats?.Count ?? 0) / 4; row++)
+        {
+            <tr>
+                @for (int col = 0; col < 4; col++)
+                {
+                    int seatIndex = row * 4 + col;
+                    if (seatIndex < Model.Seats?.Count)
+                    {
+                        var seat = Model.Seats[seatIndex];
+                        string seatClass;
+
+                        switch (seat.SeatStatus)
+                        {
+                            case Status.Available:
+                                seatClass = "available";
+                                break;
+                            case Status.Booked:
+                                seatClass = "booked";
+                                break;
+                            case Status.Selected:
+                                seatClass = "selected";
+                                break;
+                            default:
+                                seatClass = "unavailable";
+                                break;
+                        }
+
+                        <td data-seat="@seat.SeatNumber" class="@seatClass">@seat.SeatNumber</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                }
+            </tr>
+        }
+    </table>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+<script>
+const seatMap = document.getElementById('seatMap');
+let selectedSeat = null; // Biến để lưu trữ ghế đang được chọn
+
+seatMap.addEventListener('click', (event) => {
+    const target = event.target;
+    if (target.tagName === 'TD') {
+        if (target.classList.contains('available')) {
+            // Xóa trạng thái 'selected' của ghế cũ
+            if (selectedSeat) {
+                selectedSeat.classList.remove('selected');
+            }
+
+            // Đặt trạng thái 'selected' cho ghế được chọn mới
+            target.classList.add('selected');
+            selectedSeat = target;
+        } else {
+            alert('Chỉ có thể chọn ghế trống.');
+        }
+    }
+});
+    </script>
+}

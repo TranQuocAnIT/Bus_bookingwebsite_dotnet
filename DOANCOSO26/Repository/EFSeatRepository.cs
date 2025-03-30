@@ -14,7 +14,11 @@ namespace DOANCOSO26.Repository
         {
             _context = context;
         }
-
+        public IEnumerable<Seat> GetSeatsByBusTripId(int busTripId)
+        {
+            return _context.Seats.Where(s => s.BusTripId == busTripId).ToList();
+        }
+       
         public async Task<IEnumerable<Seat>> GetAllAsync()
         {
             return await _context.Seats.Include(p => p.BusTrip).ToListAsync();
@@ -31,7 +35,11 @@ namespace DOANCOSO26.Repository
             _context.Seats.Add(seat);
             await _context.SaveChangesAsync();
         }
-
+        public async Task AddRangeAsync(IEnumerable<Seat> seats)
+        {
+            _context.Seats.AddRange(seats);
+            await _context.SaveChangesAsync();
+        }
         public async Task UpdateAsync(Seat seat)
         {
             _context.Seats.Update(seat);
@@ -44,5 +52,14 @@ namespace DOANCOSO26.Repository
             _context.Seats.Remove(seat);
             await _context.SaveChangesAsync();
         }
+        public async Task<Seat> GetSeatByBookingIdAsync(int bookingId)
+        {
+            var booking = await _context.Bookings
+                .Include(b => b.Seat)
+                .FirstOrDefaultAsync(b => b.Id == bookingId);
+
+            return booking?.Seat;
+        }
+
     }
 }

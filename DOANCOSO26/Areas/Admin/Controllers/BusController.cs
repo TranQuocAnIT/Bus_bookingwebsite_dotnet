@@ -1,7 +1,11 @@
-﻿using DOANCOSO26.Models;
+﻿using DOANCOSO26.Data;
+using DOANCOSO26.Models;
 using DOANCOSO26.Repository;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace DOANCOSO26.Areas.Admin.Controllers
 {
@@ -11,10 +15,18 @@ namespace DOANCOSO26.Areas.Admin.Controllers
     {
         private readonly IBusTripRepository _bustripRepository;
         private readonly IBusRepository _busRepository;
-        public BusController (IBusTripRepository bustripRepository, IBusRepository busRepository)
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IBookingRepository _bookingRepository  ;
+        private readonly ITripReportRepository _tripReportRepository;
+        public BusController (IBusTripRepository bustripRepository, IBusRepository busRepository, ApplicationDbContext context, IBookingRepository bookingRepository, ITripReportRepository tripReportRepository, UserManager<ApplicationUser> userManager)
         {
             _bustripRepository = bustripRepository;
             _busRepository = busRepository;
+            _context = context;
+            _bookingRepository = bookingRepository;
+            _tripReportRepository = tripReportRepository;
+            _userManager = userManager;
         }
         public async Task<IActionResult> Index()
         {
@@ -79,8 +91,8 @@ namespace DOANCOSO26.Areas.Admin.Controllers
                 existingCategory.Company = bus.Company;
                 // Cập nhật các thông tin khác của sản phẩm
                 existingCategory.BusNumber = bus.BusNumber;
-                existingCategory.Capacity = bus.Capacity;
-              
+
+                existingCategory.BusType = bus.BusType;
 
                 await _busRepository.UpdateAsync(existingCategory);
                 return RedirectToAction(nameof(Index));
@@ -107,5 +119,21 @@ namespace DOANCOSO26.Areas.Admin.Controllers
             await _busRepository.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
+        public async Task<IActionResult> Dash(int id)
+        {
+            var model = new BookingCountsViewModel
+            {
+                TodayBookings = await _bookingRepository.CountBookingsTodayAsync(),
+                TotalBookings = await _bookingRepository.CountAllBookingsAsync(),
+                TotalPaidBookingsPrice = await _bookingRepository.GetTotalPaidBookingsPriceAsync(),
+                TotalCost = await _tripReportRepository.GetTotalCostAsync(),
+                Users = await _userManager.Users.ToListAsync(),
+            };
+
+          
+          
+            return View(model);
+        }
+      
     }
 }

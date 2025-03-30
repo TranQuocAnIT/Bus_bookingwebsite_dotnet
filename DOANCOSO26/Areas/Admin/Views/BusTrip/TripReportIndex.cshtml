@@ -1,0 +1,65 @@
+﻿@model IEnumerable<DOANCOSO26.Models.TripReport>
+
+<div class="card shadow border-0 mt-4">
+    <div class="">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="">Danh sách xe </h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <div class="row pb-3">
+            <a asp-action="Add" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Tạo xe mới
+            </a>
+        </div>
+        <table class="table table-bordered table-striped">
+            <thead>
+
+                <tr>
+                    <th>
+                        Người báo cáo 
+                    </th>
+                    <th>
+                       Chuyến xe
+                    </th>
+                    <th>
+                        Ngày báo cáo
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tripList">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.DriverName</td>
+                        <td>
+                            @item.BusTrip.Name
+                        </td>
+                        <td>
+                            @item.CreateTime
+                        </td>
+                        <td>
+
+                            <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-primary ">
+                                Edit
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary ">
+                                Delete
+                            </a>
+                            <a asp-action="TripReport" asp-route-id="@item.Id" class="btn btn-primary ">
+                                Detail
+                            </a>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+

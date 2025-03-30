@@ -1,0 +1,387 @@
+﻿@model IEnumerable<DOANCOSO26.Models.Booking>
+<style>
+    :root {
+        --primary-color: #0b0e68;
+        --secondary-color: #003366;
+        --light-bg: #f0f4f8;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--light-bg);
+    }
+
+    .hero-section {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: white;
+        padding: 4rem 0;
+    }
+
+    .search-booking-section {
+        background-color: white;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border-radius: 15px;
+        padding: 2rem;
+        margin-top: -50px;
+        position: relative;
+        z-index: 10;
+    }
+
+    .btn-primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        transition: all 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.05);
+        }
+
+    .input-group-custom {
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .cta-section {
+        background-color: #f8f9fa;
+        border-radius: 15px;
+        padding: 2rem;
+    }
+
+    .common__filter__wrapper {
+        background: #fff;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(30, 58, 138, 0.1);
+        border: 1px solid var(--neutral-light);
+        margin-bottom: 20px;
+        margin-top:20px;
+    }
+
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90%;
+            overflow-y: auto;
+        }
+
+        .close-btn {
+            float: right;
+            cursor: pointer;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Button styling */
+        .open-popup-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+
+<body>
+    <section class="flight__onewaysection ">
+        <h5 class="text-center mb-3" style="color: #0D6EFD;"></h5>
+        <div class="bus-info-grid rounded p-3">
+            <div class="ticket__timeout mb__24">
+            </div>
+        </div>
+    </section>
+    <div class="hero-section text-center text-white">
+        <div class="container">
+            <h1 class="display-4 mb-4">Tra Cứu <span class="text-white">Vé Xe</span> Wheely</h1>
+            <p class="lead mb-4">
+                Tra cứu thông tin vé của bạn một cách nhanh chóng và dễ dàng.
+                Chỉ cần nhập mã vé để xem chi tiết chuyến đi.
+            </p>
+       
+            <div>
+                <a href="/" class="btn btn-outline-primary me-3">
+                    <i class="fas fa-home me-2"></i>Về Trang Chủ
+                </a>
+                <a href="#" class="btn btn-primary">
+                    <i class="fas fa-info-circle me-2"></i>Hướng Dẫn Tra Cứu
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Booking Section -->
+    <div class="container search-booking-section">
+        @using (Html.BeginForm("SearchBooking", "Reservation", FormMethod.Post, new { @class = "row g-3" }))
+        {
+            <div class="col-md-10">
+                <div class="input-group input-group-custom">
+                    @Html.TextBox("invoiceCode", null, new { @class = "form-control border-0 py-3", placeholder = "Nhập mã vé của bạn" })
+
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100 py-3">Tra Cứu</button>
+            </div>
+        }
+    </div>
+    <div class="container-xxl  p-0">
+        
+        <div class="container-xxl py-5">
+
+           
+               
+                <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="tab-content">
+                        <div id="tab-1" class="tab-pane fade show p-0 active">
+                            
+                            @foreach (var item in Model.Where(x => x.StatusBooking == StatusBooking.UnPaid || x.StatusBooking == StatusBooking.Paid || x.StatusBooking == StatusBooking.Cancelled))
+                            {
+                                <div class="common__filter__wrapper">
+                                    <div class="row g-4">
+                                        <div class="col-sm-12 col-md-7 d-flex align-items-center " style="">
+
+                                            <div class="flex-shrink-0 img-fluid border rounded"><img src="/busjs/assets/img/logo/logowheely.png" alt="Logo.png" width="170" height="50"></div>
+                                            <div class="text-start ps-4">
+                                                <h5 class="mb-3">Mã vé: @item.InvoiceCode</h5>
+                                                <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>@item.Seat.BusTrip.BusRoute.Start-@item.Seat.BusTrip.BusRoute.End</span>
+                                                <span class="text-truncate me-3"><i class="fas fa-user text-primary me-2"></i>@item.UserName</span>
+                                                <span class="text-truncate me-3"><i class="fas fa-phone text-primary me-2"></i>@item.SDT</span>
+                                             
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-5 d-flex flex-column align-items-start align-items-md-end justify-content-center">
+                                            <div class="d-flex mb-3">
+                                            @if ((item.StatusBooking == StatusBooking.UnPaid || item.StatusBooking == StatusBooking.Paid) && item.Seat.BusTrip.TripStatus == StatusTrip.NotYetDeparted)
+                                            {
+                                                <a class="cmn__btn" asp-action="Delete" asp-route-id="@item.Id" style="margin-right: 10px; font-size:15px;">Hủy vé</a>
+                                            }
+                                            @if ( item.Seat.BusTrip.TripStatus == StatusTrip.Running)
+                                            {
+                                                <!-- Nút hiển thị popup -->
+                                                <a class="cmn__btn" style="margin-right: 10px; font-size: 15px;" data-toggle="modal" data-target="#mapModal">Hành trình</a>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="mapModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="mapModalLabel">Hành trình</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <!-- Bản đồ -->
+                                                                <div id="map" style="height: 700px;  border-radius: 1rem; "></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            }
+                                            <a class="cmn__btn" onclick="openPopup()" style="margin-right: 10px;font-size:15px;">Xem chi tiết</a>
+                                            <div class="popup-overlay" id="popupOverlay">
+                                                <div class="popup-content">
+                                                    <span class="close-btn" onclick="closePopup()">&times;</span>
+                                                   
+                                                    <div class="cs-container">
+
+                                                        <div class="cs-invoice cs-style1" style="border: 2px solid #01008d; padding: 15px; border-radius:">
+                                                            <div class="cs-invoice_in" id="download_section">
+                                                                <div class="cs-invoice_head cs-type1 cs-mb25" style="background-color: #01008d; color: #ffffff; padding: 15px; border-radius: 5px;">
+
+                                                                    <div class="cs-invoice_left">
+                                                                        <p class="cs-invoice_number cs-primary_color cs-mb5 cs-f16" style="color: #ffffff;">
+                                                                            <b>Mã vé: @item.InvoiceCode</b>
+                                                                        </p>
+                                                                        <p class="cs-invoice_date cs-primary_color cs-m0" style="color: #ffffff;">
+                                                                            <b>Ngày đặt: @item.Timebooking</b>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="cs-invoice_right cs-text_right">
+                                                                        <div class="cs-logo cs-mb5">
+                                                                            <div class="cs-qr-container">
+                                                                                <div id="qrcode"></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="cs-invoice_head cs-mb10">
+                                                                    <div class="cs-invoice_left">
+                                                                        <b class="cs-primary_color">Thông tin khách hàng/ Passenger Info :</b>
+                                                                        <p>
+                                                                            Họ và Tên: @item.UserName <br>
+                                                                            Số diện thoại: @item.SDT <br>
+                                                                            Email : @item.Email<br>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="cs-invoice_right cs-text_right">
+                                                                        <b class="cs-primary_color">Wheely Busline</b>
+                                                                        <p>
+                                                                            142/75 đường d1 quận Bình Thạnh , <br>
+                                                                            1900 6084 <br>
+                                                                            Wheely@Contract<br>
+                                                                            Wheely.com
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="cs-invoice_head cs-50_col cs-mb15">
+                                                                    <div class="cs-invoice_left">
+                                                                        <ul class="cs-bar_list">
+                                                                            <li><b class="cs-primary_color">Điểm đi/ From:</b> @item.Seat.BusTrip.BusRoute.Start</li>
+                                                                            <li><b class="cs-primary_color">Điểm đến/ To:</b>  @item.Seat.BusTrip.BusRoute.End</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <div class="cs-invoice_right">
+                                                                        <ul class="cs-bar_list">
+                                                                            <li><b class="cs-primary_color">Giờ khởi hành/ Department Time:</b>  @item.Seat.BusTrip.DepartureTime.ToString("HH : mm")</li>
+                                                                            <li><b class="cs-primary_color">Ngày/ Department Time:</b> @item.Seat.BusTrip.DepartureDate.ToString("dd : MM : yyy")</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="cs-mb20">
+                                                                    <ul class="cs-list cs-style1">
+                                                                        <li>
+                                                                            <div class="cs-list_left"><b class="cs-primary_color">Thông tin/ Passenger Name: @item.UserName </b> </div>
+                                                                            <div class="cs-list_right"><b class="cs-primary_color">Biển số xe/ License plates:</b> @item.InvoiceCode</div>
+                                                                        </li>
+                                                                        <li>
+                                                                            <div class="cs-list_left"><b class="cs-primary_color">Ghế/ Seat no:</b> @item.Seat.SeatNumber</div>
+                                                                            <div class="cs-list_right"><b class="cs-primary_color">Hãng/ Copamy:</b>  @item.Seat.BusTrip.Bus.Company</div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="cs-table cs-style1">
+                                                                    <div class="cs-round_border">
+                                                                        <div class="cs-table_responsive">
+                                                                            <table>
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th class="cs-width_5 cs-semi_bold cs-primary_color cs-focus_bg">Chi Tiết</th>
+                                                                                        <th class="cs-width_1 cs-semi_bold cs-primary_color cs-focus_bg">Số lượng</th>
+                                                                                        <th class="cs-width_2 cs-semi_bold cs-primary_color cs-focus_bg">Giá</th>
+                                                                                        <th class="cs-width_2 cs-semi_bold cs-primary_color cs-focus_bg">Chiết khấu </th>
+                                                                                        <th class="cs-width_2 cs-semi_bold cs-primary_color cs-focus_bg cs-text_right">Tổng</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td class="cs-width_5">Wheely Busline -  Business Seat <br>@item.Timebooking</td>
+                                                                                        <td class="cs-width_1">1</td>
+                                                                                        <td class="cs-width_2">@item.TotalPrice Vnđ</td>
+                                                                                        <td class="cs-width_2">0</td>
+                                                                                        <td class="cs-width_2 cs-text_right">@item.TotalPrice Vnđ</td>
+                                                                                    </tr>
+
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="cs-invoice_footer">
+                                                                        <div class="cs-left_footer cs-mobile_hide"></div>
+                                                                        <div class="cs-right_footer">
+                                                                            <table>
+                                                                                <tbody>
+
+                                                                                    <tr class="cs-border_none">
+                                                                                        <td class="cs-width_3 cs-border_top_0 cs-bold cs-f16 cs-primary_color">Thành Tiền/ Total Amount</td>
+                                                                                        <td class="cs-width_3 cs-border_top_0 cs-bold cs-f16 cs-primary_color cs-text_right">@item.TotalPrice Vnđ</td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                                <div class="cs-ticket_right">
+                                                                                    <div class="cs-box cs-style1 cs-text_center">
+                                                                                        <p class="cs-mb5">Seat No</p>
+                                                                                        <p class="cs-accent_color cs-f22 cs-bold cs-mb0">@item.Seat.SeatNumber</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="cs-note">
+                                                                    <div class="cs-note_left">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M416 221.25V416a48 48 0 01-48 48H144a48 48 0 01-48-48V96a48 48 0 0148-48h98.75a32 32 0 0122.62 9.37l141.26 141.26a32 32 0 019.37 22.62z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32" /><path d="M256 56v120a32 32 0 0032 32h120M176 288h160M176 368h160" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" /></svg>
+                                                                    </div>
+                                                                    <div class="cs-note_right">
+                                                                        <p class="cs-mb0"><b class="cs-primary_color cs-bold">Note:</b></p>
+                                                                        <p class="cs-m0">@item.Note</p>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="col-12">
+
+                                                                    <p class="cs-mb0"><b class="cs-primary_color cs-bold">Lưu ý : (*) Quý khách vui lòng có mặt tại bến xuất phát của xe trước ít nhất 30 phút giờ xe khởi hành, mang theo thông báo đã thanh toán vé thành công có chứa mã vé được gửi từ hệ thống FUTA BUS LINE. Vui lòng liên hệ Trung tâm tổng đài 1900 6084 để được hỗ trợ.</b></p>
+                                                                </div><!-- .cs-note -->
+                                                            </div>
+                                                            @* <div class="cs-invoice_btns cs-hide_print">
+                                                        <a href="javascript:window.print()" class="cs-invoice_btn cs-color1">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M384 368h24a40.12 40.12 0 0040-40V168a40.12 40.12 0 00-40-40H104a40.12 40.12 0 00-40 40v160a40.12 40.12 0 0040 40h24" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32" /><rect x="128" y="240" width="256" height="208" rx="24.32" ry="24.32" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32" /><path d="M384 128v-24a40.12 40.12 0 00-40-40H168a40.12 40.12 0 00-40 40v24" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32" /><circle cx="392" cy="184" r="24" /></svg>
+                                                        <span>Print</span>
+                                                        </a>
+                                                        <button id="download_btn" class="cs-invoice_btn cs-color2">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><title>Download</title><path d="M336 176h40a40 40 0 0140 40v208a40 40 0 01-40 40H136a40 40 0 01-40-40V216a40 40 0 0140-40h40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" /><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M176 272l80 80 80-80M256 48v288" /></svg>
+                                                        <span>Download</span>
+                                                        </button>
+                                                        </div> *@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                <a class="cmn__btn" style="margin-right: 10px;font-size:15px; background-color: @(item.StatusBooking == StatusBooking.UnPaid ? "#4cc9f0" : "#e5383b")">@item.StatusBooking</a>
+                                             
+                                            </div>
+
+                                            <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Date booking: @item.Timebooking.ToString("HH:mm dd/MM/yyyy ")</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <a asp-area="" asp-controller="Home" asp-action="Index" class="cmn__btn py-3 px-5" >Trở về trang chủ </a>
+                        </div>
+                    </div>
+                </div>
+           
+        </div>
+        <!-- Jobs End -->
+        <!-- Footer Start -->
+       
+        <!-- Footer End -->
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+        <script>
+            function openPopup() {
+                document.getElementById('popupOverlay').style.display = 'flex';
+            }
+
+            function closePopup() {
+                document.getElementById('popupOverlay').style.display = 'none';
+            }
+        </script>
+    <!-- JavaScript Libraries -->
+     <link rel="stylesheet" href="/Ticket/assets/css/style.css">
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<DOANCOSO26.Models.Driverregis>
+
+@{
+    ViewData["Title"] = "Danh sách phiếu đăng ký tài xế";
+}
+<div class="container-fluid header bg-white ">
+    <div class="row g-0 align-items-center flex-column-reverse flex-md-row">
+        <div class="col-md-6 p-5 mt-lg-5">
+            <h1 class="display-5 animated fadeIn mb-4">HÃY TRỞ THÀNH MỘT THÀNH VIÊN TRONG GIA ĐÌNH <span style="color: #00B98E; font-weight: bold;"> WHEE</span>LY  </h1>
+            <nav aria-label="breadcrumb animated fadeIn">
+                <ol class="breadcrumb text-uppercase">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                    <li class="breadcrumb-item text-body active" aria-current="page">Đăng kí tài xế </li>
+                </ol>
+            </nav>
+        </div>
+        <div class="col-md-6 animated fadeIn">
+            <img class="img-fluid" src="~/images/Bus4Layout.jpg" alt="">
+        </div>
+    </div>
+</div>
+<div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
+</div>
+<h1 class="text-center">Phiếu đăng ký tài xế của bạn</h1>
+<a asp-action="AddDriver" class="btn btn-primary">
+    <i class="bi bi-plus-circle"></i> Đăng kí 
+</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Họ và tên</th>
+            <th>Ngày sinh</th>
+            <th>Địa chỉ</th>
+            <th>Số điện thoại</th>
+            <th>Email</th>
+            <th>Số GPLX</th>
+            <th>Ngày cấp</th>
+            <th>Ngày hết hạn</th>
+            <th>Trạng thái</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.FullName</td>
+                <td>@item.DateOfBirth.ToString("dd/MM/yyyy")</td>
+                <td>@item.Address</td>
+                <td>@item.PhoneNumber</td>
+                <td>@item.Email</td>
+                <td>@item.LicenseNumber</td>
+                <td>@item.LicenseIssueDate.ToString("dd/MM/yyyy")</td>
+                <td>@item.LicenseExpiryDate.ToString("dd/MM/yyyy")</td>
+                <td>@item.ApproveStatus.ToString()</td>
+                <td>
+                    <a asp-action="DisplayDriverRegistration" asp-route-id="@item.Id" class="btn btn-info">Xem chi tiết</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

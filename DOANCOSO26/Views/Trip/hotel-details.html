@@ -1,0 +1,2337 @@
+khi ấn và tên một hãng xe thì id="company" sẽ có giá trị là nó ví dụ khi ấn vào phương trang thì id sẽ là phương trang<div class="dating__body ">
+
+
+
+    <div class="promo__sponsor__wrapper owl-theme owl-carousel pb-5">
+        <div class="promo__sponsor__item">
+            <div class="promo__box" style="border: 0.5px solid #6c757d; border-radius: 8px; padding: 10px;">
+
+                <div class="thumb" style="border: 4px solid #475EC8; border-radius: 10px; padding: 4px;">
+                    <img src="~/busjs/assets/img/payment/phuongtrang.png" alt="img" style="border-radius: 10px;">
+                </div>
+
+                <div class="content">
+                    <span class="fz-16 link">
+                        Phương Trang
+                    </span>
+                    <a href="order.html">
+                        <span>
+                            Đặt ngay
+                        </span>
+                        <span class="icon">
+                            <i class="material-symbols-outlined">
+                                east
+                            </i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="promo__box" style="border: 0.5px solid #6c757d; border-radius: 8px; padding: 10px;">
+                <div class="thumb" style="border: 4px solid #475EC8; border-radius: 10px; padding: 4px;">
+                    <img src="~/busjs/assets/img/payment/result_mailinhlogo.jpg" alt="img">
+                </div>
+                <div class="content">
+                    <span class="fz-16 link">
+                        Mai Linh
+                    </span>
+                    <a href="order.html">
+                        <span>
+                            Đặt ngay
+                        </span>
+                        <span class="icon">
+                            <i class="material-symbols-outlined">
+                                east
+                            </i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="promo__sponsor__item">
+            <div class="promo__box" style="border: 0.5px solid #6c757d; border-radius: 8px; padding: 10px;">
+                <div class="thumb" style="border: 4px solid #475EC8; border-radius: 10px; padding: 4px;">
+                    <img src="~/busjs/assets/img/payment/kumho.png" alt="img">
+                </div>
+                <div class="content">
+                    <span class="fz-16 link">
+                        Kumho sacom
+                    </span>
+                    <a href="order.html">
+                        <span>
+                            Đặt ngay
+                        </span>
+                        <span class="icon">
+                            <i class="material-symbols-outlined">
+                                east
+                            </i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class="promo__box" style="border: 0.5px solid #6c757d; border-radius: 8px; padding: 10px;">
+                <div class="thumb" style="border: 4px solid #475EC8; border-radius: 10px; padding: 4px;">
+                    <img src="~/busjs/assets/img/payment/thanhbuoi.jpg" alt="img">
+                </div>
+                <div class="content">
+                    <span class="fz-16 link">
+                        Thành Bưởi
+                    </span>
+                    <a href="order.html">
+                        <span>
+                            Đặt ngay
+                        </span>
+                        <span class="icon">
+                            <i class="material-symbols-outlined">
+                                east
+                            </i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="promo__box" style="border: 0.5px solid #6c757d; border-radius: 8px; padding: 10px;">
+            <div class="thumb" style="border: 4px solid #475EC8; border-radius: 10px; padding: 4px;">
+                <img src="~/busjs/assets/img/payment/linkaply.png" alt="img">
+            </div>
+            <div class="content">
+                <span class="fz-16 link">
+                    Hr0A4OKcB6qH
+                </span>
+                <a href="order.html">
+                    <span>
+                        Đặt ngay
+                    </span>
+                    <span class="icon">
+                        <i class="material-symbols-outlined">
+                            east
+                        </i>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container" style="background: linear-gradient(135deg, #03045e, #728edf); padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); position: relative; ">
+    
+    <!-- Title Section with Floating Icon -->
+   
+
+
+    <form asp-action="Search" onsubmit="validateForm(event)">
+        <div class="col-md-10">
+            <div class="row g-3">
+                <!-- Location Selects with Icons -->
+                <div class="col-md-3">
+                    <div class="glass-effect" style="padding: 1rem; border-radius: 0.5rem;">
+                        <label style="color: white; margin-bottom: 0.5rem; font-size: 0.9rem; display: flex; align-items: center;">
+                            <i class="fas fa-map-pin" style="margin-right: 0.5rem;"></i>
+                            Điểm đi
+                        </label>
+                        <select id="start" class="form-control w-100 py-3 input-focus-effect"
+                                style="border-radius: 0.5rem; border: 1px solid rgba(255,255,255,0.3); background: rgba(255, 255, 255, 0.9); transition: all 0.3s ease;" name="Start">
+                            <option value="">Chọn điểm đi</option>
+                            @foreach (var location in ViewBag.StartLocations)
+                            {
+                            <option value="@location">@location</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+              
+
+                <div class="col-md-3">
+                    <div class="glass-effect" style="padding: 1rem; border-radius: 0.5rem;">
+                        <label style="color: white; margin-bottom: 0.5rem; font-size: 0.9rem; display: flex; align-items: center;">
+                            <i class="fas fa-map-marker-alt" style="margin-right: 0.5rem;"></i>
+                            Điểm đến
+                        </label>
+                        <select id="end" class="form-control w-100 py-3 input-focus-effect"
+                                style="border-radius: 0.5rem; border: 1px solid rgba(255,255,255,0.3); background: rgba(255, 255, 255, 0.9); transition: all 0.3s ease;" name="End">
+                            <option value="">Chọn điểm đến</option>
+                            @foreach (var location in ViewBag.EndLocations)
+                            {
+                            <option value="@location">@location</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <!-- Date Input -->
+                <div class="col-md-3">
+                    <div class="glass-effect" style="padding: 1rem; border-radius: 0.5rem;">
+                        <label style="color: white; margin-bottom: 0.5rem; font-size: 0.9rem; display: flex; align-items: center;">
+                            <i class="fas fa-calendar-check" style="margin-right: 0.5rem;"></i>
+                            Ngày đi
+                        </label>
+                        <input type="date" id="departureDate" class="form-control w-100 py-3 input-focus-effect"
+                               style="border-radius: 0.5rem; border: 1px solid rgba(255,255,255,0.3); background: rgba(255, 255, 255, 0.9); transition: all 0.3s ease;" name="DepartureDate">
+                    </div>
+                </div>
+                <!-- Seats Input -->
+                <div class="col-md-3">
+                    <div class="glass-effect" style="padding: 1rem; border-radius: 0.5rem;">
+                        <label style="color: white; margin-bottom: 0.5rem; font-size: 0.9rem; display: flex; align-items: center;">
+                            <i class="fas fa-couch" style="margin-right: 0.5rem;"></i>
+                            Số ghế
+                        </label>
+                        <div style="position: relative;">
+                            <input type="number" id="seatsRequired" class="form-control w-100 py-3 input-focus-effect"
+                                   style="border-radius: 0.5rem; border: 1px solid rgba(255,255,255,0.3); background: rgba(255, 255, 255, 0.9); transition: all 0.3s ease;"
+                                   name="SeatsRequired" min="1" max="10" placeholder="1-10 ghế">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Submit Button -->
+        <div class="col-md-2">
+            <button class="cmn__btn border-0 w-100 py-3" type="submit" style="margin-left: 1rem; border-radius: 0.5rem; background-color: white; color: #475EC8; border: 2px solid #475EC8; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                <i class="fas fa-search" style="margin-right: 0.25rem;"></i>
+                <span>Tìm kiếm</span>
+            </button>
+
+
+        </div>
+
+    </form>
+
+
+    <!-- Floating Elements -->
+
+</div>
+
+
+</div>public async Task<IActionResult>
+    Search(string Start, string End, DateTime? DepartureDate, int? SeatsRequired ,string? Company)
+    {
+    ViewBag.StartLocations = await _busRouteRepository.GetAllStartLocationsAsync();
+    ViewBag.EndLocations = await _busRouteRepository.GetAllEndLocationsAsync();
+    var buss = await _busRepository.GetAllAsync();
+    var trips = await _bustripRepository.GetAllAsync();
+    trips = trips.Where(t => t.GetAvailableSeats() > 0 && t.TripStatus == StatusTrip.NotYetDeparted).ToList();
+
+    if (!string.IsNullOrEmpty(Start))
+    {
+    trips = trips.Where(t => t.BusRoute.Start.Contains(Start, StringComparison.OrdinalIgnoreCase)).ToList();
+    }
+
+    if (!string.IsNullOrEmpty(End))
+    {
+    trips = trips.Where(t => t.BusRoute.End.Contains(End, StringComparison.OrdinalIgnoreCase)).ToList();
+    }
+    if (!string.IsNullOrEmpty(Company))
+    {
+    buss = buss.Where(t => t.Company.Contains(Company, StringComparison.OrdinalIgnoreCase)).ToList();
+    }
+    if (DepartureDate.HasValue)
+    {
+    trips = trips.Where(t => t.DepartureDate.Date == DepartureDate.Value.Date).ToList();
+    }
+
+    if (SeatsRequired.HasValue)
+    {
+    trips = trips.Where(t => t.GetAvailableSeats() >= SeatsRequired.Value).ToList();
+    }
+
+    // Sorting trips by DepartureDate in ascending order
+    trips = trips.OrderBy(t => t.DepartureTime).ToList();
+
+    foreach (var trip in trips)
+    {
+    trip.Seats = _seatRepository.GetSeatsByBusTripId(trip.Id).ToList();
+    }
+
+    ViewBag.SearchResults = trips;
+    return View("SearchAndResult");
+    }
+    <script>
+        function validateForm(event) {
+            // Prevent form submission
+            event.preventDefault();
+
+            // Get form fields
+            const start = document.getElementById('start');
+            const end = document.getElementById('end');
+            const departureDate = document.getElementById('departureDate');
+            const seatsRequired = document.getElementById('seatsRequired');
+            const seatsRequired = document.getElementById('company');
+            // Check if at least one field is filled
+            if (start.value.trim() === '' && end.value.trim() === '' && departureDate.value.trim() === '' && seatsRequired.value.trim() === '') {
+                alert('Vui lòng điền ít nhất một trường.');
+            } else {
+                // Store selected date in a variable
+                var searchedDate = departureDate.value;
+
+                // Create a hidden input to hold the searched date
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'SearchedDate';
+                input.value = searchedDate;
+                event.target.appendChild(input);
+
+                // If at least one field is filled, submit the form
+                event.target.submit();
+            }
+        }
+    </script>
+    <!DOCTYPE html>
+    <html lang="en">
+
+
+    <!-- Mirrored from pixner.net/rechargio/rechargio/hotel-details.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 27 Oct 2024 12:31:25 GMT -->
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Rechargio - Recharge & Bill Payment, Booking HTML5 Template</title>
+        <!--Favicon img-->
+        <link rel="shortcut icon" href="assets/img/logo/favicon.png">
+        <!--nice select css-->
+        <link rel="stylesheet" href="assets/css/nice-select.css">
+        <!--datepicker css-->
+        <link rel="stylesheet" href="assets/css/datepickerboot.css">
+        <!--main css-->
+        <link rel="stylesheet" href="assets/css/main.css">
+    </head>
+
+    <body>
+
+        <!-- Preloader Start Here -->
+        <div class="preloader__wrap">
+            <div class="preloader__box">
+                <div class="circle">
+                    <img src="assets/img/preloader/preloader.png" alt="preloader">
+                </div>
+                <div class="recharge">
+                    <img src="assets/img/preloader/rechage.png" alt="rechage">
+                </div>
+                <span class="pretext">
+                    Rechargio
+                </span>
+            </div>
+        </div>
+        <!-- Preloader End Here -->
+        <!-- Header top Here -->
+        <header class="header-section">
+            <div class="container">
+                <div class="header-wrapper">
+                    <div class="logo-menu">
+                        <a href="index.html" class="logo">
+                            <img src="assets/img/logo/logo.png" alt="logo">
+                        </a>
+                        <a href="index.html" class="small__logo d-xl-none">
+                            <img src="assets/img/logo/favicon.png" alt="logo">
+                        </a>
+                    </div>
+                    <div class="menu__right__components d-flex align-items-center">
+                        <div class="sigup__grp d-lg-none">
+                            <a href="signin.html" class="cmn__btn outline__btn">
+                                <span>
+                                    Signin
+                                </span>
+                            </a>
+                            <a href="signup.html" class="cmn__btn">
+                                <span>
+                                    Signup
+                                </span>
+                            </a>
+                        </div>
+                        <div class="header-bar d-lg-none">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                    <ul class="main-menu">
+                        <li class="grid__style">
+                            <a href="javascript:void(0)" class="d-flex">
+                                <span>
+                                    Home
+                                </span>
+                                <span class="icons">
+                                    <i class="material-symbols-outlined">
+                                        expand_more
+                                    </i>
+                                </span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="subtwohober">
+                                    <a href="javascript:void(0)" class="d-flex align-items-center justify-content-between">
+                                        <span class="text">
+                                            Recharge & Bill Payment
+                                        </span>
+                                        <span class="icon">
+                                            <i class="material-symbols-outlined">
+                                                add
+                                            </i>
+                                        </span>
+                                    </a>
+                                    <ul class="sub-two">
+                                        <li class="subtwohober">
+                                            <a href="index.html">Recharge & Bill Payment [1]</a>
+                                        </li>
+                                        <li>
+                                            <a href="index-2.html">Recharge & Bill Payment [2]</a>
+                                        </li>
+                                        <li>
+                                            <a href="index-3.html">Recharge & Bill Payment [3]</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="subtwohober">
+                                    <a href="javascript:void(0)" class="d-flex align-items-center justify-content-between">
+                                        <span class="text">
+                                            Booking Landing
+                                        </span>
+                                        <span class="icon">
+                                            <i class="material-symbols-outlined">
+                                                add
+                                            </i>
+                                        </span>
+                                    </a>
+                                    <ul class="sub-two">
+                                        <li>
+                                            <a href="booking-landing1.html">
+                                                Booking Landing [1]
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="booking-landing2.html">
+                                                Booking Landing [2]
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="booking-landing3.html">
+                                                Booking Landing [3]
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="subtwohober">
+                                    <a href="hotel-book.html">Hotel Booking</a>
+                                </li>
+                                <li>
+                                    <a href="flight-book.html">Flight Booking</a>
+                                </li>
+                                <li>
+                                    <a href="train-book.html">Train Booking</a>
+                                </li>
+                                <li>
+                                    <a href="bus-book.html">Bus Booking</a>
+                                </li>
+                                <li>
+                                    <a href="cars-book.html">Car Booking</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="grid__style">
+                            <a href="javascript:void(0)" class="d-flex">
+                                <span>
+                                    Recharge & Bill Payment
+                                </span>
+                                <span class="icons">
+                                    <i class="material-symbols-outlined">
+                                        expand_more
+                                    </i>
+                                </span>
+                            </a>
+                            <ul class="sub-menu submenu__recharge">
+                                <li class="subtwohober">
+                                    <a href="index.html">Recharge & Bill Payment [1]</a>
+                                </li>
+                                <li>
+                                    <a href="index-2.html">Recharge & Bill Payment [2]</a>
+                                </li>
+                                <li>
+                                    <a href="index-3.html">Recharge & Bill Payment [3]</a>
+                                </li>
+                                <li>
+                                    <a href="mobile3.html">Mobile</a>
+                                </li>
+                                <li>
+                                    <a href="card.html">Card</a>
+                                </li>
+                                <li>
+                                    <a href="broadband.html">Broadband</a>
+                                </li>
+                                <li>
+                                    <a href="landline.html">Landline</a>
+                                </li>
+                                <li>
+                                    <a href="cabletv.html">Cable Tv</a>
+                                </li>
+                                <li>
+                                    <a href="electricity.html">Electricity</a>
+                                </li>
+                                <li>
+                                    <a href="gas.html">Gas</a>
+                                </li>
+                                <li>
+                                    <a href="water.html">Water</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" class="d-flex">
+                                <span>
+                                    Booking
+                                </span>
+                                <span class="icons">
+                                    <i class="material-symbols-outlined">
+                                        expand_more
+                                    </i>
+                                </span>
+                            </a>
+                            <ul class="sub-menu submenu__booking">
+                                <li class="d subtwohober">
+                                    <a href="javascript:void(0)">
+                                        <span class="fz-18 dtext d-block fw-700 lato">
+                                            Hotel
+                                        </span>
+                                    </a>
+                                    <a href="hotel-book.html">
+                                        Hotel Booking
+                                    </a>
+                                    <a href="hotel-list.html">
+                                        Hotel List
+                                    </a>
+                                    <a href="hotel-grid.html">
+                                        Hotel Grid
+                                    </a>
+                                    <a href="hotel-details.html">
+                                        Hotel Details
+                                    </a>
+                                    <a href="hotel-details-confirm.html">
+                                        Confirm Details
+                                    </a>
+                                    <a href="hotel-payment.html">
+                                        Payment
+                                    </a>
+                                    <a href="hotel-invoice.html">
+                                        Invoice
+                                    </a>
+                                    <a href="hotel-email.html">
+                                        Email Template
+                                    </a>
+                                </li>
+                                <li class="d">
+                                    <a href="javascript:void(0)">
+                                        <span class="fz-18 dtext d-block fw-700 lato">
+                                            Flight
+                                        </span>
+                                    </a>
+                                    <a href="flight-book.html">
+                                        Flights Booking
+                                    </a>
+                                    <a href="flight-round.html">
+                                        Flights One Way
+                                    </a>
+                                    <a href="flight-oneway.html">
+                                        Flights Round Trip
+                                    </a>
+                                    <a href="flight-confirm-details.html">
+                                        Confirm Details
+                                    </a>
+                                    <a href="flight-payment.html">
+                                        Flight Payment
+                                    </a>
+                                    <a href="flight-invoice.html">
+                                        Flight Invoice
+                                    </a>
+                                    <a href="flight-email.html">
+                                        Flight Email Template
+                                    </a>
+                                </li>
+                                <li class="d">
+                                    <a href="javascript:void(0)">
+                                        <span class="fz-18 dtext d-block fw-700 lato">
+                                            Train
+                                        </span>
+                                    </a>
+                                    <a href="train-book.html">
+                                        Train Booking
+                                    </a>
+                                    <a href="train-list.html">
+                                        Train List
+                                    </a>
+                                    <a href="train-grid.html">
+                                        Train Grid
+                                    </a>
+                                    <a href="train-oneway.html">
+                                        Train Round Trip
+                                    </a>
+                                    <a href="train-bookingsystem.html">
+                                        Booking System
+                                    </a>
+                                    <a href="train-confirm-details.html">
+                                        Confirm Details
+                                    </a>
+                                    <a href="train-payment.html">
+                                        Train Payment
+                                    </a>
+                                    <a href="train-invocie.html">
+                                        Train Invoice
+                                    </a>
+                                    <a href="train-email.html">
+                                        Train Email Template
+                                    </a>
+                                </li>
+                                <li class="d">
+                                    <a href="javascript:void(0)">
+                                        <span class="fz-18 dtext d-block fw-700 lato">
+                                            Bus
+                                        </span>
+                                    </a>
+                                    <a href="bus-book.html">
+                                        Bus Booking
+                                    </a>
+                                    <a href="bus-list.html">
+                                        Bus List
+                                    </a>
+                                    <a href="bus-oneway.html">
+                                        Round Trip
+                                    </a>
+                                    <a href="bus-bookingsystem.html">
+                                        Bus Booking System
+                                    </a>
+                                    <a href="bus-confirm-details.html">
+                                        Confirm Details
+                                    </a>
+                                    <a href="bus-payment.html">
+                                        Bus Payment
+                                    </a>
+                                    <a href="bus-invocie.html">
+                                        Bus Invoice
+                                    </a>
+                                    <a href="bus-email.html">
+                                        Bus Email Template
+                                    </a>
+                                </li>
+                                <li class="d">
+                                    <a href="javascript:void(0)">
+                                        <span class="fz-18 dtext d-block fw-700 lato">
+                                            Car
+                                        </span>
+                                    </a>
+                                    <a href="cars-book.html">
+                                        Car Booking
+                                    </a>
+                                    <a href="car-list.html">
+                                        Car List
+                                    </a>
+                                    <a href="car-grid.html">
+                                        Car Grid
+                                    </a>
+                                    <a href="car-confirm-details.html">
+                                        Confirm Details
+                                    </a>
+                                    <a href="car-payment.html">
+                                        Car Payment
+                                    </a>
+                                    <a href="car-invocie.html">
+                                        Car Invoice
+                                    </a>
+                                    <a href="car-email.html">
+                                        Car Email Template
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="grid__style">
+                            <a href="javascript:void(0)" class="d-flex">
+                                <span>
+                                    Blog
+                                </span>
+                                <span class="icons">
+                                    <i class="material-symbols-outlined">
+                                        expand_more
+                                    </i>
+                                </span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="subtwohober">
+                                    <a href="blog-list.html">Blog List</a>
+                                </li>
+                                <li><a href="blog-grid.html">Blog Grid</a></li>
+                                <li><a href="blog-details.html">Blog Details</a></li>
+                            </ul>
+                        </li>
+                        <li class="grid__style">
+                            <a href="javascript:void(0)" class="d-flex">
+                                <span>
+                                    Pages
+                                </span>
+                                <span class="icons">
+                                    <i class="material-symbols-outlined">
+                                        expand_more
+                                    </i>
+                                </span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="subtwohober">
+                                    <a href="javascript:void(0)" class="d-flex align-items-center justify-content-between">
+                                        <span class="text">
+                                            About
+                                        </span>
+                                        <span class="icon">
+                                            <i class="material-symbols-outlined">
+                                                add
+                                            </i>
+                                        </span>
+                                    </a>
+                                    <ul class="sub-two">
+                                        <li>
+                                            <a href="about.html">
+                                                About us
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="chat-us.html">
+                                                Chat us
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="favourites.html">
+                                                Favorites
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="help.html">
+                                                Help page
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="subtwohober">
+                                    <a href="javascript:void(0)" class="d-flex align-items-center justify-content-between">
+                                        <span class="text">
+                                            Support
+                                        </span>
+                                        <span class="icon">
+                                            <i class="material-symbols-outlined">
+                                                add
+                                            </i>
+                                        </span>
+                                    </a>
+                                    <ul class="sub-two">
+                                        <li>
+                                            <a href="help-support.html">
+                                                Support
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="help-knowledge.html">
+                                                Support Knowledge
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="help-knowledge-details.html">
+                                                Support Details
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="video-tutorial.html">
+                                                Support Tutorial
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="submit-ticket.html">
+                                                Submit Ticket
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="subtwohober">
+                                    <a href="javascript:void(0)" class="d-flex align-items-center justify-content-between">
+                                        <span class="text">
+                                            My Profile
+                                        </span>
+                                        <span class="icon">
+                                            <i class="material-symbols-outlined">
+                                                add
+                                            </i>
+                                        </span>
+                                    </a>
+                                    <ul class="sub-two">
+                                        <li>
+                                            <a href="personal-information.html">
+                                                Personal info
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="login-security.html">
+                                                Login Security
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="favourites.html">
+                                                Favourites
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="transaction.html">
+                                                Transaction
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="password-change.html">
+                                                Change Password
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="notification.html">
+                                                Notification
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="subtwohober">
+                                    <a href="javascript:void(0)" class="d-flex align-items-center justify-content-between">
+                                        <span class="text">
+                                            Signup & Register
+                                        </span>
+                                        <span class="icon">
+                                            <i class="material-symbols-outlined">
+                                                add
+                                            </i>
+                                        </span>
+                                    </a>
+                                    <ul class="sub-two">
+                                        <li>
+                                            <a href="signup.html">
+                                                Signup Register
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="password.html">
+                                                Password Change
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="number-toreach.html">
+                                                Signup Number
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="varified-number.html">
+                                                Varified Number
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="signin.html">
+                                                Sign in
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="faq.html">Faq Page</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="error.html">404</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" class="d-flex">
+                                <span>
+                                    Elements
+                                </span>
+                                <span class="icons">
+                                    <i class="material-symbols-outlined">
+                                        expand_more
+                                    </i>
+                                </span>
+                            </a>
+                            <ul class="sub-menu submenu__element">
+                                <li class="subtwohober">
+                                    <a href="typography.html" class="d-lg-none">Typography</a>
+                                    <a href="typography.html" class="mh__img">
+                                        Typography
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="blocks-home.html" class="d-lg-none">Banner</a>
+                                    <a href="blocks-home.html" class="mh__img">
+                                        Banner
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="blocks-allblocks.html" class="d-lg-none">All Blocks</a>
+                                    <a href="blocks-allblocks.html" class="mh__img">
+                                        All Blocks
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="blocks-ordersystem.html" class="d-lg-none">Order System</a>
+                                    <a href="blocks-ordersystem.html" class="mh__img">
+                                        Order System
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="blocks-about.html" class="d-lg-none">About & Refer</a>
+                                    <a href="blocks-about.html" class="mh__img">
+                                        About & Refer
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="blocks-list.html" class="d-lg-none">Page List</a>
+                                    <a href="blocks-list.html" class="mh__img">
+                                        Page List
+                                    </a>
+                                </li>
+                                <li class="subtwohober">
+                                    <a href="blocks-grid.html" class="d-lg-none">Page Grid</a>
+                                    <a href="blocks-grid.html" class="mh__img">
+                                        Page Grid
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="blocks-invoice.html" class="d-lg-none">Invoice/Email</a>
+                                    <a href="blocks-invoice.html" class="mh__img">
+                                        Invoice/Email
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="blocks-signin.html" class="d-lg-none">Sigin/sigup</a>
+                                    <a href="blocks-signin.html" class="mh__img">
+                                        Sigin/sigup
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="blocks-confirm-details.html" class="d-lg-none">Confirm Details</a>
+                                    <a href="blocks-confirm-details.html" class="mh__img">
+                                        Confirm Details
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="blocks-payments.html" class="d-lg-none">Payment System</a>
+                                    <a href="blocks-payments.html" class="mh__img">
+                                        Payment System
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="successful.html" class="d-lg-none">Successful</a>
+                                    <a href="successful.html" class="mh__img">
+                                        Successful
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="blocks-personalinfo.html" class="d-lg-none">Personal Info</a>
+                                    <a href="blocks-personalinfo.html" class="mh__img">
+                                        Personal Info
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="blocks-testimonial.html" class="d-lg-none">Testimonial</a>
+                                    <a href="blocks-testimonial.html" class="mh__img">
+                                        Testimonial
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="blocks-faqs.html" class="d-lg-none">Faq</a>
+                                    <a href="blocks-faqs.html" class="mh__img">
+                                        Faq
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="blocks-support.html" class="d-lg-none">Support</a>
+                                    <a href="blocks-support.html" class="mh__img">
+                                        Support
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="blocks-contact.html" class="d-lg-none">Contact Us</a>
+                                    <a href="blocks-contact.html" class="mh__img">
+                                        Contact Us
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="blocks-error.html" class="d-lg-none">Error</a>
+                                    <a href="blocks-error.html" class="mh__img">
+                                        Error
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sigup__grp d-lg-none d-flex align-items-center">
+                            <a href="signin.html" class="cmn__btn outline__btn">
+                                <span>
+                                    Signin
+                                </span>
+                            </a>
+                            <a href="signup.html" class="cmn__btn">
+                                <span>
+                                    Signup
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="sigin__grp d-flex align-items-center">
+                        <a href="signin.html" class="cmn__btn outline__btn">
+                            <span>
+                                Signin
+                            </span>
+                        </a>
+                        <a href="signup.html" class="cmn__btn">
+                            <span>
+                                Signup
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Header top End -->
+        <!-- breadcumnd banner Here -->
+        <section class="breadcumnd__banner">
+            <!--Container-->
+            <div class="container">
+                <div class="breadcumnd__wrapper">
+                    <h2 class="bread__title">
+                        Hotel Details
+                    </h2>
+                    <ul class="breadcumnd__link">
+                        <li>
+                            <a href="index.html">
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <i class="material-symbols-outlined">
+                                chevron_right
+                            </i>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                Booking
+                            </a>
+                        </li>
+                        <li>
+                            <i class="material-symbols-outlined">
+                                chevron_right
+                            </i>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                Hotel
+                            </a>
+                        </li>
+                        <li>
+                            <i class="material-symbols-outlined">
+                                chevron_right
+                            </i>
+                        </li>
+                        <li>
+                            Hotel Details
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!--Container-->
+        </section>
+        <!-- breadcumnd banner End -->
+        <!-- hotel details here -->
+        <section class="hotel__details overflow-hidden pt__60">
+            <div class="container">
+                <div class="row g-4">
+                    <div class="col-xl-8 col-lg-8">
+                        <div class="hotel__details__wrapleft">
+                            <div class="details__bookslider owl-theme owl-carousel">
+                                <div class="item" data-hash="zero">
+                                    <img src="assets/img/details/hdetailsbig1.jpg" alt="img">
+                                </div>
+                                <div class="item" data-hash="one">
+                                    <img src="assets/img/details/hdetailsbig2.jpg" alt="img">
+                                </div>
+                                <div class="item" data-hash="two">
+                                    <img src="assets/img/details/hdetailsbig4.jpg" alt="img">
+                                </div>
+                                <div class="item" data-hash="three">
+                                    <img src="assets/img/details/hdetailsbig3.jpg" alt="img">
+                                </div>
+                            </div>
+                            <div class="details__smallthumb d-flex align-items-center gap-2">
+                                <a class="button secondary url" href="#zero">
+                                    <img src="assets/img/details/dsmall1.jpg" alt="img">
+                                </a>
+                                <a class="button secondary url" href="#one">
+                                    <img src="assets/img/details/dsmall2.jpg" alt="img">
+                                </a>
+                                <a class="button secondary url" href="#two">
+                                    <img src="assets/img/details/dsmall3.jpg" alt="img">
+                                </a>
+                                <a class="button secondary url" href="#three">
+                                    <img src="assets/img/details/dsmall4.jpg" alt="img">
+                                </a>
+                            </div>
+                            <div class="text__box pt__60 pb__40">
+                                <h3 class="mb__20 dtext xs-32">
+                                    Skyp Hotel
+                                </h3>
+                                <p class="mb__20 xs-16">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam odio lorem, iaculis non felis vel, faucibus efficitur dui. Aliquam erat volutpat. Quisque hendrerit massa nec lobortis mollis. Nunc eu eros efficitur, convallis enim ac, ultricies nisi. Lorem ipsum dolor sit amet, consectetur adipiscing.
+                                </p>
+                                <p class="xs-16">
+                                    Donec sollicitudin nulla risus, eget luctus ipsum facilisis dictum. Integer ultricies sapien libero, sed congue ligula hendrerit quis. Vivamus dolor mauris, mollis nec accumsan sed, pulvinar id nisl. Aliquam vulputate ante purus, quis sollicitudin augue euismod sit amet. Aliquam vehicula mi sit amet suscipit tincidunt. Quisque sed lobortis metus, vitae efficitur felis.
+                                </p>
+                            </div>
+                            <div class="video__thumb pb__40">
+                                <img src="assets/img/details/video-thumb.jpg" class="w-100" alt="video">
+                                <a href="https://www.youtube.com/watch?v=gpelxzSME04" class="video-btn">
+                                    <span class="vide">
+                                        <i class="material-symbols-outlined">
+                                            play_arrow
+                                        </i>
+                                    </span>
+                                </a>
+                            </div>
+                            <div class="amenities__contentbox pb__30">
+                                <h4 class="mb__20 dtext">
+                                    Amenities
+                                </h4>
+                                <ul class="amenities__listdetails d-flex align-items-center flex-wrap">
+                                    <li class="d-flex align-items-center gap-2">
+                                        <span class="icon d-flex align-items-center justify-content-center">
+                                            <img src="assets/img/svg/coffee.svg" alt="svg">
+                                        </span>
+                                        <span class="fz-18 fw-400 lato dtext">
+                                            Breakfast
+                                        </span>
+                                    </li>
+                                    <li class="d-flex align-items-center gap-2">
+                                        <span class="icon d-flex align-items-center justify-content-center">
+                                            <img src="assets/img/svg/cable.svg" alt="svg">
+                                        </span>
+                                        <span class="fz-18 fw-400 lato dtext">
+                                            Cable TV
+                                        </span>
+                                    </li>
+                                    <li class="d-flex align-items-center gap-2">
+                                        <span class="icon d-flex align-items-center justify-content-center">
+                                            <img src="assets/img/svg/ironing.svg" alt="svg">
+                                        </span>
+                                        <span class="fz-18 fw-400 lato dtext">
+                                            Ironing service
+                                        </span>
+                                    </li>
+                                    <li class="d-flex align-items-center gap-2">
+                                        <span class="icon d-flex align-items-center justify-content-center">
+                                            <img src="assets/img/svg/bathub.svg" alt="svg">
+                                        </span>
+                                        <span class="fz-18 fw-400 lato dtext">
+                                            Bathub
+                                        </span>
+                                    </li>
+                                    <li class="d-flex align-items-center gap-2">
+                                        <span class="icon d-flex align-items-center justify-content-center">
+                                            <img src="assets/img/svg/lobby.svg" alt="svg">
+                                        </span>
+                                        <span class="fz-18 fw-400 lato dtext">
+                                            Lobby bar
+                                        </span>
+                                    </li>
+                                    <li class="d-flex align-items-center gap-2">
+                                        <span class="icon d-flex align-items-center justify-content-center">
+                                            <img src="assets/img/svg/disabled-access.svg" alt="svg">
+                                        </span>
+                                        <span class="fz-18 fw-400 lato dtext">
+                                            Disabled access
+                                        </span>
+                                    </li>
+                                    <li class="d-flex align-items-center gap-2">
+                                        <span class="icon d-flex align-items-center justify-content-center">
+                                            <img src="assets/img/svg/rentcar.svg" alt="svg">
+                                        </span>
+                                        <span class="fz-18 fw-400 lato dtext">
+                                            Rent a car
+                                        </span>
+                                    </li>
+                                    <li class="d-flex align-items-center gap-2">
+                                        <span class="icon d-flex align-items-center justify-content-center">
+                                            <img src="assets/img/svg/hairdryer.svg" alt="svg">
+                                        </span>
+                                        <span class="fz-18 fw-400 lato dtext">
+                                            Hair Dryer
+                                        </span>
+                                    </li>
+                                    <li class="d-flex align-items-center gap-2">
+                                        <span class="icon d-flex align-items-center justify-content-center">
+                                            <img src="assets/img/svg/singlebess.svg" alt="svg">
+                                        </span>
+                                        <span class="fz-18 fw-400 lato dtext">
+                                            Single bed
+                                        </span>
+                                    </li>
+                                    <li class="d-flex align-items-center gap-2">
+                                        <span class="icon d-flex align-items-center justify-content-center">
+                                            <img src="assets/img/svg/teacoffe.svg" alt="svg">
+                                        </span>
+                                        <span class="fz-18 fw-400 lato dtext">
+                                            Tea/Coffee
+                                        </span>
+                                    </li>
+                                    <li class="d-flex align-items-center gap-2">
+                                        <span class="icon d-flex align-items-center justify-content-center">
+                                            <img src="assets/img/svg/airconditioner.svg" alt="svg">
+                                        </span>
+                                        <span class="fz-18 fw-400 lato dtext">
+                                            Air Conditioner
+                                        </span>
+                                    </li>
+                                    <li class="d-flex align-items-center gap-2">
+                                        <span class="icon d-flex align-items-center justify-content-center">
+                                            <img src="assets/img/svg/wifis.svg" alt="svg">
+                                        </span>
+                                        <span class="fz-18 fw-400 lato dtext">
+                                            High Speed WIFI
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="house__rules mb__30">
+                                <h4 class="mb__20 dtext">
+                                    House Rules
+                                </h4>
+                                <ul class="house__list d-flex align-items-center flex-wrap">
+                                    <li>
+                                        Check-in: 12:00 pm - 10:00 am
+                                    </li>
+                                    <li>
+                                        No smokin
+                                    </li>
+                                    <li>
+                                        No pets allowed
+                                    </li>
+                                    <li>
+                                        Checkout: 09:00 am
+                                    </li>
+                                    <li>
+                                        Drug addiction not allowed
+                                    </li>
+                                    <li>
+                                        No parties or events
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="cancellation text-start pb__40 nlfbottom">
+                                <h4 class="dtext mb__20">
+                                    Cancellation
+                                </h4>
+                                <p class="fz-16 fw-400 lato dtext">
+                                    There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.
+                                </p>
+                            </div>
+                            <div class="room__chooses pt__40">
+                                <h3 class="dtext xs-28 mb__40">
+                                    Choose Room
+                                </h3>
+                                <div class="row g-4 justify-content-center">
+                                    <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6">
+                                        <div class="bits__hotel bits__hotels__details d-grid align-items-center gap-3">
+                                            <div class="thumb thumb2">
+                                                <a href="javascript:void(0)">
+                                                    <img src="assets/img/details/croom1.jpg" class="w-100" alt="img">
+                                                </a>
+                                            </div>
+                                            <div class="content content__space">
+                                                <div class="title gap-3 d-flex justify-content-between mb__10">
+                                                    <h5>
+                                                        Bitast Hotel
+                                                    </h5>
+                                                </div>
+                                                <div class="d-flex flex-wrap mb__15 align-items-center gap-4">
+                                                    <span class="dubay gap-2 d-flex align-items-center fz-16 fw-400 lato dtext">
+                                                        <span class="singlebed">
+                                                            <img src="assets/img/svg/singlebess.svg" alt="img">
+                                                        </span>
+                                                        Single size bed
+                                                    </span>
+                                                    <span class="dubay gap-2 d-flex align-items-center fz-16 fw-400 lato dtext">
+                                                        <span class="singlebed">
+                                                            <img src="assets/img/svg/zoominnout.svg" alt="img">
+                                                        </span>
+                                                        4.66x4.66 sq.mtr
+                                                    </span>
+                                                </div>
+                                                <div class="d-flex flex-wrap align-items-center gap-4">
+                                                    <div class="price__off mb__10 d-flex gap-3">
+                                                        <span class="fz-18 fw-500 lato dtext">$312</span>
+                                                        <span class="linetrogh fz-16 mt-1 fw-500 lato">$332</span>
+                                                        <span class="fz-16 fw-500 lato base d-block">20% OFF</span>
+                                                    </div>
+                                                    <span class="fz-18 d-block fw400 mb__20 lato textfive">1 Room/night</span>
+                                                </div>
+                                                <div class="d-grid mt-3 justify-content-start">
+                                                    <a href="hotel-details-confirm.html" class="cmn__btn">
+                                                        <span>
+                                                            Select Room
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6">
+                                        <div class="bits__hotel bits__hotels__details d-grid align-items-center gap-3">
+                                            <div class="thumb thumb2">
+                                                <a href="javascript:void(0)">
+                                                    <img src="assets/img/details/croom2.jpg" class="w-100" alt="img">
+                                                </a>
+                                            </div>
+                                            <div class="content content__space">
+                                                <div class="title gap-3 d-flex justify-content-between mb__10">
+                                                    <h5>
+                                                        Dual Bed Room
+                                                    </h5>
+                                                </div>
+                                                <div class="d-flex flex-wrap mb__15 align-items-center gap-4">
+                                                    <span class="dubay gap-2 d-flex align-items-center fz-16 fw-400 lato dtext">
+                                                        <span class="singlebed">
+                                                            <img src="assets/img/svg/singlebess.svg" alt="img">
+                                                        </span>
+                                                        Single size bed
+                                                    </span>
+                                                    <span class="dubay gap-2 d-flex align-items-center fz-16 fw-400 lato dtext">
+                                                        <span class="singlebed">
+                                                            <img src="assets/img/svg/zoominnout.svg" alt="img">
+                                                        </span>
+                                                        4.66x4.66 sq.mtr
+                                                    </span>
+                                                </div>
+                                                <div class="d-flex flex-wrap align-items-center gap-4">
+                                                    <div class="price__off mb__10 d-flex gap-3">
+                                                        <span class="fz-18 fw-500 lato dtext">$312</span>
+                                                        <span class="linetrogh fz-16 mt-1 fw-500 lato">$332</span>
+                                                        <span class="fz-16 fw-500 lato base d-block">20% OFF</span>
+                                                    </div>
+                                                    <span class="fz-18 d-block fw400 mb__20 lato textfive">1 Room/night</span>
+                                                </div>
+                                                <div class="d-grid mt-3 justify-content-start">
+                                                    <a href="hotel-details-confirm.html" class="cmn__btn">
+                                                        <span>
+                                                            Select Room
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6">
+                                        <div class="bits__hotel bits__hotels__details d-grid align-items-center gap-3">
+                                            <div class="thumb thumb2">
+                                                <a href="javascript:void(0)">
+                                                    <img src="assets/img/details/croom3.jpg" class="w-100" alt="img">
+                                                </a>
+                                            </div>
+                                            <div class="content content__space">
+                                                <div class="title gap-3 d-flex justify-content-between mb__10">
+                                                    <h5>
+                                                        Deluxe Room
+                                                    </h5>
+                                                </div>
+                                                <div class="d-flex mb__15 flex-wrap align-items-center gap-4">
+                                                    <span class="dubay gap-2 d-flex align-items-center fz-16 fw-400 lato dtext">
+                                                        <span class="singlebed">
+                                                            <img src="assets/img/svg/singlebess.svg" alt="img">
+                                                        </span>
+                                                        Dual size bed
+                                                    </span>
+                                                    <span class="dubay gap-2 d-flex align-items-center fz-16 fw-400 lato dtext">
+                                                        <span class="singlebed">
+                                                            <img src="assets/img/svg/zoominnout.svg" alt="img">
+                                                        </span>
+                                                        66.66x4.66 sq.mtr
+                                                    </span>
+                                                </div>
+                                                <div class="d-flex flex-wrap align-items-center gap-4">
+                                                    <div class="price__off mb__10 d-flex gap-3">
+                                                        <span class="fz-18 fw-500 lato dtext">$312</span>
+                                                        <span class="linetrogh fz-16 mt-1 fw-500 lato">$332</span>
+                                                        <span class="fz-16 fw-500 lato base d-block">20% OFF</span>
+                                                    </div>
+                                                    <span class="fz-18 d-block fw400 mb__20 lato textfive">1 Room/night</span>
+                                                </div>
+                                                <div class="d-grid mt-3 justify-content-start">
+                                                    <a href="hotel-details-confirm.html" class="cmn__btn">
+                                                        <span>
+                                                            Select Room
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6">
+                                        <div class="bits__hotel bits__hotels__details d-grid align-items-center gap-3">
+                                            <div class="thumb thumb2">
+                                                <a href="javascript:void(0)">
+                                                    <img src="assets/img/details/croom4.jpg" class="w-100" alt="img">
+                                                </a>
+                                            </div>
+                                            <div class="content content__space">
+                                                <div class="title gap-3 d-flex justify-content-between mb__10">
+                                                    <h5>
+                                                        Luxury Room
+                                                    </h5>
+                                                </div>
+                                                <div class="d-flex mb__15 flex-wrap align-items-center gap-4">
+                                                    <span class="dubay gap-2 d-flex align-items-center fz-16 fw-400 lato dtext">
+                                                        <span class="singlebed">
+                                                            <img src="assets/img/svg/singlebess.svg" alt="img">
+                                                        </span>
+                                                        Single size bed
+                                                    </span>
+                                                    <span class="dubay gap-2 d-flex align-items-center fz-16 fw-400 lato dtext">
+                                                        <span class="singlebed">
+                                                            <img src="assets/img/svg/zoominnout.svg" alt="img">
+                                                        </span>
+                                                        5.66x4.66 sq.mtr
+                                                    </span>
+                                                </div>
+                                                <div class="d-flex flex-wrap align-items-center gap-4">
+                                                    <div class="price__off mb__10 d-flex gap-3">
+                                                        <span class="fz-18 fw-500 lato dtext">$312</span>
+                                                        <span class="linetrogh fz-16 mt-1 fw-500 lato">$332</span>
+                                                        <span class="fz-16 fw-500 lato base d-block">20% OFF</span>
+                                                    </div>
+                                                    <span class="fz-18 d-block fw400 mb__20 lato textfive">1 Room/night</span>
+                                                </div>
+                                                <div class="d-grid mt-3 justify-content-start">
+                                                    <a href="hotel-details-confirm.html" class="cmn__btn">
+                                                        <span>
+                                                            Select Room
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="comment__details__wrapper">
+                                <div class="d-flex pb__40 gap-4 align-items-center">
+                                    <h4 class="dtext">
+                                        Review
+                                    </h4>
+                                    <span class="d-flex fz-24 fw-400 lato dtext align-items-center gap-2">
+                                        <img src="assets/img/svg/star.svg" class="review__star" alt="img">
+                                        4.9
+                                    </span>
+                                </div>
+                                <div class="comment__box__inner mb__15 nlfbottom pb__20">
+                                    <div class="man">
+                                        <img src="assets/img/blog/jeromes.png" alt="img">
+                                    </div>
+                                    <div class="comment__content">
+                                        <h5>
+                                            Jerome Bell <span>2 days ago</span>
+                                        </h5>
+                                        <p class="pb__20">
+                                            There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be...
+                                        </p>
+                                        <div class="admin__commments">
+                                            <a href="#0">
+                                                <span class="icon">
+                                                    <img src="assets/img/svg/flike.svg" alt="icon">
+                                                </span>
+                                                <span class="text">
+                                                    18
+                                                </span>
+                                            </a>
+                                            <a href="#0">
+                                                <span class="icon">
+                                                    <img src="assets/img/svg/comments.svg" alt="icon">
+                                                </span>
+                                                <span class="text">
+                                                    Reply
+                                                </span>
+                                            </a>
+                                            <a href="#0">
+                                                <span class="icon">
+                                                    <img src="assets/img/svg/sshare.svg" alt="icon">
+                                                </span>
+                                                <span class="text">
+                                                    Share
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="comment__box__inner mt__15 nlfbottom pb__10">
+                                    <div class="man">
+                                        <img src="assets/img/blog/bessies.png" alt="img">
+                                    </div>
+                                    <div class="comment__content">
+                                        <h5>
+                                            Courtney Henry <span>2 days ago</span>
+                                        </h5>
+                                        <p class="pb__20">
+                                            There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be...
+                                        </p>
+                                        <div class="admin__commments mb__15">
+                                            <a href="#0">
+                                                <span class="icon">
+                                                    <img src="assets/img/svg/flike.svg" alt="icon">
+                                                </span>
+                                                <span class="text">
+                                                    18
+                                                </span>
+                                            </a>
+                                            <a href="#0">
+                                                <span class="icon">
+                                                    <img src="assets/img/svg/comments.svg" alt="icon">
+                                                </span>
+                                                <span class="text">
+                                                    Reply
+                                                </span>
+                                            </a>
+                                            <a href="#0">
+                                                <span class="icon">
+                                                    <img src="assets/img/svg/sshare.svg" alt="icon">
+                                                </span>
+                                                <span class="text">
+                                                    Share
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="comment__box__inner mt__15">
+                                    <div class="man">
+                                        <img src="assets/img/blog/comm3.png" alt="img">
+                                    </div>
+                                    <div class="comment__content">
+                                        <h5>
+                                            Bessie Cooper <span>2 days ago</span>
+                                        </h5>
+                                        <p class="pb__20">
+                                            There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be...
+                                        </p>
+                                        <div class="admin__commments mb__15">
+                                            <a href="#0">
+                                                <span class="icon">
+                                                    <img src="assets/img/svg/flike.svg" alt="icon">
+                                                </span>
+                                                <span class="text">
+                                                    18
+                                                </span>
+                                            </a>
+                                            <a href="#0">
+                                                <span class="icon">
+                                                    <img src="assets/img/svg/comments.svg" alt="icon">
+                                                </span>
+                                                <span class="text">
+                                                    Reply
+                                                </span>
+                                            </a>
+                                            <a href="#0">
+                                                <span class="icon">
+                                                    <img src="assets/img/svg/sshare.svg" alt="icon">
+                                                </span>
+                                                <span class="text">
+                                                    Share
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="view__more d-flex justify-content-center pt__40">
+                                    <a href="javascript:void(0)" class="cmn__btn">
+                                        <span>
+                                            View All Reviews
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                            <form action="#0" class="write__comment">
+                                <h4 class="xs-28">
+                                    Write a review
+                                </h4>
+                                <input type="text" placeholder="Enter Your Name...">
+                                <input type="email" placeholder="Enter Your Email...">
+                                <textarea name="writecommnet" cols="30" rows="5" placeholder="Write a comment..."></textarea>
+                                <button type="submit" class="cmn__btn">
+                                    <span>
+                                        Submit Now
+                                    </span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4">
+                        <div class="main__right__detaislbar">
+                            <div class="hotel__details__checkoungwrapper">
+                                <div class="cheakout__rightbar__box">
+                                    <h5 class="base mb__20 text-center">
+                                        Cheakout
+                                    </h5>
+                                    <div class="dating__body check__hoteldetaislbody">
+                                        <div class="dating__body__box">
+                                            <div class="dating__item dating__hidden">
+                                                <div id="datepicker" class="input-group date" data-date-format="dd-mm-yyyy">
+                                                    <input class="form-control" type="text" placeholder="Check in" readonly>
+                                                    <span class="calendaricon">
+                                                        <i class="material-symbols-outlined">
+                                                            calendar_month
+                                                        </i>
+                                                    </span>
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                            <div class="dating__item dating__hidden">
+                                                <div id="datepicker2" class="input-group date" data-date-format="dd-mm-yyyy">
+                                                    <input class="form-control" type="text" placeholder="Check Out" readonly>
+                                                    <span class="calendaricon">
+                                                        <i class="material-symbols-outlined">
+                                                            calendar_month
+                                                        </i>
+                                                    </span>
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                            <div class="dating__item dating__inetial select__border">
+                                                <select name="room">
+                                                    <option value="1">
+                                                        Adults
+                                                    </option>
+                                                    <option value="2">
+                                                        Adults one
+                                                    </option>
+                                                    <option value="3">
+                                                        Adults two
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="dating__item dating__inetial select__border">
+                                                <select name="room">
+                                                    <option value="1">
+                                                        Children
+                                                    </option>
+                                                    <option value="2">
+                                                        Children one
+                                                    </option>
+                                                    <option value="3">
+                                                        Children two
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="dating__inetial roomtype select__border">
+                                                <select name="room">
+                                                    <option value="1">
+                                                        Room type
+                                                    </option>
+                                                    <option value="2">
+                                                        luxury
+                                                    </option>
+                                                    <option value="3">
+                                                        single
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="extra__service__item mt__30">
+                                        <span class=" lato fz-18 borderb text-start d-block fw-600 pb__15 mb__15 extra-title">
+                                            Extra Service
+                                        </span>
+                                        <div class="common__typeproperty">
+                                            <div class="type__radio mb__10 d-flex align-items-center justify-content-between">
+                                                <div class="radio__left d-flex align-items-center gap-2">
+                                                    <input class="form-check-input" type="checkbox" id="proper1" checked>
+                                                    <label class="form-check-label" for="proper1">
+                                                        <span class="fz-16 lato fw-400 dtext">
+                                                            Vat
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <span class="radio__right fz-16 fw-400 dtext lato">
+                                                    $8 / per night
+                                                </span>
+                                            </div>
+                                            <div class="type__radio mb__10 d-flex align-items-center justify-content-between">
+                                                <div class="radio__left d-flex align-items-center gap-2">
+                                                    <input class="form-check-input" type="checkbox" id="proper2">
+                                                    <label class="form-check-label" for="proper2">
+                                                        <span class="fz-16 lato fw-400 dtext">
+                                                            Cleaning Fee
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <span class="radio__right fz-16 fw-400 dtext lato">
+                                                    $11
+                                                </span>
+                                            </div>
+                                            <div class="type__radio mb__10 d-flex align-items-center justify-content-between">
+                                                <div class="radio__left d-flex align-items-center gap-2">
+                                                    <input class="form-check-input" type="checkbox" id="proper3">
+                                                    <label class="form-check-label" for="proper3">
+                                                        <span class="fz-16 lato fw-400 dtext">
+                                                            Airport Pickup
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <span class="radio__right fz-16 fw-400 dtext lato">
+                                                    $17
+                                                </span>
+                                            </div>
+                                            <div class="type__radio mb__10 d-flex align-items-center justify-content-between">
+                                                <div class="radio__left d-flex align-items-center gap-2">
+                                                    <input class="form-check-input" type="checkbox" id="proper4">
+                                                    <label class="form-check-label" for="proper4">
+                                                        <span class="fz-16 lato fw-400 dtext">
+                                                            Wine & Dine
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <span class="radio__right fz-16 fw-400 dtext lato">
+                                                    $40 / per person
+                                                </span>
+                                            </div>
+                                            <div class="type__radio mb__10 d-flex align-items-center justify-content-between">
+                                                <div class="radio__left d-flex align-items-center gap-2">
+                                                    <input class="form-check-input" type="checkbox" id="proper5">
+                                                    <label class="form-check-label" for="proper5">
+                                                        <span class="fz-16 lato fw-400 dtext">
+                                                            Parking
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <span class="radio__right fz-16 fw-400 dtext lato">
+                                                    free
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="extra__service__item mt__30">
+                                        <span class=" lato fz-18 borderb d-block text-start fw-600 pb__15 mb__15 extra-title">
+                                            Your price
+                                        </span>
+                                        <span class="fz-16 mb__30 d-flex gap-2 fw-400 lato dtext">
+                                            <span class="tactive">
+                                                $ 65
+                                            </span>
+                                            / per room
+                                        </span>
+                                        <div class="d-flex justify-content-center mb__30">
+                                            <a href="hotel-details-confirm.html" class="cmn__btn">
+                                                <span>
+                                                    Book Now
+                                                </span>
+                                            </a>
+                                        </div>
+                                        <div class="payment__cards d-flex align-items-center gap-2">
+                                            <a href="javacript:void(0)">
+                                                <img src="assets/img/payment/paypals.png" alt="payment-card">
+                                            </a>
+                                            <a href="javacript:void(0)">
+                                                <img src="assets/img/payment/visas.png" alt="payment-card">
+                                            </a>
+                                            <a href="javacript:void(0)">
+                                                <img src="assets/img/payment/fastpay.png" alt="payment-card">
+                                            </a>
+                                            <a href="javacript:void(0)">
+                                                <img src="assets/img/payment/payoneer.png" alt="payment-card">
+                                            </a>
+                                            <a href="javacript:void(0)" class="master">
+                                                <img src="assets/img/payment/mastercard.png" alt="payment-card">
+                                            </a>
+                                        </div>
+                                        <span class="fz-16 fw-400 lato mb__30 text-center d-block booking-time pt__20">
+                                            NB : Booking at 12:00 pm to 10:00 am
+                                        </span>
+                                        <div class="comment__chatboxright d-flex align-items-center gap-3">
+                                            <div class="icon d-flex align-items-center justify-content-center">
+                                                <img src="assets/img/svg/comments.svg" alt="img">
+                                            </div>
+                                            <div class="content">
+                                                <span class="dtext fz-24 fw-700 mb-1">
+                                                    Chat box
+                                                </span>
+                                                <p class="dtext lato fz-16 fw-400">
+                                                    Chat with us if you need any help
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="current__weather mt__30">
+                                <h5 class="mb__30 text-center">
+                                    Current Weather
+                                </h5>
+                                <div class="d-flex weather__wrapping align-items-end">
+                                    <div class="could__left">
+                                        <div class="could__icon d-flex mb__10 align-items-center justify-content-center mb__10">
+                                            <img src="assets/img/svg/coludleft.svg" alt="svg">
+                                        </div>
+                                        <span class="fz-24 gratext lato fw-400 mb__10">
+                                            23°C
+                                        </span>
+                                        <span class="fz-16 d-block mb-1 fw-400 lato dtext">
+                                            Humindity: 91%
+                                        </span>
+                                        <span class="fz-16 fw-400 lato dtext">
+                                            Humindity: 91%
+                                        </span>
+                                    </div>
+                                    <div class="firday">
+                                        <img src="assets/img/details/friday-icon.png" alt="img">
+                                    </div>
+                                    <div class="sun__degree">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <span class="fz-16 d-block dtext lato">
+                                                Sun
+                                            </span>
+                                            <img src="assets/img/svg/colud1.svg" class="d-block" alt="img">
+                                            <span class="fz-16 d-block dtext lato">
+                                                22°C
+                                            </span>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <span class="fz-16 d-block dtext lato">
+                                                Mon
+                                            </span>
+                                            <img src="assets/img/svg/colud1.svg" class="d-block" alt="img">
+                                            <span class="fz-16 d-block dtext lato">
+                                                25°C
+                                            </span>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <span class="fz-16 d-block dtext lato">
+                                                Tue
+                                            </span>
+                                            <img src="assets/img/svg/colud1.svg" class="d-block" alt="img">
+                                            <span class="fz-16 d-block dtext lato">
+                                                23°C
+                                            </span>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <span class="fz-16 d-block dtext lato">
+                                                Wed
+                                            </span>
+                                            <img src="assets/img/svg/colud1.svg" class="d-block" alt="img">
+                                            <span class="fz-16 d-block dtext lato">
+                                                24°C
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- hotel details End -->
+        <!-- blog Related Here -->
+        <section class="hotel__related__section pt-120 pb-90">
+            <div class="container">
+                <div class="blog__related__head pb__40">
+                    <h3>
+                        More Related News
+                    </h3>
+                </div>
+                <div class="blog__grid__leftwrapper">
+                    <div class="blog__related__wrapper owl-theme owl-carousel">
+                        <div class="bits__hotel d-grid align-items-center gap-3">
+                            <div class="thumb thumb2">
+                                <a href="hotel-details-confirm.html">
+                                    <img src="assets/img/details/more1.jpg" class="w-100" alt="img">
+                                </a>
+                            </div>
+                            <div class="content content__space">
+                                <div class="title gap-3 d-flex justify-content-between mb__10">
+                                    <h5>
+                                        Bitast Hotel
+                                    </h5>
+                                    <span class="rating fz-16 fw-400 lato dtext d-flex align-items-center gap-2">
+                                        <img src="assets/img/svg/star.svg" alt="img">
+                                        4.6
+                                    </span>
+                                </div>
+                                <div class="d-flex flex-wrap align-items-center justify-content-between gap-1">
+                                    <span class="dubay mb__15 gap-2 d-flex align-items-center fz-16 fw-400 lato dtext">
+                                        <img src="assets/img/svg/mlocation.svg" alt="svg">
+                                        New City, Dubai
+                                    </span>
+                                    <ul class="bitast__icon mb__15 d-flex align-items-center gap-2">
+                                        <li class="p__5">
+                                            <img src="assets/img/svg/coffee.svg" alt="img">
+                                        </li>
+                                        <li class="p__5">
+                                            <img src="assets/img/svg/swing.svg" alt="img">
+                                        </li>
+                                        <li class="p__5">
+                                            <img src="assets/img/svg/facilities-bussen.svg" alt="img">
+                                        </li>
+                                        <li class="p__5">
+                                            <img src="assets/img/svg/wifis.svg" alt="img">
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="d-flex justify-content-between flex-wrap align-items-center gap-1">
+                                    <div class="price__off mb__10 d-flex gap-3">
+                                        <span class="fz-18 fw-500 lato dtext">$312</span>
+                                        <span class="linetrogh fz-16 mt-1 fw-500 lato">$332</span>
+                                        <span class="fz-16 fw-500 lato base d-block">20% OFF</span>
+                                    </div>
+                                    <span class="fz-18 d-block fw400 mb__20 lato textfive">1 Room/night</span>
+                                </div>
+                                <div class="d-grid justify-content-center">
+                                    <a href="hotel-details-confirm.html" class="cmn__btn">
+                                        <span>
+                                            Book Now
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bits__hotel d-grid align-items-center gap-3">
+                            <div class="thumb thumb2">
+                                <a href="hotel-details-confirm.html">
+                                    <img src="assets/img/details/more2.jpg" class="w-100" alt="img">
+                                </a>
+                            </div>
+                            <div class="content content__space">
+                                <div class="title gap-3 d-flex justify-content-between mb__10">
+                                    <h5>
+                                        Skyp Hotel
+                                    </h5>
+                                    <span class="rating fz-16 fw-400 lato dtext d-flex align-items-center gap-2">
+                                        <img src="assets/img/svg/star.svg" alt="img">
+                                        4.7
+                                    </span>
+                                </div>
+                                <div class="d-flex align-items-center flex-wrap justify-content-between gap-1">
+                                    <span class="dubay mb__15 gap-2 d-flex align-items-center fz-16 fw-400 lato dtext">
+                                        <img src="assets/img/svg/mlocation.svg" alt="svg">
+                                        Paris, France
+                                    </span>
+                                    <ul class="bitast__icon mb__15 d-flex align-items-center gap-2">
+                                        <li class="p__5">
+                                            <img src="assets/img/svg/coffee.svg" alt="img">
+                                        </li>
+                                        <li class="p__5">
+                                            <img src="assets/img/svg/swing.svg" alt="img">
+                                        </li>
+                                        <li class="p__5">
+                                            <img src="assets/img/svg/facilities-bussen.svg" alt="img">
+                                        </li>
+                                        <li class="p__5">
+                                            <img src="assets/img/svg/wifis.svg" alt="img">
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="d-flex flex-wrap justify-content-between align-items-center gap-1">
+                                    <div class="price__off mb__10 d-flex gap-3">
+                                        <span class="fz-18 fw-500 lato dtext">$442</span>
+                                        <span class="linetrogh fz-16 mt-1 fw-500 lato">$532</span>
+                                        <span class="fz-16 fw-500 lato base d-block">20% OFF</span>
+                                    </div>
+                                    <span class="fz-18 d-block fw400 mb__20 lato textfive">1 Room/night</span>
+                                </div>
+                                <div class="d-grid justify-content-center">
+                                    <a href="hotel-details-confirm.html" class="cmn__btn">
+                                        <span>
+                                            Book Now
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bits__hotel d-grid align-items-center gap-3">
+                            <div class="thumb thumb2">
+                                <a href="hotel-details-confirm.html">
+                                    <img src="assets/img/details/more3.jpg" class="w-100" alt="img">
+                                </a>
+                            </div>
+                            <div class="content content__space">
+                                <div class="title gap-3 d-flex justify-content-between mb__10">
+                                    <h5>
+                                        East West Hotel
+                                    </h5>
+                                    <span class="rating fz-16 fw-400 lato dtext d-flex align-items-center gap-2">
+                                        <img src="assets/img/svg/star.svg" alt="img">
+                                        4.9
+                                    </span>
+                                </div>
+                                <div class="d-flex flex-wrap align-items-center justify-content-between gap-1">
+                                    <span class="dubay mb__15 gap-2 d-flex align-items-center fz-16 fw-400 lato dtext">
+                                        <img src="assets/img/svg/mlocation.svg" alt="svg">
+                                        Prime city, Abu Dhabi
+                                    </span>
+                                    <ul class="bitast__icon mb__15 d-flex align-items-center gap-2">
+                                        <li class="p__5">
+                                            <img src="assets/img/svg/coffee.svg" alt="img">
+                                        </li>
+                                        <li class="p__5">
+                                            <img src="assets/img/svg/swing.svg" alt="img">
+                                        </li>
+                                        <li class="p__5">
+                                            <img src="assets/img/svg/facilities-bussen.svg" alt="img">
+                                        </li>
+                                        <li class="p__5">
+                                            <img src="assets/img/svg/wifis.svg" alt="img">
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="d-flex flex-wrap justify-content-between align-items-center gap-1">
+                                    <div class="price__off mb__10 d-flex gap-3">
+                                        <span class="fz-18 fw-500 lato dtext">$712</span>
+                                        <span class="linetrogh fz-16 mt-1 fw-500 lato">$932</span>
+                                        <span class="fz-16 fw-500 lato base d-block">20% OFF</span>
+                                    </div>
+                                    <span class="fz-18 d-block fw400 mb__20 lato textfive">1 Room/night</span>
+                                </div>
+                                <div class="d-grid justify-content-center">
+                                    <a href="hotel-details-confirm.html" class="cmn__btn">
+                                        <span>
+                                            Book Now
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bits__hotel d-grid align-items-center gap-3">
+                            <div class="thumb thumb2">
+                                <a href="hotel-details-confirm.html">
+                                    <img src="assets/img/details/more1.jpg" class="w-100" alt="img">
+                                </a>
+                            </div>
+                            <div class="content content__space">
+                                <div class="title gap-3 d-flex justify-content-between mb__10">
+                                    <h5>
+                                        North South Hotel
+                                    </h5>
+                                    <span class="rating fz-16 fw-400 lato dtext d-flex align-items-center gap-2">
+                                        <img src="assets/img/svg/star.svg" alt="img">
+                                        5
+                                    </span>
+                                </div>
+                                <div class="d-flex flex-wrap align-items-center justify-content-between gap-1">
+                                    <span class="dubay mb__15 gap-2 d-flex align-items-center fz-16 fw-400 lato dtext">
+                                        <img src="assets/img/svg/mlocation.svg" alt="svg">
+                                        New york, US
+                                    </span>
+                                    <ul class="bitast__icon mb__15 d-flex align-items-center gap-2">
+                                        <li class="p__5">
+                                            <img src="assets/img/svg/coffee.svg" alt="img">
+                                        </li>
+                                        <li class="p__5">
+                                            <img src="assets/img/svg/swing.svg" alt="img">
+                                        </li>
+                                        <li class="p__5">
+                                            <img src="assets/img/svg/facilities-bussen.svg" alt="img">
+                                        </li>
+                                        <li class="p__5">
+                                            <img src="assets/img/svg/wifis.svg" alt="img">
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="d-flex flex-wrap justify-content-between align-items-center gap-1">
+                                    <div class="price__off mb__10 d-flex gap-3">
+                                        <span class="fz-18 fw-500 lato dtext">$912</span>
+                                        <span class="linetrogh fz-16 mt-1 fw-500 lato">$1032</span>
+                                        <span class="fz-16 fw-500 lato base d-block">20% OFF</span>
+                                    </div>
+                                    <span class="fz-18 d-block fw400 mb__20 lato textfive">1 Room/night</span>
+                                </div>
+                                <div class="d-grid justify-content-center">
+                                    <a href="hotel-details-confirm.html" class="cmn__btn">
+                                        <span>
+                                            Book Now
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bits__hotel d-grid align-items-center gap-3">
+                            <div class="thumb thumb2">
+                                <a href="hotel-details-confirm.html">
+                                    <img src="assets/img/details/more2.jpg" class="w-100" alt="img">
+                                </a>
+                            </div>
+                            <div class="content content__space">
+                                <div class="title gap-3 d-flex justify-content-between mb__10">
+                                    <h5>
+                                        Jack Luxury Hotel
+                                    </h5>
+                                    <span class="rating fz-16 fw-400 lato dtext d-flex align-items-center gap-2">
+                                        <img src="assets/img/svg/star.svg" alt="img">
+                                        4.7
+                                    </span>
+                                </div>
+                                <div class="d-flex flex-wrap align-items-center justify-content-between gap-1">
+                                    <span class="dubay mb__15 gap-2 d-flex align-items-center fz-16 fw-400 lato dtext">
+                                        <img src="assets/img/svg/mlocation.svg" alt="svg">
+                                        Mumbai, india
+                                    </span>
+                                    <ul class="bitast__icon mb__15 d-flex align-items-center gap-2">
+                                        <li class="p__5">
+                                            <img src="assets/img/svg/coffee.svg" alt="img">
+                                        </li>
+                                        <li class="p__5">
+                                            <img src="assets/img/svg/swing.svg" alt="img">
+                                        </li>
+                                        <li class="p__5">
+                                            <img src="assets/img/svg/facilities-bussen.svg" alt="img">
+                                        </li>
+                                        <li class="p__5">
+                                            <img src="assets/img/svg/wifis.svg" alt="img">
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="d-flex flex-wrap justify-content-between align-items-center gap-1">
+                                    <div class="price__off mb__10 d-flex gap-3">
+                                        <span class="fz-18 fw-500 lato dtext">$742</span>
+                                        <span class="linetrogh fz-16 mt-1 fw-500 lato">$932</span>
+                                        <span class="fz-16 fw-500 lato base d-block">20% OFF</span>
+                                    </div>
+                                    <span class="fz-18 d-block fw400 mb__20 lato textfive">1 Room/night</span>
+                                </div>
+                                <div class="d-grid justify-content-center">
+                                    <a href="hotel-details-confirm.html" class="cmn__btn">
+                                        <span>
+                                            Book Now
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bits__hotel d-grid align-items-center gap-3">
+                            <div class="thumb thumb2">
+                                <a href="hotel-details-confirm.html">
+                                    <img src="assets/img/details/more3.jpg" class="w-100" alt="img">
+                                </a>
+                            </div>
+                            <div class="content content__space">
+                                <div class="title gap-3 d-flex justify-content-between mb__10">
+                                    <h5>
+                                        Sea Life Hotel
+                                    </h5>
+                                    <span class="rating fz-16 fw-400 lato dtext d-flex align-items-center gap-2">
+                                        <img src="assets/img/svg/star.svg" alt="img">
+                                        5
+                                    </span>
+                                </div>
+                                <div class="d-flex flex-wrap align-items-center justify-content-between gap-1">
+                                    <span class="dubay mb__15 gap-2 d-flex align-items-center fz-16 fw-400 lato dtext">
+                                        <img src="assets/img/svg/mlocation.svg" alt="svg">
+                                        Dhaka, bangladesh
+                                    </span>
+                                    <ul class="bitast__icon mb__15 d-flex align-items-center gap-2">
+                                        <li class="p__5">
+                                            <img src="assets/img/svg/coffee.svg" alt="img">
+                                        </li>
+                                        <li class="p__5">
+                                            <img src="assets/img/svg/swing.svg" alt="img">
+                                        </li>
+                                        <li class="p__5">
+                                            <img src="assets/img/svg/facilities-bussen.svg" alt="img">
+                                        </li>
+                                        <li class="p__5">
+                                            <img src="assets/img/svg/wifis.svg" alt="img">
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="d-flex flex-wrap justify-content-between align-items-center gap-1">
+                                    <div class="price__off mb__10 d-flex gap-3">
+                                        <span class="fz-18 fw-500 lato dtext">$912</span>
+                                        <span class="linetrogh fz-16 mt-1 fw-500 lato">$732</span>
+                                        <span class="fz-16 fw-500 lato base d-block">20% OFF</span>
+                                    </div>
+                                    <span class="fz-18 d-block fw400 mb__20 lato textfive">1 Room/night</span>
+                                </div>
+                                <div class="d-grid justify-content-center">
+                                    <a href="hotel-details-confirm.html" class="cmn__btn">
+                                        <span>
+                                            Book Now
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- blog Related End -->
+        <!-- Footer Here -->
+        <footer class="footer__section bgsection pt-120">
+            <div class="container">
+                <div class="footer__wrapper">
+                    <div class="footer__top pb-120">
+                        <div class="row gy-5 gx-5">
+                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-duration="1s">
+                                <div class="footer__widget">
+                                    <div class="widget__head mb__20">
+                                        <a href="index.html" class="footer__logo">
+                                            <img src="assets/img/logo/logo.png" alt="logo">
+                                        </a>
+                                    </div>
+                                    <p class="pratext mb__20 fz-18">
+                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry...
+                                    </p>
+                                    <ul class="social d-flex gap-3">
+                                        <li>
+                                            <a href="javascript:void(0)" class="social__icon">
+                                                <img src="assets/img/svg/facebook.svg" alt="svg">
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" class="social__icon">
+                                                <img src="assets/img/svg/instagram.svg" alt="svg">
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" class="social__icon">
+                                                <img src="assets/img/svg/twitter.svg" alt="svg">
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" class="social__icon">
+                                                <img src="assets/img/svg/ball.svg" alt="svg">
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-duration="1.5s">
+                                <div class="footer__widget">
+                                    <div class="widget__head mb__20">
+                                        <h4 class="fz-24 pratext">
+                                            Quick Links
+                                        </h4>
+                                    </div>
+                                    <div class="widget__link">
+                                        <a href="index.html" class="link fz-18 pratext">
+                                            Home
+                                        </a>
+                                        <a href="about.html" class="link fz-18 pratext">
+                                            About
+                                        </a>
+                                        <a href="index.html" class="link fz-18 pratext">
+                                            Rechage & Bill Payment
+                                        </a>
+                                        <a href="booking-landing1.html" class="link fz-18 pratext">
+                                            Booking
+                                        </a>
+                                        <a href="contact.html" class="link fz-18 pratext">
+                                            Contact
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-duration="1.7s">
+                                <div class="footer__widget">
+                                    <div class="widget__head mb__20">
+                                        <h4 class="fz-24 pratext">
+                                            Address
+                                        </h4>
+                                    </div>
+                                    <div class="widget__link">
+                                        <a href="javascript:void(0)" class="link fz-18 pratext">
+                                            <span class="d-block">
+                                                (480) 555-0103
+                                            </span>
+                                            <span>
+                                                (406) 555-0120
+                                            </span>
+                                        </a>
+                                        <a href="javascript:void(0)" class="link fz-18 pratext">
+                                            <span class="d-block">
+                                                <span class="__cf_email__" data-cfemail="5733323639393679342225233e2417322f363a273b327934383a">[email&#160;protected]</span>
+                                            </span>
+                                            <span>
+                                                <span class="__cf_email__" data-cfemail="2e4a4b4c5c4f004641425a6e4b564f435e424b004d4143">[email&#160;protected]</span>
+                                            </span>
+                                        </a>
+                                        <a href="javascript:void(0)" class="link fz-18 pratext">
+                                            285 Great North Road, Grey Lynn, Auckland 1021
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-duration="1.9s">
+                                <div class="footer__widget">
+                                    <div class="widget__head mb__20">
+                                        <h4 class="fz-24 pratext">
+                                            Newsletter
+                                        </h4>
+                                    </div>
+                                    <div class="widget__link">
+                                        <p class="fz-18 pratext mb__30">
+                                            Subscribe our newsletter to get our latest update & news
+                                        </p>
+                                        <form action="javacript:void(0)" class="d-flex justify-content-between">
+                                            <input type="email" placeholder="Your mail address">
+                                            <button type="submit" class="cmn__btn">
+                                                <span>
+                                                    <i class="material-symbols-outlined">
+                                                        rocket_launch
+                                                    </i>
+                                                </span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer__bottom d-flex">
+                        <p class="fz-18 pratext">
+                            Copyright &copy;2023 <a href="index.html" class="base">Rechargio.</a> All Rights Reserved
+                        </p>
+                        <ul class="footer__bottom__link">
+                            <li>
+                                <a href="help-support.html">
+                                    Support
+                                </a>
+                            </li>
+                            <li>
+                                <a href="help-support.html">
+                                    Terms of Use
+                                </a>
+                            </li>
+                            <li>
+                                <a href="help.html">
+                                    Privacy Policy
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Footer End -->
+        <!--Jquery 3 6 0 Min Js-->
+        <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+        <script src="assets/js/jquery-3.6.0.min.js"></script>
+        <!--Bootstrap bundle Js-->
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <!--Viewport Jquery Js-->
+        <script src="assets/js/viewport.jquery.js"></script>
+        <!--Odometer min Js-->
+        <script src="assets/js/odometer.min.js"></script>
+        <!--date picker Js-->
+        <script src="assets/js/bootstrap-datepicker.js"></script>
+        <!--Magnifiw Popup Js-->
+        <script src="assets/js/jquery.magnific-popup.min.js"></script>
+        <!--nice select Js-->
+        <script src="assets/js/jquery.nice-select.min.js"></script>
+        <!--Wow min Js-->
+        <script src="assets/js/wow.min.js"></script>
+        <!--Owl carousel min Js-->
+        <script src="assets/js/owl.carousel.min.js"></script>
+        <!--Prijm Js-->
+        <script src="assets/js/prism.js"></script>
+        <!--main Js-->
+        <script src="assets/js/main.js"></script>
+    </body>
+
+
+    <!-- Mirrored from pixner.net/rechargio/rechargio/hotel-details.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 27 Oct 2024 12:31:47 GMT -->
+</html>

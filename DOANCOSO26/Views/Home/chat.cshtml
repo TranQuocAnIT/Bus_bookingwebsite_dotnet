@@ -1,0 +1,28 @@
+﻿<div id="chatContainer">
+    <ul id="messagesList"></ul>
+    <input id="messageInput" type="text" placeholder="Type your message" />
+    <button id="sendButton">Send</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.0/signalr.min.js"></script>
+<script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/chatHub")
+        .build();
+
+    const roomId = "Room_@User.Identity.Name";
+    connection.start().then(function () {
+        connection.invoke("JoinRoom", roomId);
+    });
+
+    connection.on("ReceiveMessageFromAdmin", function (adminId, message) {
+        const li = document.createElement("li");
+        li.textContent = `Admin (${adminId}): ${message}`;
+        document.getElementById("messagesList").appendChild(li);
+    });
+
+    document.getElementById("sendButton").addEventListener("click", function () {
+        const message = document.getElementById("messageInput").value;
+        connection.invoke("SendMessageToAdmins", roomId, "@User.Identity.Name", message);
+    });
+</script>

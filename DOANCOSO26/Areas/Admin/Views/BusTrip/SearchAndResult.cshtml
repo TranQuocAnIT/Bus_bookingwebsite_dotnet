@@ -1,0 +1,57 @@
+﻿@model IEnumerable<DOANCOSO26.Models.BusTrip>
+
+<h1>Tìm kiếm và Kết quả</h1>
+
+<form asp-action="Search" method="post">
+    <div class="form-group">
+        <label for="startLocation">Điểm đi:</label>
+        <input type="text" class="form-control" id="startLocation" name="startLocation">
+    </div>
+    <div class="form-group">
+        <label for="endLocation">Điểm đến:</label>
+        <input type="text" class="form-control" id="endLocation" name="endLocation">
+    </div>
+    <div class="form-group">
+        <label for="departureDate">Ngày đi:</label>
+        <input type="date" class="form-control" id="departureDate" name="departureDate">
+    </div>
+    <div class="form-group">
+        <label for="seatsNeeded">Số ghế cần đặt:</label>
+        <input type="number" class="form-control" id="seatsNeeded" name="seatsNeeded">
+    </div>
+    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+</form>
+
+@if (Model != null && Model.Any())
+{
+    <h2>Kết quả tìm kiếm</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Điểm đi</th>
+                <th>Điểm đến</th>
+                <th>Ngày đi</th>
+                <th>Số ghế trống</th>
+                <!--Thêm các cột khác cần hiển thị-->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var trip in Model)
+            {
+                <tr>
+                    <td>@trip.Id</td>
+                    <td>@trip.BusRoute.Start</td>
+                    <td>@trip.BusRoute.End</td>
+                    <td>@trip.DepartureDate.ToShortDateString()</td>
+                    <td>@(trip.GetAvailableSeats())</td>
+                    <!--Thêm các cột khác cần hiển thị-->
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else if (Model != null && !Model.Any())
+{
+    <p>Không tìm thấy kết quả nào.</p>
+}

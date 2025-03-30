@@ -1,0 +1,125 @@
+﻿
+@model IEnumerable<DOANCOSO26.Models.BusTrip>
+
+<body>
+
+    <div class="container-xxl bg-white p-0">
+        <!-- Spinner Start -->
+        <!-- Spinner End -->
+        <!-- Navbar Start -->
+        <!-- Navbar End -->
+        <!-- Jobs Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Lịch trình </h1>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="bg-light rounded p-4">
+                            <h5 class="mb-4">Bộ lọc</h5>
+                            <form>
+                                <div class="mb-3">
+                                    <label for="startLocation" class="form-label">Điểm đi</label>
+                                    <input type="text" class="form-control" id="searchInput" placeholder="Nhập điểm đi">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="endLocation" class="form-label">Điểm đến</label>
+                                    <input type="text" class="form-control" id="searchInput" placeholder="Nhập điểm đến">
+                                </div>
+                              
+                                <button type="submit" class="btn btn-primary">Lọc</button>
+                            </form>
+                        </div>
+                        <div class="bg-light rounded p-4 mt-4">
+                            <h5 class="mb-4">Lịch</h5>
+                            <div id="calendar"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
+                            <div class="tab-content">
+                                <div id="tab-1" class="tab-pane fade show p-0 active">
+
+                                    @foreach (var item in Model)
+                                    {
+                                        <div class="job-item p-4 mb-4">
+                                            <div class="row g-4">
+                                                <div class="col-sm-12 col-md-8 d-flex align-items-center">
+                                                    <img class="flex-shrink-0 img-fluid border rounded" src="/images/logo1.jpg" alt="" style="width: 80px; height: 80px;">
+                                                    <div class="text-start ps-4">
+                                                        <h5 class="mb-3">Chuyến xe: @item.BusRoute.Start - @item.BusRoute.End </h5>
+                                                        <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>Giờ đi: @item.DepartureTime.ToString("hh:mm") </span>
+                                                        <span class="text-truncate me-3"><i class="fas fa-user text-primary me-2"></i>Ngày đi: @item.DepartureDate.ToString("dd/MM/yyyy") </span>
+                                            
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
+                                                    <div class="d-flex mb-3">
+
+                                                        @if (item.TripStatus == StatusTrip.Running)
+                                                        {
+
+                                                            <a class="btn btn-primary" asp-action="CreateReport" asp-route-id="@item.Id" style="margin-right: 10px;">Tạo phiếu báo cáo</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="btn btn-primary" style="margin-right: 10px; background-color: blue ">Đã hoàn thành</a>
+                                                        }
+                                                        <a class="btn btn-primary" asp-action="DisplayDriver" asp-route-id="@item.Id" style="margin-right: 10px;">Xem chi tiết</a>
+                                                    </div>
+
+              
+                                                </div>
+                                               
+                                            </div>
+                                        </div>
+                                    }
+                                    <a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-primary py-3 px-5">Trở về trang chủ </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+                
+            </div>
+        </div>
+        <!-- Jobs End -->
+        <!-- Footer Start -->
+        <!-- Footer End -->
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+
+</body>
+
+</html>
+
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            // Cấu hình lịch ở đây, ví dụ: hiển thị các chuyến xe dưới dạng sự kiện
+        });
+        calendar.render();
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#searchInput').on('keyup', function () {
+            var searchText = $(this).val().toLowerCase();
+            $('.job-item').each(function () {
+                var rowData = $(this).find('.mb-3').text().toLowerCase();
+                if (rowData.indexOf(searchText) === -1) {
+                    $(this).hide();
+                } else {
+                    $(this).show();
+                }
+            });
+        });
+    });
+</script>

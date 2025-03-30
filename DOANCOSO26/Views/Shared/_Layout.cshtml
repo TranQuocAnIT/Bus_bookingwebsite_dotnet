@@ -1,153 +1,626 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+
 <!DOCTYPE html>
 <html lang="en">
+
+
+<!-- Mirrored from pixner.net/rechargio/rechargio/train-book.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 27 Oct 2024 12:30:49 GMT -->
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Homepage</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"> <!-- Thêm thư viện Bootstrap Icons -->
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/QLBangHangA.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/layout1.css" />
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Rechargio - Recharge & Bill Payment, Booking HTML5 Template</title>
+   <!--Favicon img-->
+    <link rel="shortcut icon" href="~/busjs/assets/img/logo/favicon.png">
+   <!--nice select css-->
+    <link rel="stylesheet" href="~/busjs/assets/css/nice-select.css">
+   <!--datepicker css-->
+    <link rel="stylesheet" href="~/busjs/assets/css/datepickerboot.css">
+   <!--main css-->
+    <link rel="stylesheet" href="~/busjs/assets/css/main.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    @RenderSection("Styles", required: false)
 </head>
+
+<style>
+    .hotelbooking__categoris__wrap {
+        padding: 30px; /* Compact padding */
+        margin: 0;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease, transform 0.3s ease; /* Smooth effect */
+        /* Thêm bóng đổ đậm */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 16px 32px rgba(0, 0, 0, 0.2); /* Đậm hơn và rõ ràng */
+    }
+
+    .flight__onewaysection {
+        background-color: #f0f0f0; /* Thay đổi mã màu tùy ý */
+    }
+
+    
+
+</style>
+
+
 <body>
-    <style>
+    <div class="layout-wrapper">
+    <header class="header-section header__twostyle" style="background: linear-gradient(135deg, #03045e, #728edf);">
+        <div style="background: white; color: #03045e; padding: 10px 0; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+            <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto;">
 
-        .input-search-container {
-            position: relative;
-        }
+                <!-- Left Section -->
+                <div style="display: flex; align-items: center; border-right: 1px solid #ddd; padding-right: 20px; margin-right: 20px;">
+                    <span class="fa fa-map-marker-alt" style="color: #03045e; margin-right: 10px; font-size: 18px;"></span>
+                    <small style="font-size: 14px;">Thành phố Đà Lạt, Tỉnh Lâm Đồng, Việt Nam</small>
+                </div>
 
-        .search-input {
-            display: none;
-            width: 200px;
-            padding: 0.375rem 0.75rem;
-            border-radius: 0.25rem;
-            border: 1px solid #ced4da;
-        }
+                <div style="display: flex; align-items: center; border-right: 1px solid #ddd; padding-right: 20px; margin-right: 20px;">
+                    <span class="far fa-clock" style="color: #03045e; margin-right: 10px; font-size: 18px;"></span>
+                    <small style="font-size: 14px;">Thứ 6: 09:00 AM</small>
+                </div>
 
-            .search-input.active {
-                display: block;
-            }
+                <!-- Center Section -->
+                <div style="display: flex; align-items: center; border-right: 1px solid #ddd; padding-right: 20px; margin-right: 20px;">
+                    <span class="fa fa-phone-alt" style="color: #03045e; margin-right: 10px; font-size: 18px;"></span>
+                    <small style="font-size: 14px;">+1900 6782</small>
+                </div>
 
-        .search-icon {
-            cursor: pointer;
-        }
-    </style>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index"> <img src="~/images/Picture6.png" /> </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Routes" asp-action="Index">Route</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="BusTrips" asp-action="Index">BusTrip</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Stops" asp-action="Index">Stop</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Bookings" asp-action="Index">Booking</a>
-                            </li>
+                <div style="display: flex; align-items: center; border-right: 1px solid #ddd; padding-right: 20px; margin-right: 20px;">
+                    <span class="fa fa-envelope" style="color: #03045e; margin-right: 10px; font-size: 18px;"></span>
+                    <small style="font-size: 14px;">support@busbooking.vn</small>
+                </div>
 
-
-                        </ul>
-                        <a class="btn btn-outline-light border-0" asp-controller="ShoppingCart" asp-action="Index">
-                            <i class="bi bi-cart-fill me-1"></i> <!-- Biểu tượng giỏ hàng -->
-                        </a>
-                        @if (!SignInManager.IsSignedIn(User))
-                        {
-                            <!-- Icons Đăng nhập/Đăng ký hiển thị khi chưa đăng nhập -->
-                            <a class="btn btn-outline-light border-0" asp-area="Identity" asp-page="/Account/Login">
-                                <i class="bi bi-person me-1"></i> Đăng nhập
-                            </a>
-                            <a class="btn btn-outline-light border-0" asp-area="Identity" asp-page="/Account/Register">
-                                <i class="bi bi-pencil me-1"></i> Đăng ký
-                            </a>
-                        }
-                        else
-                        {
-                            <!-- Hiển thị tên người dùng hoặc biểu tượng người dùng khi đã đăng nhập -->
-                            @if (User.IsInRole("Admin"))
-                            {
-                                <a id="manage" class="nav-link text-white" asp-area="Admin" asp-controller="Bus" asp-action="Index" title="Manage">Admin</a>
-                                <a class="btn btn-outline-light border-0" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                                    <i class="bi bi-box-arrow-right me-1"></i> Đăng xuất
-                                </a>
-                            }
-                            else
-                            {
-                                <span class="text-white me-2">@UserManager.GetUserName(User)</span>
-                                <a class="btn btn-outline-light border-0" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                                    <i class="bi bi-box-arrow-right me-1"></i> Đăng xuất
-                                </a>
-                            }
-                        }
-
+                <!-- Right Section -->
+                <div style="display: flex; align-items: center;">
+                    <a href="#" style="color: #03045e; margin-right: 15px; text-decoration: none; font-size: 16px;">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" style="color: #03045e; margin-right: 15px; text-decoration: none; font-size: 16px;">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" style="color: #03045e; margin-right: 15px; text-decoration: none; font-size: 16px;">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" style="color: #03045e; text-decoration: none; font-size: 16px;">
+                        <i class="fab fa-instagram"></i>
+                    </a>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-    <footer>
-        <div class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="footer-col-1">
-                        <h3>Download Our App</h3>
-                        <p>Download App for Andriod and ios mobile phone.</p>
-                        <div class="app-logo">
-                            <img src="./images/play-store.png">
-                            <img src="./images/app-store.png">
-                        </div>
-                    </div>
+        </div>
+        <div class="container">
 
-
-                    <div class="footer-col-2">
-                        <img src="./images/logodd.jpg">
-                        <p>Our Purpose Is To Sustainably Make the Pleasure and Benefits of Sport Accessible to the Many </p>
-                    </div>
-
-                    <div class="footer-col-3">
-                        <h3>Useful Links</h3>
-                        <ul>
-                            <li>Coupons</li>
-                            <li>Blog Post</li>
-                            <li>Return Policy</li>
-                            <li>Become Affiliate</li>
+            <div class="header-wrapper" style="margin:8px;">
+                <div class="logo-menu">
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="logo">
+                        <img src="~/busjs/assets/img/logo/wheely-removebg-preview.png" alt="logo">
+                    </a>
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="small__logo d-xl-none">
+                        <img src="~/busjs/assets/img/logo/wheely-removebg-preview.png" alt="logo">
+                    </a>
+                </div>
+              
+                <ul class="main-menu">
+                    <li class="grid__style">
+                        <form action="/search" method="get" class="d-flex align-items-center w-100">
+                            <input type="text" name="query" class="form-control me-2" placeholder="Tìm kiếm..." style="font-family: 'Roboto', sans-serif; max-width: 250px;">
+                            
+                        </form>
+                    </li>
+                    
+                    <li class="grid__style">
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="d-flex align-items-center p-2 text-white text-decoration-none" style=" font-family: 'Roboto', sans-serif;">
+                            
+                         
+                                <svg height="30px" width="30px" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M31.52 42.781C30.4414 42.7836 29.4077 43.2133 28.645 43.976C27.8823 44.7387 27.4527 45.7724 27.45 46.851V54.781H35.6V46.851C35.5968 45.7708 35.1656 44.7359 34.4009 43.9731C33.6361 43.2102 32.6002 42.7815 31.52 42.781Z" fill="#0007cc"></path> <path d="M56.72 25.981L50.21 21.101L47.12 18.7809L35.43 10.0009C34.3004 9.16314 32.9314 8.71082 31.525 8.71082C30.1187 8.71082 28.7496 9.16314 27.62 10.0009L17.5 17.601L12.93 21.0269C12.6258 21.2484 12.3474 21.5034 12.1 21.787L6.3 26.287C5.88228 26.6137 5.61022 27.092 5.54283 27.618C5.47544 28.1441 5.61816 28.6754 5.94002 29.097C6.12874 29.3381 6.37014 29.5328 6.64574 29.6663C6.92133 29.7998 7.22381 29.8684 7.53001 29.8669C7.97265 29.87 8.40306 29.7218 8.75002 29.447L10.33 28.2169V48.2769C10.3316 50.0004 11.0169 51.6528 12.2356 52.8714C13.4542 54.09 15.1066 54.7754 16.83 54.7769H23.45V46.847C23.4524 44.7074 24.3034 42.6561 25.8163 41.1432C27.3292 39.6303 29.3804 38.7793 31.52 38.7769C33.6611 38.7772 35.7146 39.6272 37.2296 41.1403C38.7445 42.6534 39.5971 44.7058 39.6 46.847V54.7769H46.23C47.9529 54.7735 49.6042 54.0876 50.8224 52.8694C52.0406 51.6511 52.7266 49.9998 52.73 48.2769V27.9869L54.32 29.1769C54.6659 29.4372 55.0871 29.5777 55.52 29.5769C55.8305 29.5769 56.1367 29.5047 56.4144 29.3658C56.6922 29.227 56.9337 29.0253 57.12 28.7769C57.2786 28.5676 57.3942 28.3289 57.46 28.0746C57.5258 27.8203 57.5405 27.5555 57.5033 27.2955C57.4661 27.0355 57.3777 26.7854 57.2433 26.5598C57.1088 26.3341 56.931 26.1374 56.72 25.981Z" fill="#ffffff"></path> </g></svg>
+                            <span class="ms-2 fw-bold">Trang chủ</span>
+                          
+                           
+                        </a>
+                        
+                    </li>
+                    <li class="grid__style" >
+                        <a asp-area="" asp-controller="Trip" asp-action="schedule" class="d-flex align-items-center p-2 text-white text-decoration-none" style=" font-family: 'Roboto', sans-serif;">
+                            <svg viewBox="0 0 24 24" height="30px" width="30px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>route_line</title> <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="Map" transform="translate(-288.000000, 0.000000)"> <g id="route_line" transform="translate(288.000000, 0.000000)"> <path d="M24,0 L24,24 L0,24 L0,0 L24,0 Z M12.5934901,23.257841 L12.5819402,23.2595131 L12.5108777,23.2950439 L12.4918791,23.2987469 L12.4918791,23.2987469 L12.4767152,23.2950439 L12.4056548,23.2595131 C12.3958229,23.2563662 12.3870493,23.2590235 12.3821421,23.2649074 L12.3780323,23.275831 L12.360941,23.7031097 L12.3658947,23.7234994 L12.3769048,23.7357139 L12.4804777,23.8096931 L12.4953491,23.8136134 L12.4953491,23.8136134 L12.5071152,23.8096931 L12.6106902,23.7357139 L12.6232938,23.7196733 L12.6232938,23.7196733 L12.6266527,23.7031097 L12.609561,23.275831 C12.6075724,23.2657013 12.6010112,23.2592993 12.5934901,23.257841 L12.5934901,23.257841 Z M12.8583906,23.1452862 L12.8445485,23.1473072 L12.6598443,23.2396597 L12.6498822,23.2499052 L12.6498822,23.2499052 L12.6471943,23.2611114 L12.6650943,23.6906389 L12.6699349,23.7034178 L12.6699349,23.7034178 L12.678386,23.7104931 L12.8793402,23.8032389 C12.8914285,23.8068999 12.9022333,23.8029875 12.9078286,23.7952264 L12.9118235,23.7811639 L12.8776777,23.1665331 C12.8752882,23.1545897 12.8674102,23.1470016 12.8583906,23.1452862 L12.8583906,23.1452862 Z M12.1430473,23.1473072 C12.1332178,23.1423925 12.1221763,23.1452606 12.1156365,23.1525954 L12.1099173,23.1665331 L12.0757714,23.7811639 C12.0751323,23.7926639 12.0828099,23.8018602 12.0926481,23.8045676 L12.108256,23.8032389 L12.3092106,23.7104931 L12.3186497,23.7024347 L12.3186497,23.7024347 L12.3225043,23.6906389 L12.340401,23.2611114 L12.337245,23.2485176 L12.337245,23.2485176 L12.3277531,23.2396597 L12.1430473,23.1473072 Z" id="MingCute" fill-rule="nonzero"> </path> <path d="M18,16 C19.6569,16 21,17.3431 21,19 C21,20.6569 19.6569,22 18,22 C16.3431,22 15,20.6569 15,19 C15,17.3431 16.3431,16 18,16 Z M15.5,4 C17.9853,4 20,6.01472 20,8.5 C20,10.9853 17.9853,13 15.5,13 L8.5,13 C7.11929,13 6,14.1193 6,15.5 C6,16.8807 7.11929,18 8.5,18 L13,18 C13.5523,18 14,18.4477 14,19 C14,19.5523 13.5523,20 13,20 L8.5,20 C6.01472,20 4,17.9853 4,15.5 C4,13.0147 6.01472,11 8.5,11 L15.5,11 C16.8807,11 18,9.88071 18,8.5 C18,7.11929 16.8807,6 15.5,6 L11,6 C10.4477,6 10,5.55228 10,5 C10,4.44772 10.4477,4 11,4 L15.5,4 Z M18,18 C17.4477,18 17,18.4477 17,19 C17,19.5523 17.4477,20 18,20 C18.5523,20 19,19.5523 19,19 C19,18.4477 18.5523,18 18,18 Z M6,2 C7.65685,2 9,3.34315 9,5 C9,6.65685 7.65685,8 6,8 C4.34315,8 3,6.65685 3,5 C3,3.34315 4.34315,2 6,2 Z M6,4 C5.44772,4 5,4.44772 5,5 C5,5.55228 5.44772,6 6,6 C6.55228,6 7,5.55228 7,5 C7,4.44772 6.55228,4 6,4 Z" id="形状" fill="#ffffff"> </path> </g> </g> </g> </g></svg><span class="ms-2 fw-bold">Tuyến đường</span>
+                            
+                        </a>
+                        
+                    </li>
+                  
+                    <li class="grid__style">
+                        <a href="javascript:void(0)" class="d-flex align-items-center p-2 text-white text-decoration-none" style=" font-family: 'Roboto', sans-serif;">
+                            <svg viewBox="0 0 24 24"height="30px" width="30px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M14.0137 17L14.0079 19.0029C14.0065 19.4731 14.0058 19.7081 13.8591 19.8541C13.7124 20 13.4767 20 13.0054 20H9.99502C6.21438 20 4.32407 20 3.14958 18.8284C2.34091 18.0218 2.08903 16.8766 2.01058 15.0105C1.99502 14.6405 1.98724 14.4554 2.05634 14.332C2.12545 14.2085 2.40133 14.0545 2.95308 13.7463C3.56586 13.4041 3.98007 12.7503 3.98007 12C3.98007 11.2497 3.56586 10.5959 2.95308 10.2537C2.40133 9.94554 2.12545 9.79147 2.05634 9.66802C1.98724 9.54458 1.99502 9.35954 2.01058 8.98947C2.08903 7.12339 2.34091 5.97823 3.14958 5.17157C4.32407 4 6.21439 4 9.99502 4H13.5052C13.7814 4 14.0056 4.22298 14.0064 4.49855L14.0137 7C14.0137 7.55228 14.4625 8 15.0162 8L15.0162 10C14.4625 10 14.0137 10.4477 14.0137 11V13C14.0137 13.5523 14.4625 14 15.0162 14V16C14.4625 16 14.0137 16.4477 14.0137 17Z" fill="#ffffff"></path> <path opacity="0.5" d="M15.0166 15.9998C15.5703 15.9998 16.0191 16.4475 16.0191 16.9998V18.9763C16.0191 19.4578 16.0191 19.6986 16.1735 19.8462C16.3279 19.9939 16.5641 19.9839 17.0366 19.9639C18.8995 19.885 20.0441 19.633 20.8508 18.8282C21.6595 18.0216 21.9114 16.8764 21.9898 15.0104C22.0054 14.6403 22.0132 14.4552 21.9441 14.3318C21.875 14.2083 21.5991 14.0543 21.0473 13.7462C20.4346 13.404 20.0203 12.7501 20.0203 11.9998C20.0203 11.2495 20.4346 10.5957 21.0473 10.2535C21.5991 9.94536 21.875 9.7913 21.9441 9.66785C22.0132 9.5444 22.0054 9.35936 21.9898 8.98929C21.9114 7.12321 21.6595 5.97805 20.8508 5.17139C19.9731 4.29586 18.6956 4.07463 16.5282 4.01872C16.2486 4.01151 16.0191 4.237 16.0191 4.516V6.99982C16.0191 7.55211 15.5703 7.99982 15.0166 7.99982L15.0166 9.99982C15.5703 9.99982 16.0191 10.4475 16.0191 10.9998V12.9998C16.0191 13.5521 15.5703 13.9998 15.0166 13.9998V15.9998Z" fill="#ffffff"></path> </g></svg> <span class="ms-2 fw-bold">Vé của bạn</span>
+                            <span class="icons">
+                                <i class="material-symbols-outlined">
+                                    expand_more
+                                </i>
+                            </span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="subtwohober">
+                                <a asp-area="" asp-controller="Reservation" asp-action="SearchBooking"> Tra cứu vé</a>
+                            </li>
+                            <li><a asp-area="" asp-controller="Reservation" asp-action="ViewMyBookings">  Lịch sử đặt vé</a></li>
+                          
                         </ul>
+                    </li>
+                  
+                    @if (!SignInManager.IsSignedIn(User))
+                    {
+                     
+                        <div class="sigin__grp d-flex align-items-center">
+                            <a class="cmn__btn outline__btn" asp-area="Identity" asp-page="/Account/Login">
+                                <span>
+                                    Đăng nhập
+                                </span>
+                            </a>
+                                <a class="cmn__btn " asp-area="Identity" asp-page="/Account/Register" >
+                                <span>
+                                    Đăng kí
+                                </span>
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        @if (User.IsInRole("Admin"))
+                        {
+                           
+                            <li class="grid__style">
+                                <a asp-area="Admin" asp-controller="Bus" asp-action="Dash" class="d-flex align-items-center p-2 text-white text-decoration-none" style=" font-family: 'Roboto', sans-serif;">
+                                    <span class ="ms-2 fw-bold">
+                                        Admin
+                                    </span>
+                                    <span class="icons">
+                                        <i class="material-symbols-outlined">
+                                            expand_more
+                                        </i>
+                                    </span>
+                                </a>
+                                    <ul class="sub-menu">
+                                        <li class="subtwohober">
+                                            <a asp-area="" asp-controller="Chat" asp-action="AdminChat"> Chat1</a>
+                                        </li>
+                                       </ul>
+                            </li>
+                            <div class="sigin__grp d-flex align-items-center">
+                                <a class="cmn__btn " asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                    <span class="ms-2 fw-bold">
+                                        Đăng xuất
+                                    </span>
+                                </a>
 
+                            </div>
+                        }
+                        else if (User.IsInRole("Customer"))
+                        {
+                            
+                            <li class="grid__style">
+                                <a href="javascript:void(0)" class="d-flex align-items-center p-2 text-white text-decoration-none" style=" font-family: 'Roboto', sans-serif;">
+                                    <span class="ms-2 fw-bold">
+                                        Account
+                                    </span>
+                                    <span class="icons">
+                                        <i class="material-symbols-outlined">
+                                            expand_more
+                                        </i>
+                                    </span>
+                                </a>
+                                <ul class="sub-menu">
+                                    <li class="subtwohober">
+                                        <a asp-area="" asp-controller="Trip" asp-action="MyProfile"> Xem thông tin</a>
+                                    </li>
+                                        <li class="subtwohober">
+                                            <a asp-area="" asp-controller="Chat" asp-action="CustomerChat"> Chat1</a>
+                                        </li>
+
+                                </ul>
+                            </li>
+                            <div class="sigin__grp d-flex align-items-center">
+
+                                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                                        <button type="submit" class="w-100 btn btn-dark btn-outline-light p2">Click here to Logout</button>
+                                    </form>
+                               
+
+                            </div>
+                        }
+                        else if (User.IsInRole("Driver"))
+                        {
+                            <div class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" style="color: #003366; font-weight: bold;"><i class="fas fa-user-circle" style="font-size: 20px;"></i> TÀI KHOẢN</a>
+                                <div class="dropdown-menu rounded-0 m-0">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Trip" asp-action="MyProfile">Xem thông tin</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Trip" asp-action="ViewMySchedule">Xem lịch trình</a>
+
+                                </div>
+                            </div>
+                           
+                            <div class="sigin__grp d-flex align-items-center">
+                                <a class="cmn__btn " asp-area="Identity" asp-page="/Account/Logout" >
+                                    <span>
+                                    Đăng xuất
+                                        </span>
+                                </a>
+                               
+                            </div>
+                        }
+                    }
+                    <li class="sigup__grp d-lg-none d-flex align-items-center">
+                        <a href="signin.html" class="cmn__btn outline__btn">
+                            <span>
+                                Signin
+                            </span>
+                        </a>
+                        <a href="signup.html" class="cmn__btn">
+                            <span>
+                                Signup
+                            </span>
+                        </a>
+                    </li>
+                  
+                </ul>
+              
+            </div>
+        </div>
+
+    </header>
+    </div>
+    <div>  @RenderBody()  </div>
+
+    <footer class="footer__section bgsection pt-120">
+        <section class="sponsor__section  pb__60 bgsection">
+            <div class="container">
+                <div class="logo__sponsor owl-theme owl-carousel">
+                    <div class="item">
+                        <img src="~/busjs/assets/img/sponsor/s1.png" alt="img">
                     </div>
-                    <div class="footer-col-4">
-                        <h3>Follow us</h3>
-                        <li>fACBOOK</li>
-                        <li>INSTAGRTARM</li>
-                        <li>TWITTER</li>
-                        <li>YOUTUBE</li>
+                    <div class="item">
+                        <img src="~/busjs/assets/img/sponsor/s2.png" alt="img">
+                    </div>
+                    <div class="item">
+                        <img src="~/busjs/assets/img/sponsor/s3.png" alt="img">
+                    </div>
+                    <div class="item">
+                        <img src="~/busjs/assets/img/sponsor/s4.png" alt="img">
+                    </div>
+                    <div class="item">
+                        <img src="~/busjs/assets/img/sponsor/s5.png" alt="img">
+                    </div>
+                    <div class="item">
+                        <img src="~/busjs/assets/img/sponsor/s6.png" alt="img">
+                    </div>
+                    <div class="item">
+                        <img src="~/busjs/assets/img/sponsor/s7.png" alt="img">
+                    </div>
+                    <div class="item">
+                        <img src="~/busjs/assets/img/sponsor/s2.png" alt="img">
+                    </div>
+                    <div class="item">
+                        <img src="~/busjs/assets/img/sponsor/s3.png" alt="img">
+                    </div>
+                    <div class="item">
+                        <img src="~/busjs/assets/img/sponsor/s4.png" alt="img">
+                    </div>
+                    <div class="item">
+                        <img src="~/busjs/assets/img/sponsor/s5.png" alt="img">
                     </div>
                 </div>
-                <!--Chân footer-->
-                <hr>
+            </div>
+        </section>
+        <div class="container">
+            <!-- Newsletter Section -->
+            <div class="newsletter-section mb-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 text-center">
+                        <h3 class="newsletter-title mb-4" style="color: #fff;   ">Đăng ký nhận thông tin</h3>
+                        <p class="newsletter-desc mb-4">Nhận thông báo về khuyến mãi, tuyến đường mới và ưu đãi đặc biệt</p>
+                        <form class="newsletter-form d-flex justify-content-center">
+                            <input type="email" class="form-control me-2" placeholder="Email của bạn" style="max-width: 400px;">
+                            <button type="submit" class="btn btn-gradient">Đăng ký</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer__wrapper">
+                <div class="footer__top ">
+                    <div class="row gy-5 gx-5">
+                        <!-- Company Info -->
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-duration="1s">
+                            <div class="footer__widget">
+                                <div class="widget__head mb__20">
+                                    <a href="index.html" class="footer__logo">
+                                        <img src="~/busjs/assets/img/logo/logo.png" alt="logo">
+                                    </a>
+                                </div>
+                                <p class="pratext mb__20 fz-18">
+                                    Hệ thống đặt vé xe khách hàng đầu Việt Nam với hơn 500 nhà xe đối tác, phục vụ hơn 5000 tuyến đường trên toàn quốc. Cam kết mang đến trải nghiệm di chuyển an toàn và tiện lợi.
+                                </p>
+                                <div class="company-stats d-flex flex-wrap gap-4 mb-4">
+                                    <div class="stat-item text-center">
+                                        <i class="fas fa-bus mb-2 fs-3 text-gradient"></i>
+                                        <div class="stat-value fw-bold">500+</div>
+                                        <div class="stat-label">Nhà xe</div>
+                                    </div>
+                                    <div class="stat-item text-center">
+                                        <i class="fas fa-road mb-2 fs-3 text-gradient"></i>
+                                        <div class="stat-value fw-bold">5000+</div>
+                                        <div class="stat-label">Tuyến đường</div>
+                                    </div>
+                                    <div class="stat-item text-center">
+                                        <i class="fas fa-users mb-2 fs-3 text-gradient"></i>
+                                        <div class="stat-value fw-bold">1M+</div>
+                                        <div class="stat-label">Khách hàng</div>
+                                    </div>
+                                </div>
+                                <ul class="social d-flex gap-3">
+                                    <li><a href="#" class="social__icon"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a href="#" class="social__icon"><i class="fab fa-instagram"></i></a></li>
+                                    <li><a href="#" class="social__icon"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a href="#" class="social__icon"><i class="fab fa-youtube"></i></a></li>
+                                    <li><a href="#" class="social__icon"><i class="fab fa-tiktok"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Quick Links -->
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-duration="1.5s">
+                            <div class="footer__widget">
+                                <div class="widget__head mb__20">
+                                    <h4 class="fz-24 pratext">Thông tin hữu ích</h4>
+                                </div>
+                                <div class="widget__link">
+                                    <a href="#" class="link fz-18 pratext d-flex align-items-center mb-3">
+                                        <i class="fas fa-chevron-right me-2"></i>
+                                        Hướng dẫn đặt vé
+                                    </a>
+                                    <a href="#" class="link fz-18 pratext d-flex align-items-center mb-3">
+                                        <i class="fas fa-chevron-right me-2"></i>
+                                        Tuyến phổ biến
+                                    </a>
+                                    <a href="#" class="link fz-18 pratext d-flex align-items-center mb-3">
+                                        <i class="fas fa-chevron-right me-2"></i>
+                                        Lịch trình xe
+                                    </a>
+                                    <a href="#" class="link fz-18 pratext d-flex align-items-center mb-3">
+                                        <i class="fas fa-chevron-right me-2"></i>
+                                        Tra cứu vé
+                                    </a>
+                                    <a href="#" class="link fz-18 pratext d-flex align-items-center mb-3">
+                                        <i class="fas fa-chevron-right me-2"></i>
+                                        Điểm đón/trả khách
+                                    </a>
+                                    <a href="#" class="link fz-18 pratext d-flex align-items-center mb-3">
+                                        <i class="fas fa-chevron-right me-2"></i>
+                                        Chương trình khuyến mãi
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Services & Support -->
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-duration="2s">
+                            <div class="footer__widget">
+                                <div class="widget__head mb__20">
+                                    <h4 class="fz-24 pratext">Dịch vụ & Hỗ trợ</h4>
+                                </div>
+                                <div class="widget__link">
+                                    <!-- Hotline hỗ trợ 24/7 -->
+                                    <div class="support-item mb-4">
+                                        <h5 class="support-title mb-3">Hotline hỗ trợ 24/7</h5>
+                                        <a href="tel:19001234" class="support-phone d-flex align-items-center mb-2">
+                                            <i class="fas fa-phone-alt me-2"></i>
+                                            1900 1234
+                                        </a>
+                                    </div>
+
+                                    <!-- Hỗ trợ khẩn cấp -->
+                                    <div class="support-item mb-4">
+                                        <h5 class="support-title mb-3">Hỗ trợ khẩn cấp</h5>
+                                        <a href="tel:0123456789" class="support-phone d-flex align-items-center mb-2">
+                                            <i class="fas fa-ambulance me-2"></i>
+                                            0123 456 789
+                                        </a>
+                                    </div>
+
+                                    <!-- Email hỗ trợ -->
+                                    <div class="support-item">
+                                        <h5 class="support-title mb-3">Email hỗ trợ</h5>
+                                        <a href="mailto:support@busticket.com" class="support-email d-flex align-items-center">
+                                            <i class="fas fa-envelope me-2"></i>
+                                            support@busticket.com
+                                        </a>
+                                    </div>
+                                </div>
+
+                                
+                            </div>
+                        </div>
+
+                        <!-- Policies & Certifications -->
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-duration="2.5s">
+                            <div class="footer__widget">
+                                <div class="widget__head mb__20">
+                                    <h4 class="fz-24 pratext">Chính sách & Chứng nhận</h4>
+                                </div>
+                                <div class="widget__content">
+                                    <!-- Policies -->
+                                    <div class="policies mb-4">
+                                        <a href="#" class="policy-link d-flex align-items-center mb-3">
+                                            <i class="fas fa-shield-alt me-2"></i>
+                                            Chính sách bảo mật
+                                        </a>
+                                        <a href="#" class="policy-link d-flex align-items-center mb-3">
+                                            <i class="fas fa-exchange-alt me-2"></i>
+                                            Chính sách đổi/trả vé
+                                        </a>
+                                        <a href="#" class="policy-link d-flex align-items-center mb-3">
+                                            <i class="fas fa-money-bill-wave me-2"></i>
+                                            Chính sách hoàn tiền
+                                        </a>
+                                    </div>
+
+                                    <!-- Certifications -->
+                                    <div class="certifications">
+                                        <h5 class="cert-title mb-3">Chứng nhận & Thanh toán</h5>
+                                        <div class="payment__cards mb__20 d-flex align-items-center gap-2">
+                                            <a href="javacript:void(0)">
+                                                <img src="~/busjs/assets/img/payment/paypals.png" alt="payment-card">
+                                            </a>
+                                            <a href="javacript:void(0)">
+                                                <img src="~/busjs/assets/img/payment/visas.png" alt="payment-card">
+                                            </a>
+                                            <a href="javacript:void(0)">
+                                                <img src="~/busjs/assets/img/payment/fastpay.png" alt="payment-card">
+                                            </a>
+                                            <a href="javacript:void(0)">
+                                                <img src="~/busjs/assets/img/payment/payoneer.png" alt="payment-card">
+                                            </a>
+                                            <a href="javacript:void(0)" class="master">
+                                                <img src="~/busjs/assets/img/payment/mastercard.png" alt="payment-card">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!---Start TaggoAI--->
+                <!---Start TaggoAI--->
+                <script async data-taggo-botid="674844343f672f5383f19e34" src="https://widget.taggo.chat/v2.js"></script>
+                <!---End TaggoAI--->
+                <!---End TaggoAI--->
+
+
             </div>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+
+    <style>
+        .footer__section {
+            background-color: #f8f9fa;
+            padding-top: 80px;
+        }
+
+        .newsletter-section {
+            background: linear-gradient(135deg, #03045e, #728edf);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .btn-gradient {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: #fff;
+            border: none;
+            transition: background 0.3s ease;
+        }
+
+            .btn-gradient:hover {
+                background: linear-gradient(135deg, #feb47b, #ff7e5f);
+            }
+
+        .social__icon {
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+            .social__icon:hover {
+                background: #007bff;
+                color: #fff;
+            }
+
+        .company-stats .stat-item {
+            flex: 1;
+            min-width: 100px;
+            padding: 15px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .text-gradient {
+            background: linear-gradient(90deg, #ff7e5f, #feb47b);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .support-phone, .support-email {
+            font-size: 18px;
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+            .support-phone:hover, .support-email:hover {
+                color: #007bff;
+            }
+
+        .policy-link {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+            .policy-link:hover {
+                color: #ff7e5f;
+            }
+
+        .footer__bottom {
+            background: #fff;
+        }
+
+        .widget__link a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+            .widget__link a:hover {
+                color: #007bff;
+                transform: translateX(5px);
+            }
+
+    </style>
 </body>
+
+<!-- Footer End -->
+<!--Jquery 3 6 0 Min Js-->
+<script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script src="~/busjs/assets/js/jquery-3.6.0.min.js"></script>
+<!--Bootstrap bundle Js-->
+<script src="~/busjs/assets/js/bootstrap.bundle.min.js"></script>
+<!--Viewport Jquery Js-->
+<script src="~/busjs/assets/js/viewport.jquery.js"></script>
+<!--Odometer min Js-->
+<script src="~/busjs/assets/js/odometer.min.js"></script>
+<!--date picker Js-->
+<script src="~/busjs/assets/js/bootstrap-datepicker.js"></script>
+<!--Magnifiw Popup Js-->
+<script src="~/busjs/assets/js/jquery.magnific-popup.min.js"></script>
+<!--nice select Js-->
+<script src="~/busjs/assets/js/jquery.nice-select.min.js"></script>
+<!--Wow min Js-->
+<script src="~/busjs/assets/js/wow.min.js"></script>
+<!--Owl carousel min Js-->
+<script src="~/busjs/assets/js/owl.carousel.min.js"></script>
+<!--Prijm Js-->
+<script src="~/busjs/assets/js/prism.js"></script>
+<!--main Js-->
+<script src="~/busjs/assets/js/main.js"></script>
+@RenderSection("Scripts", required: false)
+
 </html>

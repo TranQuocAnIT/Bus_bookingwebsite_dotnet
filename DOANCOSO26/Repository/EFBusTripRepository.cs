@@ -16,20 +16,22 @@ namespace DOANCOSO26.Repository
         // Tương tự như EFProductRepository, nhưng cho BusTrip
         public async Task<IEnumerable<BusTrip>> GetAllAsync()
         {
-            return await _context.BusTrips.Include(p => p.Bus).ToListAsync();
+            return await _context.BusTrips.Include(p => p.Bus).Include(p => p.BusRoute).Include(p => p.Seats).Include(p => p.Driver).Include(p => p.Admin).ToListAsync();
         }
 
         public async Task<BusTrip> GetByIdAsync(int id)
         {
-            return await _context.BusTrips.Include(p => p.Bus).FirstOrDefaultAsync(p => p.Id == id);
-
+            return await _context.BusTrips.Include(p => p.Bus).Include(p => p.BusRoute).Include(p => p.Seats).Include(p => p.Driver).Include(p => p.Admin).FirstOrDefaultAsync(p => p.Id == id);
         }
         public async Task AddAsync(BusTrip bustrip)
         {
             _context.BusTrips.Add(bustrip);
             await _context.SaveChangesAsync();
         }
-
+        public async Task<IEnumerable<BusTrip>> GetAllByUserIdAsync(string userId)
+        {
+            return await _context.BusTrips.Where(b => b.DriverId == userId).ToListAsync();
+        }
         public async Task UpdateAsync(BusTrip bustrip)
         {
             _context.BusTrips.Update(bustrip);
@@ -43,6 +45,8 @@ namespace DOANCOSO26.Repository
             await _context.SaveChangesAsync();
         }
 
+
        
+
     }
 }

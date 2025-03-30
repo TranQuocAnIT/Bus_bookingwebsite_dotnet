@@ -1,0 +1,429 @@
+﻿@model DOANCOSO26.Models.BusTrip
+
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    .container-custom {
+        background-color: #fff;
+        border-radius: 10px;
+        border: 2px solid #your-border-color;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+    }
+
+        /* Đảm bảo khoảng cách lề trái và lề phải bằng nhau */
+        .container-custom > * {
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+    .bg-light {
+        background-color: #caffec;
+        border-radius: 10px;
+        border: 2px solid #your-border-color;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .seat-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .col-lg-8,
+    .col-lg-4 {
+        flex: 1; /* Cố định kích thước cột */
+        min-width: 0; /* Đảm bảo các cột co giãn đúng cách */
+    }
+
+    .floor {
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .seat {
+        width: 80px;
+        height: 60px;
+        border: none;
+        margin: 5px;
+        padding: 5px;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 2.5px;
+        font-weight: 500;
+        color: #000;
+        background-color: #fff;
+        border: none;
+        border-radius: 45px;
+        box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease 0s;
+        cursor: pointer;
+        outline: none;
+    }
+
+    .map {
+        margin-bottom: 5px;
+    }
+
+
+    .seat:active {
+        transform: translateY(-1px);
+    }
+
+    .available {
+        background-color: #fff;
+    }
+
+    .booked {
+        background-color: #4c5760;
+        font-color: white;
+    }
+
+    .selected {
+        background-color: #6495ed; /* Màu xanh dương cho ghế đang chọn */
+        transition: background-color 0.3s ease;
+    }
+
+
+
+    .vertical-line {
+        position: relative; /* Cần để các trạm dừng có thể được đặt tương đối với đường thẳng */
+        border-left: 2px solid black; /* Đường viền bên trái của đường thẳng */
+        height: 300px; /* Chiều cao của đường thẳng */
+        margin-left: 20px; /* Khoảng cách giữa đường thẳng và các chấm tròn */
+        padding-left: 10px; /* Khoảng cách giữa chấm tròn và tên trạm dừng */
+    }
+
+    .stop {
+        position: absolute; /* Cần để các chấm tròn đặt tương đối với đường thẳng */
+        width: 10px; /* Đường kính của chấm tròn */
+        height: 10px; /* Đường kính của chấm tròn */
+        border-radius: 50%; /* Để tạo hình dạng tròn */
+        background-color: black; /* Màu sắc của chấm tròn */
+        top: 0; /* Vị trí theo trục y của chấm tròn */
+    }
+
+    .stop-name {
+        position: absolute; /* Cần để tên trạm dừng đặt tương đối với đường thẳng */
+        top: 50%; /* Vị trí theo trục y của tên trạm dừng */
+        transform: translateY(-50%); /* Dịch chuyển tên trạm dừng lên trên một nửa chiều cao của nó */
+        left: 15px; /* Vị trí theo trục x của tên trạm dừng */
+    }
+
+
+    .timeline-widget .timeline-item {
+        min-height: 70px;
+    }
+
+        .timeline-widget .timeline-item .timeline-time {
+            padding: 6px 16px 6px 0;
+            min-width: 50px;
+        }
+
+        .timeline-widget .timeline-item .timeline-badge-wrap .timeline-badge {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: transparent;
+        }
+
+        .timeline-widget .timeline-item .timeline-badge-wrap .timeline-badge-border {
+            width: 3px;
+            height: 100%;
+            background-color: #000;
+        }
+
+        .timeline-widget .timeline-item .timeline-desc {
+            padding: 6px 6px;
+            color: darkgray;
+            white-space: normal; /* Giữ khoảng trắng và xuống dòng */
+            max-width: 100%; /* Giới hạn độ rộng để không tràn ra ngoài container */
+        }
+
+        .timeline-widget .timeline-item .timeline-badge.badge-primary {
+            border: 2px solid #5D87FF;
+        }
+
+</style>
+
+
+
+<body>
+
+    <div class="container-xxl bg-white p-0">
+        <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s" style="display: flex; justify-content: center; align-items: center; height: 400px;">
+            <img src="@Model.ImageUrl" style="height: 400px;" />
+        </div>
+        <!-- Header End -->
+        <!-- Job Detail Start -->
+        @*   <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">  *@
+        @*    <div class="container d-flex justify-content-between"> *@
+        <div class="row gy-5 gx-4 ">
+            <div class="col-lg-7">
+                <div class="d-flex align-items-center mb-5">
+                    <img class="flex-shrink-0 img-fluid border rounded" src="/images/logo1.jpg" alt="" style="width: 80px; height: 80px;">
+                    <div class="text-start ps-4">
+                        <h3 class="mb-3">@Model.BusRoute.Start - @Model.BusRoute.End</h3>
+                        <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>Bến xe Wheely , TP. Hồ Chí Minh</span>
+                        <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>@Model.DepartureTime.ToString("HH : mm")</span>
+                        <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>Giá vé: 180.000 - 220.000</span>
+                    </div>
+                </div>
+
+                <div class="mb-5">
+
+
+
+                    <div class="container-custom md-3">
+                        <h4 class="text-center mb-4" style="background-color: #003366; color: white; padding: 10px; border-radius: 10px;">Thông tin hành trình </h4>
+                        <ul class="timeline-widget mb-0 position-relative mb-n5">
+                            @foreach (var stop in ViewBag.Stops)
+                            {
+                                <li class="timeline-item d-flex position-relative overflow-hidden"
+                                    data-latitude="@stop.Latitude" data-longitude="@stop.Longitude"
+                                    onclick="showStopOnMap(this)">
+                                    <div class="timeline-time text-dark text-end mt-n1">@stop.Stt</div>
+                                    <div class="timeline-time text-dark text-end mt-n1">10:22</div>
+                                    <div class="timeline-badge-wrap d-flex flex-column align-items-center">
+                                        <span class="timeline-badge border-2 border border-primary flex-shrink-0 my-8"></span>
+                                        <span class="timeline-badge-border d-block flex-shrink-0"></span>
+                                    </div>
+                                    <div class="timeline-desc text-justifed text-dark mt-n1">
+                                        <span style="color: #000; font-weight: bold;">@stop.Name</span> - @stop.Location
+                                    </div>
+                                </li>
+                            }
+                            <li class="timeline-item d-flex position-relative overflow-hidden">
+                                <div class="timeline-time text-dark flex-shrink-0 text-end"></div>
+                                <div class="timeline-time text-dark flex-shrink-0 text-end"></div>
+                                <div class="timeline-badge-wrap d-flex flex-column align-items-center">
+                                    <span class="timeline-badge border-2 border border-success flex-shrink-0 my-8"></span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="container-custom md-3">
+                        <h4 class="text-center mb-4" style="background-color: #003366; color: white; padding: 10px; border-radius: 10px;">Sơ đồ ghế</h4>
+                        <div class="row">
+                            @for (int floor = 0; floor < 2; floor++)
+                            {
+
+                                <div class="col-6">
+
+                                    <div class="floor">
+
+                                        <h3>Tầng @(floor + 1)</h3>
+                                        @for (int row = 0; row < 5; row++)
+                                        {
+                                            <div class="seat-row">
+
+                                                @for (int col = 0; col < 3; col++)
+                                                {
+                                                    var seatIndex = floor * 15 + row * 3 + col;
+                                                    var seat = Model.Seats.ElementAtOrDefault(seatIndex);
+                                                    if (seat != null)
+                                                    {
+                                                        <button class="seat @(seat.SeatStatus == Status.Available ? "available" : (seat.SeatStatus == Status.Booked ? "booked" : "selected"))"
+                                                                onclick="selectSeat(this)"
+                                                        @(seat.SeatStatus == Status.Booked ? "disabled" : "")
+                                                                data-price="@seat.Price">
+                                                            @seat.SeatNumber
+                                                            <i class="@(seat.SeatStatus == Status.Available ? "fa fa-chair" : (seat.SeatStatus == Status.Booked ? "fa fa-chair booked-icon" : "fa fa-chair selected-icon"))"></i>
+                                                        </button>
+                                                    }
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <img src="/images/ghichu.png" style="max-width: 100%; height: auto;" />
+                    </div>
+
+                    
+
+                </div>
+
+                @*  <div class="">
+                <h4 class="mb-4">Apply For The Job</h4>
+                <form>
+                <div class="row g-3">
+                <div class="col-12 col-sm-6">
+                <input type="text" class="form-control" placeholder="Your Name">
+                </div>
+                <div class="col-12 col-sm-6">
+                <input type="email" class="form-control" placeholder="Your Email">
+                </div>
+                <div class="col-12 col-sm-6">
+                <input type="text" class="form-control" placeholder="Portfolio Website">
+                </div>
+                <div class="col-12 col-sm-6">
+                <input type="file" class="form-control bg-white">
+                </div>
+                <div class="col-12">
+                <textarea class="form-control" rows="5" placeholder="Coverletter"></textarea>
+                </div>
+                <div class="col-12">
+                <button class="btn btn-primary w-100" type="submit">Apply Now</button>
+                </div>
+                </div>
+                </form>
+                </div> *@
+            </div>
+
+            <div class="col-lg-5">
+
+
+
+
+
+
+                <div class="container-custom md-3">
+                    <div id="map" style="height: 500px;"></div>
+                </div>
+               
+
+
+                <div class=" bg-light rounded p-5 mb-4 wow slideInUp " data-wow-delay="0.1s">
+                    <h4 class="text-center mb-4" style="background-color: #003366; color: white; padding: 10px; border-radius: 10px;">Thông tin lược đi</h4>
+
+                    <p><strong><i class="fa fa-angle-right text-dark  me-2"></i>Tuyến xe:</strong> @Model.BusRoute.Start - @Model.BusRoute.End</p>
+                    <p><strong><i class="fa fa-angle-right text-dark  me-2"></i>Hãng xe:</strong> @Model.Bus.Company </p>
+                    <p><strong><i class="fa fa-angle-right text-dark  me-2"></i>Giờ  xuất bến :</strong>  @Model.DepartureTime.ToString("HH : mm") </p>
+                    <p><strong><i class="fa fa-angle-right text-dark  me-2"></i>Thời gian xuất bến :</strong>  @Model.DepartureDate.ToString("dd - MM - yyyy")</p>
+                    <p><strong><i class="fa fa-angle-right text-dark  me-2"></i>Số lượng ghế:</strong> @Model.Capacity Ghế</p>
+                    <p><strong><i class="fa fa-angle-right text-dark  me-2"></i>Số ghế trống:</strong> @Model.GetAvailableSeats()</p>
+                </div>
+                
+               
+
+
+                </>
+            </div>
+        </div>
+    </div>
+
+    <!-- Job Detail End -->
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+    </div>
+    a
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/DisplayTrip1/lib/wow/wow.min.js"></script>
+    <script src="~/DisplayTrip1/lib/easing/easing.min.js"></script>
+    <script src="~/DisplayTrip1/lib/waypoints/waypoints.min.js"></script>
+    <script src="~/DisplayTrip1/lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <script>
+        function selectSeat(seatButton) {
+            // Loại bỏ lớp 'selected' khỏi tất cả các ghế hiện đang được chọn
+            var selectedSeats = document.querySelectorAll('.selected');
+            selectedSeats.forEach(function (seat) {
+                seat.classList.remove('selected');
+            });
+
+            // Thêm lớp 'selected' vào ghế được chọn
+            seatButton.classList.add('selected');
+
+            // Lấy thông tin số ghế và giá vé từ ghế được chọn
+            var seatNumber = seatButton.innerText.trim();
+            var seatPrice = seatButton.getAttribute("data-price");
+
+            // Cập nhật thông tin ghế đã chọn trong phần chi tiết giá
+            document.getElementById("selectedSeatNumber").innerText = seatNumber;
+            document.getElementById("selectedSeatPrice").innerText = seatPrice;
+        }
+    </script>
+
+
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([@Model.BusRoute.StartLatitude, @Model.BusRoute.StartLongitude], 8);
+        var start = L.latLng(@Model.BusRoute.StartLatitude, @Model.BusRoute.StartLongitude);
+        var end = L.latLng(@Model.BusRoute.EndLatitude, @Model.BusRoute.EndLongitude);
+        var bounds = L.latLngBounds([start, end]);
+        map.fitBounds(bounds);
+
+        // Add start and end markers
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        L.marker(start).addTo(map)
+            .bindPopup("Start: @Model.BusRoute.Start");
+        L.marker(end).addTo(map)
+            .bindPopup("End: @Model.BusRoute.End");
+
+        L.Routing.control({
+            waypoints: [start, end],
+            routeWhileDragging: false,
+            fitSelectedRoutes: true,
+            showAlternatives: false,
+            lineOptions: {
+                styles: [{ color: 'blue', opacity: 0.8, weight: 8 }]
+            },
+            router: L.Routing.osrmv1({
+                serviceUrl: 'https://router.project-osrm.org/route/v1/',
+                profile: 'driving'
+            }),
+            preferCanvas: true // Disable the routing box
+        }).addTo(map);
+
+        // Custom icon for stops
+        var stopIcon = L.icon({
+            iconUrl: '/images/position-icon.jpg', // Ensure this path is correct
+            iconSize: [41, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+
+            shadowSize: [41, 41],
+            shadowAnchor: [12, 41]
+        });
+
+        // Function to show stop on map
+        function showStopOnMap(element) {
+            var latitude = element.getAttribute('data-latitude');
+            var longitude = element.getAttribute('data-longitude');
+            var stopLatLng = L.latLng(latitude, longitude);
+
+            // Add a marker for the stop
+            L.marker(stopLatLng, { icon: stopIcon }).addTo(map)
+                .bindPopup("Stop: " + element.querySelector('.timeline-desc span').innerText);
+
+            // Center the map on the stop
+            map.setView(stopLatLng, 10);
+        }
+    </script>
+
+
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>

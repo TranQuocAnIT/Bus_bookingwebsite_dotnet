@@ -1,139 +1,162 @@
 ﻿@model IEnumerable<DOANCOSO26.Models.BusTrip>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<style>
-    /* Chỉnh màu cho card header */
-    .card-header {
-        background-color: #50514F;
-        color: white;
+
+<script>
+    function selectSeat(button) {
+        if (button.classList.contains('booked')) {
+            return;
+        }
+        var selected = document.querySelector('.selected');
+        if (selected) {
+            selected.classList.remove('selected');
+            selected.classList.add('available');
+        }
+        button.classList.remove('available');
+        button.classList.add('selected');
     }
 
-    /* Chỉnh màu cho button Create New Category */
-    .btn-primary {
-        background-color: #50514F;
-        border: none;
-    }
+    function searchTrips() {
+        var startLocation = document.getElementById("startLocation").value.toLowerCase();
+        var endLocation = document.getElementById("endLocation").value.toLowerCase();
+        var numSeats = parseInt(document.getElementById("numSeats").value);
 
-    /* Chỉnh màu cho table header */
-    .table thead th {
-        background-color: #969A97;
-        color: white;
-    }
+        var trips = document.querySelectorAll(".trip");
 
-    /* Chỉnh màu cho button Edit và Delete */
-    .btn-primary, .btn-danger {
-        color: white;
+        trips.forEach(function (trip) {
+            var tripStartLocation = trip.querySelector(".start-location").textContent.toLowerCase();
+            var tripEndLocation = trip.querySelector(".end-location").textContent.toLowerCase();
+            var tripNumSeats = parseInt(trip.querySelector(".num-seats").textContent);
+
+            if ((startLocation === "" || tripStartLocation.includes(startLocation)) &&
+                (endLocation === "" || tripEndLocation.includes(endLocation)) &&
+                (isNaN(numSeats) || tripNumSeats >= numSeats)) {
+                trip.style.display = "table-row";
+            } else {
+                trip.style.display = "none";
+            }
+        });
+
+        // Hiển thị lại kết quả tìm kiếm
+        var tripList = document.getElementById("tripList");
+        tripList.style.display = "table"; // JavaScript function
     }
-</style>
+</script>
 
 <div class="card shadow border-0 mt-4">
-    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+    <div class="">
         <div class="row">
             <div class="col-12 text-center">
-                <h2 class="text-white py-2">Trip List</h2>
+                <h2 class="">Danh sach chuyến</h2>
             </div>
         </div>
     </div>
     <div class="card-body p-4">
         <div class="row pb-3">
-            <div class="col-6">
-            </div>
-            <div class="col-6 text-end">
-                <a asp-controller="BusTrip" asp-action="Add" class="btn btn-primary">
-                    <i class="bi bi-plus-circle"></i>Create New Trip
-                </a>
-            </div>
+            <a asp-controller="BusTrip" asp-action="Add" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Tạo Chuyến 
+            </a>
+           
+        </div>
+        <div class="row pb-3">
+         
+            <a asp-controller="Seat" asp-action="Add" class="btn btn-primary ">
+                <i class="bi bi-pencil-square"></i> Tạo Ghế
+            </a>
         </div>
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>
-                        Hãng
-                    </th>
-                    <th>
-                        Biển số xe
-                    </th>
-                    <th>
-                        Số lượng ghế
-                    </th>
-                    <th>
-                        Điểm khởi hành 
-                    </th>
-                    <th>
-                        Điểm đến
-                    </th>
-                    <th>
-                        Ngày khởi hành
-                    </th>
-                    <th>
-                        Giờ 
-                    </th>
-                    <th>
-                        Các Trạm dừng
-                    </th>
-                    <th>
-                        Số ghế trống
-                    </th>
+              
+                    <th>Hãng</th>
+                    <th>Biển số xe</th>
+                    <th>Điểm khởi hành</th>
+                    <th>Điểm đến</th>
+                    <th>Giờ khởi hành</th>
+                  
+                    <th>Số trống</th>
+                    <th> Trạng thái </th>
                     <th></th>
+                   
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tripList">
                 @foreach (var item in Model)
                 {
-                    <tr>
+
+                    <tr class="trip">
+                     
                         <td>@item.Bus.Company</td>
                         <td>@item.Bus.BusNumber</td>
+                       
+                            <td>@item.BusRoute.Start</td>
+
+                        <td>@item.BusRoute.End</td>
+                        <td>@item.DepartureTime.ToString("hh:mm") @item.DepartureDate.ToString("dd:MM:yyyy")</td>
+                
+                        <td>@item.GetAvailableSeats()</td>
+                        <td>@item.TripStatus</td>
                         <td>
-                            @item.Bus.Capacity
-                        </td>
-                        <td>
-                            @item.StartLocation
-                        </td>
-                        <td>
-                            @item.EndLocation
-                        </td>
-                        <td>
-                            @item.DepartureDate
-                        </td>
-                        <td>
-                            @item.DepartureTime
-                        </td>
-                        <td>
-                            <img src="@item.ImageUrl" />
-                        </td>
-                        <td>
-                            @foreach (var stop in item.Stops)
-                            {
-                                @stop.Name
-                                @stop.Location
-                                if (stop != item.Stops.Last())
+                            
+                                <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-primary ">
+                                    <i class="bi bi-pencil-square"></i> Sửa
+                            </a> |
+                               @*  <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary ">
+                                    <i class="bi bi-trash-fill"></i> Xóa
+                                </a> *@
+                                <a asp-action="Display" asp-route-id="@item.Id" class="btn btn-primary ">
+                                    <i class="bi bi-pencil-square"></i> Chi tiết
+                            </a> |
+                           
+                                @if (item.TripStatus == StatusTrip.NotYetDeparted)
                                 {
-                                    <span>, </span>
+                                    <a asp-action="Exit" asp-route-id="@item.Id" class="btn btn-primary ">
+                                        <i class="bi bi-pencil-square"></i> Xuất bến
+                                    </a> 
                                 }
-                            }
-                        </td>
-                        <td>
-                            @{
-                                int availableSeats = item.Seats.Count(seat => !seat.IsAvailable);
-                                @availableSeats
-                            }
-                        </td>
-                        <td>
-                            <div class="w-75 btn-group" role="group">
-                                <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-primary mx-2">
-                                    <i class="bi bi-pencil-square"></i> Edit
-                                </a>
-                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary mx-2">
-                                    <i class="bi bi-trash-fill"></i> Delete
-                                </a>
-                                <a asp-action="Display" asp-route-id="@item.Id" class="btn btn-primary mx-2">
-                                    <i class="bi bi-pencil-square"></i> Detail
-                                </a>
-                            </div>
+                                else
+                                {
+                                <a asp-action="Exit" asp-route-id="@item.Id" class="btn btn-primary ">
+                                    <i class="bi bi-pencil-square"></i> Phiếu xuất bến
+                                </a> 
+                                    <a class="btn btn-primary mx-2 disabled">
+                                        <i class="bi bi-pencil-square"></i> Xuất bến
+                                    </a>
+                                }
+
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
+
+ 
 </div>
+<script>
+    function searchTrips() {
+        var startLocation = document.getElementById("startLocation").value.toLowerCase();
+        var endLocation = document.getElementById("endLocation").value.toLowerCase();
+        var numSeats = parseInt(document.getElementById("numSeats").value);
+
+        var trips = document.querySelectorAll(".trip");
+
+        trips.forEach(function (trip) {
+            var tripStartLocation = trip.querySelector(".start-location").textContent.toLowerCase();
+            var tripEndLocation = trip.querySelector(".end-location").textContent.toLowerCase();
+            var tripNumSeats = parseInt(trip.querySelector(".num-seats").textContent);
+
+            if ((startLocation === "" || tripStartLocation.includes(startLocation)) &&
+                (endLocation === "" || tripEndLocation.includes(endLocation)) &&
+                (isNaN(numSeats) || tripNumSeats >= numSeats)) {
+                trip.style.display = "table-row";
+            } else {
+                trip.style.display = "none";
+            }
+        });
+
+        // Hiển thị lại kết quả tìm kiếm
+        var tripList = document.getElementById("tripList");
+        tripList.style.display = "table";
+    }
+</script>

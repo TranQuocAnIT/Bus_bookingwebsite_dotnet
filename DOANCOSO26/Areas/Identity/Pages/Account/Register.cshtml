@@ -1,118 +1,98 @@
 ﻿@page
 @model RegisterModel
-@{
-
-}
-
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 
-<style>
-    .login-form {
-        background-color: #fff;
-        border: 2px solid #fff;
-        border-radius: 15px;
-        padding: 30px;
-        box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
-    }
 
-    .form-input {
-        background-color: #ebebeb !important;
-    }
 
-    .form-floating label {
-        color: #000 !important;
-    }
 
-    .form-floating span {
-        color: #dc3545 !important;
-    }
 
-    .social-login {
-        color: #000;
-    }
 
-    .social-login-icon {
-        color: #3b5998;
-    }
+<section class="signup__section bluar__shape">
+    <div class="container">
+        <div class="row align-items-center justify-content-between">
+            <div class="col-xl-6 col-lg-6">
+                <div class="signup__boxes">
+                    <h4>
+                       ĐĂNG KÍ TÀI KHOẢN
+                    </h4>
+                    <p class="head__pra">
+                        hãy trở thành viên của wheely
+                    </p>
+                    <form class="signup__form pt__40"  id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                        <div class="row g-4">
+                            <div class="col-lg-6">
+                                <div class="input__grp">
+                                    <label for="fname">Name</label>
+                                    <input type="text" id="fname" placeholder="User name" asp-for="Input.FullName"  class="input">
+                                    <span asp-validation-for="Input.FullName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input__grp">
+                                    <label for="lname">Số điện thoại </label>
+                                    <input type="text" id="lname"  asp-for="Input.PhoneNumber"  class="input" placeholder="Số điện thoại">
+                                    <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="input__grp">
+                                    <label for="email">Enter Your Email </label>
+                                    <input type="email" id="email" asp-for="Input.Email" type="email" class="input" placeholder="Email">
+                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="input__grp">
+                                    <label for="password-field" class="form-label">Choose Password</label>
+                                    <div class="form-group">
+                                        <input id="password-field" type="password" class="form-control" placeholder="Mật khẩu"   asp-for="Input.Password"   >
+                                        <span id="#password-field" class="fa fa-fw field-icon toggle-password">
+                                          
+                                        </span>
+                                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="input__grp">
+                                    <label for="password-field" class="form-label">Confirm Password</label>
+                                    <div class="form-group">
+                                        <input id="toggle-password2"  class="form-control"   asp-for="Input.ConfirmPassword" type="password"  placeholder="Xác nhận mật khẩu">
+                                        <span id="#toggle-password2" class="fa fa-fw field-icon toggle-password2">
+                                            
+                                        </span>
+                                    </div>
+                                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <input asp-for="Input.Role" type="hidden" value="@DOANCOSO26.Models.Roles.Role_Admin" />
 
-    .social-login-icon-gmail {
-        color: #db4437;
-    }
-</style>
 
-<h1>@ViewData["Title"]</h1>
-
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-4">
-            <section class="text-white login-form">
-                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                    <h2 class="text-center text-black">ĐĂNG KÝ</h2>
-                    <hr class="bg-light" />
-
-                    <!-- Full Name Input -->
-                    <div class="form-floating mb-3">
-                        <input asp-for="Input.FullName" class="form-control form-input" autocomplete="fullname" aria-required="true" placeholder="Full Name" />
-                        <label asp-for="Input.FullName">Họ Tên</label>
-                        <span asp-validation-for="Input.FullName" class="text-danger"></span>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input asp-for="Input.PhoneNumber" class="form-control form-input" autocomplete="fullname" aria-required="true" placeholder="Full Name" />
-                        <label asp-for="Input.PhoneNumber">Số điện thoại</label>
-                        <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-                    </div>
-                    <!-- Email Input -->
-                    <div class="form-floating mb-3">
-                        <input asp-for="Input.Email" class="form-control form-input" autocomplete="username" aria-required="true" placeholder="Email" />
-                        <label asp-for="Input.Email">Email</label>
-                        <span asp-validation-for="Input.Email" class="text-danger"></span>
-                    </div>
-
-                    <!-- Password Input -->
-                    <div class="form-floating mb-3">
-                        <input asp-for="Input.Password" class="form-control form-input" autocomplete="new-password" aria-required="true" placeholder="Password" />
-                        <label asp-for="Input.Password">Mật khẩu</label>
-                        <span asp-validation-for="Input.Password" class="text-danger"></span>
-                    </div>
-
-                    <!-- Confirm Password Input -->
-                    <div class="form-floating mb-3">
-                        <input asp-for="Input.ConfirmPassword" class="form-control form-input" autocomplete="new-password" aria-required="true" placeholder="Confirm Password" />
-                        <label asp-for="Input.ConfirmPassword">Nhập lại mật khẩu</label>
-                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                    </div>
-
-                    <!-- Role Select -->
-                    <div class="form-floating mb-3">
-                        <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-control form-input">
-                            <option disabled selected>- Select Role -</option>
-                        </select>
-                    </div>
-
-                    <!-- Register Button -->
-                    <button id="registerSubmit" type="submit" class="w-100 btn btn-dark btn-primary">Đăng ký</button>
-                </form>
-
-                <!-- Social login buttons -->
-                <div class="mt-3 text-center">
-                    <!-- Facebook login button -->
-                    <a href="#" class="social-login text-black">
-                        <i class="fab fa-facebook social-login-icon"></i> Register with Facebook
-                    </a>
+                            <div class="col-lg-12">
+                                <div class="input__grp">
+                                    <p class="sign-up-label">
+                                        Already have an account?<span class="sign-up-link">Log in</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="input__grp mt-2">
+                                    <button type="submit" class="cmn__btn" id="registerSubmit" type="submit">
+                                        <span>
+                                           Đăng kí tài khoản
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="mt-1 text-center">
-                    <!-- Gmail login button -->
-                    <a href="#" class="social-login text-black">
-                        <i class="fab fa-google social-login-icon-gmail"></i> Register with Gmail
-                    </a>
+            </div>
+            <div class="col-xl-5 col-lg-6">
+                <div class="signup__thumb">
+                   <img src="~/busjs/assets/img/signup/signup.png" alt="img">
                 </div>
-            </section>
+            </div>
         </div>
     </div>
-</div>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+</section>

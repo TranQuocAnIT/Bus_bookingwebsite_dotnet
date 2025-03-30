@@ -1,0 +1,36 @@
+﻿@model Booking
+<h2>Checkout</h2>
+<form asp-action="Checkout" method="post">
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Timebooking)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Timebooking)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SDT)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SDT)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TotalPrice)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalPrice)
+        </dd>
+    </dl>
+ <div class="form-group">
+ <label asp-for="Note">Notes</label>
+ <textarea asp-for="Note" class="form-control"></textarea>
+ </div>
+ <button type="submit" class="btn btn-primary">Place Order</button>
+</form >

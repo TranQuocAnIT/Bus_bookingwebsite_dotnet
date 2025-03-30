@@ -1,8 +1,2150 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<DOANCOSO26.Models.BusRoute>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from pixner.net/rechargio/rechargio/train-book.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 27 Oct 2024 12:30:49 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rechargio - Recharge & Bill Payment, Booking HTML5 Template</title>
+    <!--Favicon img-->
+    <link rel="shortcut icon" href="~/busjs/assets/img/logo/favicon.png">
+    <!--nice select css-->
+    <link rel="stylesheet" href="~/busjs/assets/css/nice-select.css">
+    <!--datepicker css-->
+    <link rel="stylesheet" href="~/busjs/assets/css/datepickerboot.css">
+    <!--main css-->
+    <link rel="stylesheet" href="~/busjs/assets/css/main.css">
+</head>
+
+<style>
+    /* GỢi ý tìm kiếm từ bản đồ  */
+
+    .hotelbooking__categoris__wrap {
+        padding: 30px; /* Compact padding */
+        margin: 0;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease, transform 0.3s ease; /* Smooth effect */
+        /* Thêm bóng đổ đậm */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 16px 32px rgba(0, 0, 0, 0.2); /* Đậm hơn và rõ ràng */
+    }
+
+    .selected {
+        color: #475EC8;
+        font-weight: bold;
+    }
+
+    .flight__onewaysection {
+        background-color: #f0f0f0; /* Thay đổi mã màu tùy ý */
+    }
+
+    /* Style cho popup */
+    #mapPopup {
+        display: none;
+        position: fixed;
+        top: 10%;
+        left: 10%;
+        width: 80%; /* Đảm bảo popup có chiều rộng hợp lý */
+        height: 80%; /* Đảm bảo popup có chiều cao hợp lý */
+        background-color: white;
+        padding: 20px;
+        z-index: 1000;
+        overflow: auto; /* Thêm overflow để phần nội dung không bị cắt */
+    }
+
+
+
+    .popup-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .popup-content {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 800px;
+        max-height: 90%;
+        overflow-y: auto;
+    }
+
+    .close-btn {
+        float: right;
+        cursor: pointer;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    /* Button styling */
+    .open-popup-btn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    /*  popup */
+
+    :root {
+        --primary: #1e3a8a; /* Xanh đậm */
+        --primary-light: #3b82f6; /* Xanh biển */
+        --primary-lighter: #60a5fa; /* Xanh lam */
+        --primary-lightest: #93c5fd; /* Xanh nhạt */
+        --neutral-light: #e0f2fe;
+        --neutral-lighter: #f0f9ff;
+    }
+
+    .common__filter__wrapper {
+        background: #fff;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(30, 58, 138, 0.1);
+        border: 1px solid var(--neutral-light);
+    }
+
+    .hotelbooking__categoris__wrap {
+        padding: 30px; /* Compact padding */
+        margin: 0;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease, transform 0.3s ease; /* Smooth effect */
+        /* Thêm bóng đổ đậm */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 16px 32px rgba(0, 0, 0, 0.2);
+        /* Đậm hơn và rõ ràng */
+    }
+
+    .flight__onewaysection {
+        background-color: #f0f0f0; /* Thay đổi mã màu tùy ý */
+    }
+
+    .top-header {
+        background: var(--primary);
+        color: white;
+        margin: -30px -30px 20px -30px;
+        padding: 20px 30px;
+        border-radius: 16px 16px 0 0;
+    }
+
+    .promo__title {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .quick-stats {
+        display: flex;
+        gap: 20px;
+        font-size: 14px;
+    }
+
+    .route-details ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+        .route-details ul li {
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+            color: #2c3e50;
+            font-size: 15px;
+        }
+
+            .route-details ul li:last-child {
+                border-bottom: none;
+            }
+
+    .route-details h5 {
+        margin-bottom: 10px;
+    }
+
+    .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .main-content {
+        background: white;
+        border-radius: 12px;
+    }
+
+    .quick-filters {
+        display: flex;
+        gap: 10px;
+        margin: 20px 0;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
+
+    .quick-filter-btn {
+        padding: 8px 16px;
+        border: 1px solid var(--primary-lighter);
+        border-radius: 20px;
+        color: var(--primary);
+        background: white;
+        font-size: 14px;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.3s;
+    }
+
+        .quick-filter-btn:hover,
+        .quick-filter-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+    .search__item {
+        margin: 25px 0;
+        border-bottom: 1px solid var(--neutral-light);
+        padding-bottom: 25px;
+    }
+
+    .section-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--primary);
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    .search-box {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 14px 45px 14px 18px;
+        border: 2px solid var(--neutral-light);
+        border-radius: 12px;
+        font-size: 15px;
+        transition: all 0.3s;
+    }
+
+        .search-input:focus {
+            border-color: var(--primary-lighter);
+            outline: none;
+        }
+
+    .search-icon {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary);
+    }
+
+    .feature-card {
+        background: var(--neutral-lighter);
+        border-radius: 12px;
+        padding: 15px;
+        margin: 15px 0;
+    }
+
+    .feature-title {
+        color: var(--primary);
+        font-weight: 600;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .feature-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 8px 0;
+            color: #444;
+        }
+
+            .feature-list li::before {
+                content: "✓";
+                color: var(--primary-light);
+                font-weight: bold;
+            }
+
+    .time-slot {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        border: 1px solid var(--neutral-light);
+        border-radius: 12px;
+        margin: 10px 0;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+        .time-slot:hover {
+            border-color: var(--primary-lighter);
+            background: var(--neutral-lighter);
+        }
+
+        .time-slot.popular {
+            background: var(--neutral-lighter);
+            border: 2px solid var(--primary-lighter);
+        }
+
+    .time-info {
+        flex: 1;
+        margin-left: 15px;
+        display: flex;
+        align-items: center;
+    }
+
+    .bus-logo {
+        width: 24px;
+        height: 24px;
+        border-radius: 4px;
+        margin-right: 12px;
+    }
+
+    /* Điều chỉnh layout để chứa logo */
+
+    .time-title {
+        font-weight: 600;
+        color: var(--primary);
+    }
+
+    .time-meta {
+        display: flex;
+        gap: 15px;
+        font-size: 13px;
+        color: #666;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .badge-blue {
+        background: var(--primary-lightest);
+        color: var(--primary);
+    }
+
+    .badge-light {
+        background: var(--neutral-lighter);
+        color: var(--primary);
+    }
+
+    .price-range {
+        margin: 25px 0;
+    }
+
+    .range-values {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .range-value {
+        text-align: center;
+    }
+
+    .range-amount {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--primary);
+    }
+
+    .range-label {
+        font-size: 12px;
+        color: #666;
+    }
+
+    .range-slider {
+        width: 100%;
+        height: 6px;
+        background: var(--neutral-light);
+        border-radius: 3px;
+        -webkit-appearance: none;
+    }
+
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+            .range-slider::-webkit-slider-thumb:hover {
+                transform: scale(1.1);
+            }
+
+    .bus-option {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        border: 1px solid var(--neutral-light);
+        border-radius: 12px;
+        margin: 10px 0;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+        .bus-option:hover {
+            border-color: var(--primary-lighter);
+            background: var(--neutral-lighter);
+        }
+
+    .bus-info {
+        flex: 1;
+        margin-left: 15px;
+    }
+
+    .bus-name {
+        font-weight: 600;
+        color: var(--primary);
+        margin-bottom: 5px;
+    }
+
+    .bus-meta {
+        display: flex;
+        gap: 15px;
+        font-size: 13px;
+        color: #666;
+    }
+
+    .rating-stars {
+        color: #fbbf24;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .btn {
+        flex: 1;
+        padding: 14px;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-align: center;
+    }
+
+    .btn-outline {
+        border: 2px solid var(--primary);
+        background: white;
+        color: var(--primary);
+    }
+
+        .btn-outline:hover {
+            background: var(--neutral-lighter);
+        }
+
+    .btn-primary {
+        background: var(--primary);
+        color: white;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+        }
+
+    .premium-features {
+        background: linear-gradient(to right, var(--primary), var(--primary-light));
+        color: white;
+        padding: 20px;
+        border-radius: 12px;
+        margin: 20px 0;
+    }
+
+    .premium-title {
+        font-weight: 600;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .premium-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .premium-list li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 10px 0;
+        }
+
+            .premium-list li::before {
+                content: "★";
+                color: #fbbf24;
+            }
+
+    .line {
+        flex-grow: 1;
+        border-bottom: 1px solid black;
+        margin: 0 10px; /* Khoảng cách giữa các đoạn gạch ngang */
+    }
+
+
+    .property-item.selected {
+        border: 2px solid #81c3d7;
+        background-color: #004e89;
+    }
+
+    .custom-radio {
+        position: relative;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: bold;
+        color: #333;
+    }
+
+        .custom-radio input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+    .radio-label {
+        padding: 10px 15px;
+        border: 2px solid #00296b;
+        border-radius: 15px;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .custom-radio input[type="radio"]:checked ~ .radio-label {
+        background-color: #004e89;
+        color: white;
+    }
+
+    .custom-radio .radio-label:hover {
+        background-color: #0582ca;
+        color: white;
+    }
+
+    .center-image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    /*  phan hanh trinh popup */
+    /* Thiết kế cho liên kết hiển thị */
+    /* Gạch chân khi hover hoặc active */
+    .route-link {
+        font-size: 14px;
+        color: #007bff;
+        cursor: pointer;
+        font-weight: bold;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+        .route-link:hover,
+        .route-link.active {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+    /* Các phần chi tiết hành trình */
+    .route-details {
+        padding: 15px;
+        background: #fff;
+        border-radius: 5px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .route-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+        .route-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .route-list span.badge {
+            margin-right: 10px;
+        }
+
+        .route-list i {
+            margin: 0 5px;
+        }
+</style>
+
+
+
+<body>
+    <section class="hotel__booksection train__booksection">
+
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col-xxl-9 col-xl-7 col-lg-8">
+                    <div class="hotel__content">
+
+                        <h1 class="wow fadeInDown">Kết nối <span class="text-primary">Mọi tuyến đường</span> đặt vé xe bus dễ dàng cùng  Rechargio</h1>
+                        <p class="wow fadeInUp max-660" data-wow-duration="2s">
+                            Hãy để chúng tôi làm điều đó cho bạn - mỗi hành trình là một chuyến đi đầy ấn tượng và tiện ích,
+                            Với Wheely, chúng tôi kết nối bạn đến mọi nơi một cách thông minh và hiệu quả."
+                        </p>
+                        <div class="cmn__grp">
+                            <a href="train-list.html" class="cmn__btn">
+                                <span>
+                                    Đặt ngay
+                                </span>
+                            </a>
+                            <a href="about.html" class="cmn__btn outline__btn">
+                                <span>
+                                    Về chúng tôi
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="trainshpe">
+            <img src="~/busjs/assets/img/train/trainthumb1.png" alt="img">
+        </div>
+    </section>
+    <div class="hotelbokking__categoris">
+        <div class="container">
+            <div class="hotelbooking__categoris__wrap spacebottom__none">
+
+
+
+                <div class="dating__body ">
+
+
+
+                    <div class="promo__sponsor__wrapper owl-theme owl-carousel pb-5">
+                        <div class="promo__sponsor__item">
+                            <div class="promo__box" style="border: 0.5px solid #6c757d; border-radius: 8px; padding: 10px;">
+
+                                <div class="thumb" style="border: 4px solid #475EC8; border-radius: 10px; padding: 4px;">
+                                    <img src="~/busjs/assets/img/payment/phuongtrang.png" alt="img" style="border-radius: 10px;">
+                                </div>
+
+                                <div class="content">
+                                    <span class="fz-16 link">
+                                        Phương Trang
+                                    </span>
+                                    <a >
+                                        <span>
+                                            Đặt ngay
+                                        </span>
+                                        <span class="icon">
+                                            <i class="material-symbols-outlined">
+                                                east
+                                            </i>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="promo__box" style="border: 0.5px solid #6c757d; border-radius: 8px; padding: 10px;">
+                                <div class="thumb" style="border: 4px solid #475EC8; border-radius: 10px; padding: 4px;">
+                                    <img src="~/busjs/assets/img/payment/result_mailinhlogo.jpg" alt="img">
+                                </div>
+                                <div class="content">
+                                    <span class="fz-16 link">
+                                        Mai Linh
+                                    </span>
+                                    <a >
+                                        <span>
+                                            Đặt ngay
+                                        </span>
+                                        <span class="icon">
+                                            <i class="material-symbols-outlined">
+                                                east
+                                            </i>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="promo__sponsor__item">
+                            <div class="promo__box" style="border: 0.5px solid #6c757d; border-radius: 8px; padding: 10px;">
+                                <div class="thumb" style="border: 4px solid #475EC8; border-radius: 10px; padding: 4px;">
+                                    <img src="~/busjs/assets/img/payment/kumho.png" alt="img">
+                                </div>
+                                <div class="content">
+                                    <span class="fz-16 link">
+                                        Kumho sacom
+                                    </span>
+                                    <a >
+                                        <span>
+                                            Đặt ngay
+                                        </span>
+                                        <span class="icon">
+                                            <i class="material-symbols-outlined">
+                                                east
+                                            </i>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="promo__box" style="border: 0.5px solid #6c757d; border-radius: 8px; padding: 10px;">
+                                <div class="thumb" style="border: 4px solid #475EC8; border-radius: 10px; padding: 4px;">
+                                    <img src="~/busjs/assets/img/payment/thanhbuoi.jpg" alt="img">
+                                </div>
+                                <div class="content">
+                                    <span class="fz-16 link">
+                                        Thành Bưởi
+                                    </span>
+                                    <a >
+                                        <span>
+                                            Đặt ngay
+                                        </span>
+                                        <span class="icon">
+                                            <i class="material-symbols-outlined">
+                                                east
+                                            </i>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="promo__sponsor__item">
+                            <div class="promo__box" style="border: 0.5px solid #6c757d; border-radius: 8px; padding: 10px;">
+                                <div class="thumb" style="border: 4px solid #475EC8; border-radius: 10px; padding: 4px;">
+                                    <img src="~/busjs/assets/img/payment/vinfast.png" alt="img">
+                                </div>
+                                <div class="content">
+                                    <span class="fz-16 link">
+                                        VinFast
+
+                                    </span>
+                                    <a >
+                                        <span>
+                                            Đặt ngay
+                                        </span>
+                                        <span class="icon">
+                                            <i class="material-symbols-outlined">
+                                                east
+                                            </i>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="promo__box" style="border: 0.5px solid #6c757d; border-radius: 8px; padding: 10px;">
+                                <div class="thumb" style="border: 4px solid #475EC8; border-radius: 10px; padding: 4px;">
+                                    <img src="~/busjs/assets/img/payment/grab.png" alt="img">
+                                </div>
+                                <div class="content">
+                                    <span class="fz-16 link">
+                                        Grab
+                                    </span>
+                                    <a >
+                                        <span>
+                                            Đặt ngay
+                                        </span>
+                                        <span class="icon">
+                                            <i class="material-symbols-outlined">
+                                                east
+                                            </i>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="promo__sponsor__item">
+                            <div class="promo__box" style="border: 0.5px solid #6c757d; border-radius: 8px; padding: 10px;">
+                                <div class="thumb" style="border: 4px solid #475EC8; border-radius: 10px; padding: 4px;">
+                                    <img src="~/busjs/assets/img/payment/ahamove.png" alt="img">
+                                </div>
+                                <div class="content">
+                                    <span class="fz-16 link">
+                                        Ahamove
+
+                                    </span>
+                                    <a >
+                                        <span>
+                                            Đặt ngay
+                                        </span>
+                                        <span class="icon">
+                                            <i class="material-symbols-outlined">
+                                                east
+                                            </i>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="promo__box" style="border: 0.5px solid #6c757d; border-radius: 8px; padding: 10px;">
+                                <div class="thumb" style="border: 4px solid #475EC8; border-radius: 10px; padding: 4px;">
+                                    <img src="~/busjs/assets/img/payment/xanhsm.png" alt="img">
+                                </div>
+                                <div class="content">
+                                    <span class="fz-16 link">
+                                        Xanh SM
+                                    </span>
+                                    <a >
+                                        <span>
+                                            Đặt ngay
+                                        </span>
+                                        <span class="icon">
+                                            <i class="material-symbols-outlined">
+                                                east
+                                            </i>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="promo__sponsor__item">
+                            <div class="promo__box" style="border: 0.5px solid #6c757d; border-radius: 8px; padding: 10px;">
+                                <div class="thumb" style="border: 4px solid #475EC8; border-radius: 10px; padding: 4px;">
+                                    <img src="~/busjs/assets/img/payment/aritel.png" alt="img">
+                                </div>
+                                <div class="content">
+                                    <span class="fz-16 link">
+                                        SWyro5ruq2Eu
+                                    </span>
+                                    <a >
+                                        <span>
+                                            Đặt ngay
+                                        </span>
+                                        <span class="icon">
+                                            <i class="material-symbols-outlined">
+                                                east
+                                            </i>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="promo__box" style="border: 0.5px solid #6c757d; border-radius: 8px; padding: 10px;">
+                                <div class="thumb" style="border: 4px solid #475EC8; border-radius: 10px; padding: 4px;">
+                                    <img src="~/busjs/assets/img/payment/mqn.png" alt="img">
+                                </div>
+                                <div class="content">
+                                    <span class="fz-16 link">
+                                        gsXAMqnkIxbr
+                                    </span>
+                                    <a >
+                                        <span>
+                                            Đặt ngay
+                                        </span>
+                                        <span class="icon">
+                                            <i class="material-symbols-outlined">
+                                                east
+                                            </i>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="promo__sponsor__item">
+                            <div class="promo__box" style="border: 0.5px solid #6c757d; border-radius: 8px; padding: 10px;">
+                                <div class="thumb" style="border: 4px solid #475EC8; border-radius: 10px; padding: 4px;">
+                                    <img src="~/busjs/assets/img/payment/paypal.png" alt="img">
+                                </div>
+                                <div class="content">
+                                    <span class="fz-16 link">
+                                        OayKsH7Xmr0O
+                                    </span>
+                                    <a >
+                                        <span>
+                                            Đặt ngay
+                                        </span>
+                                        <span class="icon">
+                                            <i class="material-symbols-outlined">
+                                                east
+                                            </i>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="promo__box" style="border: 0.5px solid #6c757d; border-radius: 8px; padding: 10px;">
+                                <div class="thumb" style="border: 4px solid #475EC8; border-radius: 10px; padding: 4px;">
+                                    <img src="~/busjs/assets/img/payment/linkaply.png" alt="img">
+                                </div>
+                                <div class="content">
+                                    <span class="fz-16 link">
+                                        Hr0A4OKcB6qH
+                                    </span>
+                                    <a >
+                                        <span>
+                                            Đặt ngay
+                                        </span>
+                                        <span class="icon">
+                                            <i class="material-symbols-outlined">
+                                                east
+                                            </i>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <style>
+
+                        .floating-icon {
+                            animation: float 3s ease-in-out infinite;
+                        }
+
+                        .pulse-effect {
+                            animation: pulse 2s infinite;
+                        }
+
+                        .hover-scale {
+                            transition: transform 0.3s ease;
+                        }
+
+                            .hover-scale:hover {
+                                transform: scale(1.03);
+                            }
+
+                        .glass-effect {
+                            backdrop-filter: blur(10px);
+                            background: rgba(255, 255, 255, 0.1);
+                        }
+
+                        .input-focus-effect:focus {
+                            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+                            transform: translateY(-2px);
+                        }
+                    </style>
+
+                    <div class="container" style="background: linear-gradient(135deg, #03045e, #728edf); padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); position: relative; ">
+                        <button id="showMapBtn" style="position: absolute; top: 1rem; left: 1rem; padding: 0.5rem 1rem; background-color: white; border: 2px solid #1D4F8C; color: #1D4F8C; border-radius: 0.5rem; font-weight: bold; display: flex; align-items: center;">
+                            <svg viewBox="0 0 24 24" height="40px" width="40px" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g transform="translate(0 -1028.4)"> <path d="m8 1030.4 8 1v19l-8-1z" fill="#ecf0f1"></path> <path d="m2 1031.4 6-1v19l-6 1z" fill="#bdc3c7"></path> <path d="m16 1031.4 6-1v19l-6 1z" fill="#bdc3c7"></path> <path d="m3 1032.4 5-1v17l-5 1z" fill="#27ae60"></path> <path d="m8 1031.4 8 1v17l-8-1z" fill="#2ecc71"></path> <path d="m13 1c-1.657 0-3 1.3432-3 3s1.343 3 3 3 3-1.3432 3-3-1.343-3-3-3zm0 2c0.552 0 1 0.4477 1 1s-0.448 1-1 1-1-0.4477-1-1 0.448-1 1-1z" transform="translate(0 1028.4)" fill="#c0392b"></path> <path d="m21 1048.4-5 1v-17l5-1z" fill="#27ae60"></path> <path d="m5.6875 1031.8-2.3125 0.5 4.625 4.9v-2.9l-2.3125-2.5z" fill="#f39c12"></path> <path d="m21 1046.4-5 1v-6l5-3z" fill="#f39c12"></path> <path d="m21 1048.4-5 1v-6l5-3z" fill="#2980b9"></path> <path d="m8 1042.4 8-1v6l-8-1z" fill="#f1c40f"></path> <path d="m8 1044.4 8-1v6l-8-1z" fill="#3498db"></path> <path d="m3 1045.4 5-3v4l-5 1z" fill="#f39c12"></path> <path d="m3 1047.4 5-3v4l-5 1z" fill="#2980b9"></path> <path d="m8 8.8008v-2.8985l4 8.6597h-1.469z" transform="translate(0 1028.4)" fill="#f1c40f"></path> <path d="m13 1028.4c-2.209 0-4 1.8-4 4 0 0.7 0.1908 1.3 0.5156 1.9 0.0539 0.1 0.1105 0.2 0.1719 0.3l3.3125 5.8 3.312-5.8c0.051-0.1 0.095-0.2 0.141-0.2l0.031-0.1c0.325-0.6 0.516-1.2 0.516-1.9 0-2.2-1.791-4-4-4zm0 2c1.105 0 2 0.9 2 2s-0.895 2-2 2-2-0.9-2-2 0.895-2 2-2z" fill="#e74c3c"></path> </g> </g></svg>
+                            <span>Chọn trên bản đồ</span>
+                        </button>
+                        <!-- Phần popup hiển thị bản đồ -->
+                        <div class="common__filter__wrapper" id="mapPopup" style="display: none; position: fixed; top: 10%; left: 10%; right: 10%; bottom: 10%; background-color: white; padding: 20px; z-index: 1000;">
+                            <div style="position: relative; width: 100%; height: 100%;">
+                                <!-- Nút phía trên bản đồ -->
+                                <!-- Thanh tìm kiếm -->
+                                <div class="search-container" style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; border: 1px solid #ccc; border-radius: 25px; padding: 5px; width: 60%; background-color: white; z-index: 1000; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+                                    <input type="text" class="search-input" id="searchInput" placeholder="Nhập địa điểm tìm kiếm ....." oninput="suggestLocations()"
+                                           style="flex: 1; border: none; outline: none; padding: 10px; font-size: 16px; border-radius: 25px 0 0 25px;">
+                                    <button onclick="searchLocation()"
+                                            style="background-color: #2840bf; color: white; border: none; outline: none; padding: 10px 20px; cursor: pointer; border-radius: 0 25px 25px 0;">
+                                        <svg viewBox="-0.5 0 25 25" height="30px" width="30px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M22 11.8201C22 9.84228 21.4135 7.90885 20.3147 6.26436C19.2159 4.61987 17.6542 3.33813 15.8269 2.58126C13.9996 1.82438 11.9889 1.62637 10.0491 2.01223C8.10927 2.39808 6.32748 3.35052 4.92896 4.74904C3.53043 6.14757 2.578 7.92935 2.19214 9.86916C1.80629 11.809 2.00436 13.8197 2.76123 15.6469C3.51811 17.4742 4.79985 19.036 6.44434 20.1348C8.08883 21.2336 10.0222 21.8201 12 21.8201" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M2 11.8201H22" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 21.8201C10.07 21.8201 8.5 17.3401 8.5 11.8201C8.5 6.30007 10.07 1.82007 12 1.82007C13.93 1.82007 15.5 6.30007 15.5 11.8201" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M18.3691 21.6901C20.3021 21.6901 21.8691 20.1231 21.8691 18.1901C21.8691 16.2571 20.3021 14.6901 18.3691 14.6901C16.4361 14.6901 14.8691 16.2571 14.8691 18.1901C14.8691 20.1231 16.4361 21.6901 18.3691 21.6901Z" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M22.9998 22.8202L20.8398 20.6702" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                                    </button>
+
+                                </div>
+                                <div id="suggestions" class="suggestions-list" style="position: absolute; top: 60px; left: 50%; transform: translateX(-50%); background: white; border: 1px solid #ccc; width: 60%; z-index: 1000; display: none; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); overflow: hidden;">
+                                </div>
+                                <div id="map" style="width: 100%; height: 100%;"></div>
+                                <form asp-action="Search" onsubmit="validateForm(event)">
+                                    <!-- Nút phía dưới bản đồ -->
+                                    <button id="bottomButton" class="cmn__btn"
+                                            onclick="onBottomButtonClick()"
+                                            style="position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%); border: none; cursor: pointer; z-index: 1100; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);">
+                                        Xác nhận
+                                    </button>
+
+                                </form>
+                            </div>
+                        </div>
+                      
+
+                        <!-- Thanh tìm kiếm -->
+                        <!-- Vùng tối mờ phía dưới popup -->
+                        <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999;"></div>
+                        <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%); border-radius: 50%; animation: pulse 4s infinite;"></div>
+                        <div style="position: absolute; bottom: -30px; left: -30px; width: 150px; height: 150px; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%); border-radius: 50%; animation: pulse 3s infinite;"></div>
+
+                        <!-- Title Section with Floating Icon -->
+                        <div style="text-align: center; margin-bottom: 2rem;">
+                            <h2 style="color: white; font-size: 1.8rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); margin: 0;">
+                                Đặt Vé Xe Khách
+                            </h2>
+
+                            <p style="color: rgba(255,255,255,0.8); margin-top: 0.5rem; font-size: 0.9rem;">
+                                Hành trình thoải mái, an toàn
+                            </p>
+                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" height="70px" width="70px" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path style="fill:#6DABE4;" d="M471.066,107.789H42.214c-15.348,0-27.788,12.442-27.788,27.788v218.112h484.428v-218.11 C498.854,120.23,486.414,107.789,471.066,107.789z"></path> <g> <path style="fill:#FFB547;" d="M463.805,298.242h35.05v36.75h-35.05c-2.938,0-5.319-2.381-5.319-5.319v-26.112 C458.486,300.623,460.867,298.242,463.805,298.242z"></path> <path style="fill:#FFB547;" d="M49.476,298.242h-35.05v36.75h35.05c2.938,0,5.319-2.381,5.319-5.319v-26.112 C54.795,300.623,52.413,298.242,49.476,298.242z"></path> </g> <path style="fill:#99DAEA;" d="M498.854,266.372h-29.318c-6.103,0-11.05-4.947-11.05-11.05v-74.425h40.369V266.372z"></path> <path style="fill:#E8E8E8;" d="M469.536,135.578h29.318v45.319h-40.369v-34.269C458.486,140.525,463.433,135.578,469.536,135.578z"></path> <g> <path style="fill:#99DAEA;" d="M328.824,212.686h78.379c5.153,0,9.329-4.177,9.329-9.329v-45.119h-97.037v45.119 C319.495,208.509,323.672,212.686,328.824,212.686z"></path> <path style="fill:#99DAEA;" d="M199.264,212.686h78.379c5.153,0,9.329-4.177,9.329-9.329v-45.119h-97.037v45.119 C189.935,208.509,194.111,212.686,199.264,212.686z"></path> <path style="fill:#99DAEA;" d="M69.703,212.686h78.379c5.153,0,9.329-4.177,9.329-9.329v-45.119H60.374v45.119 C60.374,208.509,64.552,212.686,69.703,212.686z"></path> </g> <rect x="14.43" y="149.99" style="fill:#333E48;" width="444.063" height="16.498"></rect> <path style="opacity:0.2;enable-background:new ;" d="M295.878,303.166h-89.129c-4.557,0-8.249-3.692-8.249-8.249 c0-4.557,3.692-8.249,8.249-8.249h89.129c4.557,0,8.249,3.692,8.249,8.249C304.127,299.473,300.434,303.166,295.878,303.166z"></path> <path style="opacity:0.2;enable-background:new ;" d="M275.744,328.253h-48.862c-4.557,0-8.249-3.692-8.249-8.249 c0-4.557,3.692-8.249,8.249-8.249h48.862c4.557,0,8.249,3.692,8.249,8.249C283.993,324.561,280.301,328.253,275.744,328.253z"></path> <path style="opacity:0.15;enable-background:new ;" d="M33.53,336.736V118.624c0-3.522,0.662-6.886,1.857-9.987 c-12.045,3.044-20.959,13.95-20.959,26.94v218.112h484.428v-16.953H33.53V336.736z"></path> <g> <circle style="fill:#333E48;" cx="136.659" cy="353.686" r="50.522"></circle> <circle style="fill:#333E48;" cx="136.659" cy="353.686" r="50.522"></circle> </g> <circle style="fill:#D1D3D3;" cx="136.659" cy="353.686" r="21.863"></circle> <path style="opacity:0.15;enable-background:new ;" d="M144.363,394.495c-27.903,0-50.522-22.619-50.522-50.522 c0-9.61,2.684-18.593,7.343-26.241c-9.283,9.161-15.042,21.884-15.042,35.957c0,27.902,22.619,50.522,50.522,50.522 c18.292,0,34.313-9.722,43.179-24.28C170.72,388.933,158.193,394.495,144.363,394.495z"></path> <g> <circle style="fill:#333E48;" cx="366.005" cy="353.686" r="50.522"></circle> <circle style="fill:#333E48;" cx="366.005" cy="353.686" r="50.522"></circle> </g> <circle style="fill:#D1D3D3;" cx="366.005" cy="353.686" r="21.863"></circle> <path style="opacity:0.15;enable-background:new ;" d="M373.71,394.495c-27.902,0-50.522-22.619-50.522-50.522 c0-9.61,2.684-18.593,7.343-26.241c-9.283,9.161-15.042,21.884-15.042,35.957c0,27.902,22.619,50.522,50.522,50.522 c18.292,0,34.313-9.722,43.179-24.28C400.067,388.933,387.539,394.495,373.71,394.495z"></path> <path style="fill:#C3C6C8;" d="M504.364,372.388h-51.813c-4.218,0-7.636-3.419-7.636-7.636v-22.123c0-4.218,3.42-7.636,7.636-7.636 h51.813c4.218,0,7.636,3.418,7.636,7.636v22.123C512,368.968,508.582,372.388,504.364,372.388z"></path> <path style="opacity:0.15;enable-background:new ;" d="M462.083,363.955c-4.218,0-7.636-3.418-7.636-7.636v-21.327h-1.896 c-4.218,0-7.636,3.418-7.636,7.636v22.123c0,4.218,3.418,7.636,7.636,7.636h51.813c4.218,0,7.636-3.419,7.636-7.636v-0.796H462.083z "></path> <path style="fill:#C3C6C8;" d="M52.738,372.388H7.636c-4.218,0-7.636-3.419-7.636-7.636v-22.123c0-4.218,3.42-7.636,7.636-7.636 h45.101c4.218,0,7.636,3.418,7.636,7.636v22.123C60.374,368.968,56.956,372.388,52.738,372.388z"></path> <path style="opacity:0.15;enable-background:new ;" d="M16.069,363.833c-4.218,0-7.636-3.42-7.636-7.636v-21.204H7.636 C3.42,334.992,0,338.41,0,342.628v22.123c0,4.218,3.42,7.636,7.636,7.636h45.101c4.218,0,7.636-3.42,7.636-7.636v-0.918 L16.069,363.833L16.069,363.833z"></path> <path style="fill:#FFB547;" d="M403.779,240.866H14.426v25.506h389.353c7.044,0,12.753-5.709,12.753-12.753l0,0 C416.532,246.575,410.823,240.866,403.779,240.866z"></path> </g></svg>
+                            <td style="width:10%; text-align:center; color: white;">
+                                <!-- Đường kẻ phân cách -->
+                                <span style="color: white; font-weight: bold; font-size: 30px">--------------------</span>
+                            </td>
+                            <svg viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" height="70px" width="70px" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M758.3 266.2h188.5v216.5H758.3z" fill="#FFB819"></path><path d="M862 345.9m-40.5 0a40.5 40.5 0 1 0 81 0 40.5 40.5 0 1 0-81 0Z" fill="#0071CE"></path><path d="M120.4 242.6h638v240.1h-638z" fill="#00B3E3"></path><path d="M98.7 246.5h43.4v541.9H98.7z" fill="#333E48"></path><path d="M98.7 246.5h43.4V310H98.7z" fill=""></path><path d="M416.2 246.5h43.4v236.2h-43.4z" fill="#333E48"></path><path d="M142 266.2h591.7v54.7H142z" fill=""></path><path d="M733.8 246.5h43.4v541.9h-43.4z" fill="#333E48"></path><path d="M733.8 246.5h43.4V310h-43.4z" fill=""></path><path d="M228.8 689h37.5v99.4h-37.5z" fill="#A4A9AD"></path><path d="M228.8 767.3h37.5v21.1h-37.5z" fill=""></path><path d="M609.6 689h37.5v99.4h-37.5z" fill="#A4A9AD"></path><path d="M609.6 767.3h37.5v21.1h-37.5z" fill=""></path><path d="M673.3 662v-93.5c0-17.9-14.7-32.6-32.6-32.6H235.2c-17.9 0-32.6 14.7-32.6 32.6V662h470.7z" fill="#A4A9AD"></path><path d="M437.9 575.5m-10.6 0a10.6 10.6 0 1 0 21.2 0 10.6 10.6 0 1 0-21.2 0Z" fill=""></path><path d="M361.3 575.5m-10.6 0a10.6 10.6 0 1 0 21.2 0 10.6 10.6 0 1 0-21.2 0Z" fill=""></path><path d="M284.7 575.5m-10.6 0a10.6 10.6 0 1 0 21.2 0 10.6 10.6 0 1 0-21.2 0Z" fill=""></path><path d="M514.5 575.5m-10.6 0a10.6 10.6 0 1 0 21.2 0 10.6 10.6 0 1 0-21.2 0Z" fill=""></path><path d="M591.1 575.5m-10.6 0a10.6 10.6 0 1 0 21.2 0 10.6 10.6 0 1 0-21.2 0Z" fill=""></path><path d="M202.6 609.7h470.7V662H202.6z" fill=""></path><path d="M673.3 695.4H202.6c-18.5 0-33.4-15-33.4-33.4 0-18.5 15-33.4 33.4-33.4h470.7c18.5 0 33.4 15 33.4 33.4s-15 33.4-33.4 33.4z" fill="#D1D3D3"></path><path d="M800.5 223.8c0-11-9-20-20-20H95.3c-11 0-20 9-20 20v22.4c0 11 9 20 20 20h685.2c11 0 20-9 20-20v-22.4z" fill="#0071CE"></path><path d="M905.5 442h-87.1c-8 0-14.5-6.5-14.5-14.5s6.5-14.5 14.5-14.5h87.1c8 0 14.5 6.5 14.5 14.5s-6.5 14.5-14.5 14.5z" fill="#FFFFFF"></path><path d="M959.4 820.4c0 4.2-3.5 7.7-7.7 7.7H70.4c-4.3 0-7.7-3.5-7.7-7.7v-27.7c0-4.3 3.5-7.7 7.7-7.7h881.2c4.3 0 7.7 3.5 7.7 7.7l0.1 27.7z" fill="#A4A9AD"></path></g></svg>
+                        </div>
+
+                        <!-- Radio Button Section -->
+                        <div class="common__filter__wrapper " style="border-radius: 1rem; padding: 1rem; margin-bottom: 2rem; display: flex; justify-content: center; gap: 2rem; background-color: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            <div class="b__radio" style="position: relative; display: flex; align-items: center;">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="bradios1s" checked style="cursor: pointer;">
+                                <label class="form-check-label" for="bradios1s" style="font-weight: bold; color: #475EC8; margin-left: 0.5rem; cursor: pointer;">
+                                    <svg viewBox="0 0 24 24" height="40px" width="40px" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path opacity="0.4" d="M7.81 2H16.18C19.83 2 22 4.17 22 7.81V16.18C22 19.82 19.83 21.99 16.19 21.99H7.81C4.17 22 2 19.83 2 16.19V7.81C2 4.17 4.17 2 7.81 2Z" fill="#147eff"></path>
+                                            <path d="M5.47 11.4699L9.76 7.1799C10.05 6.8899 10.53 6.8899 10.82 7.1799C11.11 7.4699 11.11 7.9499 10.82 8.2399L7.81 11.2499H18C18.41 11.2499 18.75 11.5899 18.75 11.9999C18.75 12.4099 18.41 12.7499 18 12.7499H7.81L10.82 15.7599C11.11 16.0499 11.11 16.5299 10.82 16.8199C10.67 16.9699 10.48 17.0399 10.29 17.0399C10.1 17.0399 9.91 16.9699 9.76 16.8199L5.47 12.5299C5.33 12.3899 5.25 12.1999 5.25 11.9999C5.25 11.7999 5.33 11.6099 5.47 11.4699Z" fill="#147eff"></path>
+                                        </g>
+                                    </svg>
+                                    Một Chiều
+                                </label>
+                                <div style="position: absolute; bottom: -5px; left: 0; width: 100%; height: 2px; background: #475EC8; transform: scaleX(0); transition: transform 0.3s ease;"></div>
+                            </div>
+                            <div class="b__radio" style="position: relative; display: flex; align-items: center;">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="bradios1s" checked style="cursor: pointer;">
+                                <label class="form-check-label" for="bradios1s" style="font-weight: bold; color: #475EC8; margin-left: 0.5rem; cursor: pointer;">
+                                    <svg viewBox="0 0 24 24" height="40px" width="40px" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path opacity="0.4" d="M7.81 2H16.18C19.83 2 22 4.17 22 7.81V16.18C22 19.82 19.83 21.99 16.19 21.99H7.81C4.17 22 2 19.83 2 16.19V7.81C2 4.17 4.17 2 7.81 2Z" fill="#0073ff"></path> <path d="M17.69 13.4798C17.61 13.2998 17.47 13.1498 17.28 13.0698C17.19 13.0298 17.09 13.0098 16.99 13.0098H7C6.59 13.0098 6.25 13.3498 6.25 13.7598C6.25 14.1698 6.59 14.5098 7 14.5098H15.19L13.52 16.1798C13.23 16.4698 13.23 16.9498 13.52 17.2398C13.67 17.3898 13.86 17.4598 14.05 17.4598C14.24 17.4598 14.43 17.3898 14.58 17.2398L17.53 14.2898C17.6 14.2198 17.65 14.1398 17.69 14.0498C17.77 13.8598 17.77 13.6598 17.69 13.4798Z" fill="#0073ff"></path> <path d="M6.31 10.52C6.39 10.7 6.53 10.85 6.72 10.93C6.81 10.97 6.9 10.99 7 10.99H17C17.41 10.99 17.75 10.65 17.75 10.24C17.75 9.82998 17.41 9.48998 17 9.48998H8.81L10.48 7.81998C10.77 7.52998 10.77 7.04998 10.48 6.75998C10.19 6.46998 9.71 6.46998 9.42 6.75998L6.47 9.70998C6.4 9.77998 6.35 9.85998 6.31 9.94998C6.23 10.14 6.23 10.34 6.31 10.52Z" fill="#0073ff"></path> </g></svg>
+                                    Khứ Hồi
+                                </label>
+                                <div style="position: absolute; bottom: -5px; left: 0; width: 100%; height: 2px; background: #475EC8; transform: scaleX(0); transition: transform 0.3s ease;"></div>
+                            </div>
+
+
+
+                        </div>
+
+
+
+                        <form asp-action="Search" onsubmit="validateForm(event)">
+                            <div class="col-md-10">
+                                <div class="row g-3">
+                                    <!-- Location Selects with Icons -->
+                                    <div class="col-md-3">
+                                        <div class="glass-effect" style="padding: 1rem; border-radius: 0.5rem;">
+                                            <label style="color: white; margin-bottom: 0.5rem; font-size: 0.9rem; display: flex; align-items: center;">
+                                                <i class="fas fa-map-pin" style="margin-right: 0.5rem;"></i>
+                                                Điểm đi
+                                            </label>
+                                            <select id="start" class="form-control w-100 py-3 input-focus-effect"
+                                                    style="border-radius: 0.5rem; border: 1px solid rgba(255,255,255,0.3); background: rgba(255, 255, 255, 0.9); transition: all 0.3s ease;" name="Start">
+                                                <option value="">Chọn điểm đi</option>
+                                                @foreach (var location in ViewBag.StartLocations)
+                                                {
+                                                    <option value="@location">@location</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="company" name="Company" value="">
+                                    <div class="col-md-3">
+                                        <div class="glass-effect" style="padding: 1rem; border-radius: 0.5rem;">
+                                            <label style="color: white; margin-bottom: 0.5rem; font-size: 0.9rem; display: flex; align-items: center;">
+                                                <i class="fas fa-map-marker-alt" style="margin-right: 0.5rem;"></i>
+                                                Điểm đến
+                                            </label>
+                                            <select id="end" class="form-control w-100 py-3 input-focus-effect"
+                                                    style="border-radius: 0.5rem; border: 1px solid rgba(255,255,255,0.3); background: rgba(255, 255, 255, 0.9); transition: all 0.3s ease;" name="End">
+                                                <option value="">Chọn điểm đến</option>
+                                                @foreach (var location in ViewBag.EndLocations)
+                                                {
+                                                    <option value="@location">@location</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- Date Input -->
+                                    <div class="col-md-3">
+                                        <div class="glass-effect" style="padding: 1rem; border-radius: 0.5rem;">
+                                            <label style="color: white; margin-bottom: 0.5rem; font-size: 0.9rem; display: flex; align-items: center;">
+                                                <i class="fas fa-calendar-check" style="margin-right: 0.5rem;"></i>
+                                                Ngày đi
+                                            </label>
+                                            <input type="date" id="departureDate" class="form-control w-100 py-3 input-focus-effect"
+                                                   style="border-radius: 0.5rem; border: 1px solid rgba(255,255,255,0.3); background: rgba(255, 255, 255, 0.9); transition: all 0.3s ease;" name="DepartureDate">
+                                        </div>
+                                    </div>
+                                    <!-- Seats Input -->
+                                    <div class="col-md-3">
+                                        <div class="glass-effect" style="padding: 1rem; border-radius: 0.5rem;">
+                                            <label style="color: white; margin-bottom: 0.5rem; font-size: 0.9rem; display: flex; align-items: center;">
+                                                <i class="fas fa-couch" style="margin-right: 0.5rem;"></i>
+                                                Số ghế
+                                            </label>
+                                            <div style="position: relative;">
+                                                <input type="number" id="seatsRequired" class="form-control w-100 py-3 input-focus-effect"
+                                                       style="border-radius: 0.5rem; border: 1px solid rgba(255,255,255,0.3); background: rgba(255, 255, 255, 0.9); transition: all 0.3s ease;"
+                                                       name="SeatsRequired" min="1" max="10" placeholder="1-10 ghế">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Submit Button -->
+                            <div class="col-md-2">
+                                <button class="cmn__btn border-0 w-100 py-3" type="submit" style="margin-left: 1rem; border-radius: 0.5rem; background-color: white; color: #475EC8; border: 2px solid #475EC8; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                    <i class="fas fa-search" style="margin-right: 0.25rem;"></i>
+                                    <span>Tìm kiếm</span>
+                                </button>
+
+
+                            </div>
+
+                        </form>
+
+
+                        <!-- Floating Elements -->
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <section class="hotel__bookslider1  pt-60 pb-90">
+        <div class="container">
+            <div class="row">
+                <div class="col-xxl-6 col-xl-7 col-lg-7 wow fadeInDown">
+                    <div class="wow fadeInDown pb__60">
+                        <h2>
+                            Điểm Đến Phổ Biến
+                        </h2>
+                        <p>
+                            Có rất nhiều địa điểm thú vị để khám phá, nhưng hầu hết đều mang đến những trải nghiệm tuyệt vời...
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flight__brachslider owl-theme owl-carousel">
+            <div class="brach__flight__item">
+                <img src="~/busjs/assets/img/flights/paris1.jpg" alt="img">
+                <a href="flight-oneway.html" class="flitposition">
+                    <span class="location">
+                        <span class="icon">
+                            <img src="~/busjs/assets/img/booking/locate.png" alt="img">
+                        </span>
+                        <span class="text">
+                            Hà Nội
+                        </span>
+                    </span>
+                    <span class="pages leftrightb pt__10 mt__20">
+                        <span class="text">
+                            14 Gói Tour
+                        </span>fw
+                        <span class="arrow">
+                            <i class="material-symbols-outlined">
+                                chevron_right
+                            </i>
+                        </span>
+                    </span>
+                </a>
+            </div>
+            <div class="brach__flight__item">
+                <img src="~/busjs/assets/img/flights/paris2.jpg" alt="img">
+                <a href="flight-oneway.html" class="flitposition">
+                    <span class="location">
+                        <span class="icon">
+                            <img src="~/busjs/assets/img/booking/locate.png" alt="img">
+                        </span>
+                        <span class="text">
+                            Hồ Chí Minh
+                        </span>
+                    </span>
+                    <span class="pages leftrightb pt__10 mt__20">
+                        <span class="text">
+                            14 Gói Tour
+                        </span>
+                        <span class="arrow">
+                            <i class="material-symbols-outlined">
+                                chevron_right
+                            </i>
+                        </span>
+                    </span>
+                </a>
+            </div>
+            <div class="brach__flight__item">
+                <img src="~/busjs/assets/img/flights/paris3.jpg" alt="img">
+                <a href="flight-oneway.html" class="flitposition">
+                    <span class="location">
+                        <span class="icon">
+                            <img src="~/busjs/assets/img/booking/locate.png" alt="img">
+                        </span>
+                        <span class="text">
+                            Đà Nẵng
+                        </span>
+                    </span>
+                    <span class="pages leftrightb pt__10 mt__20">
+                        <span class="text">
+                            14 Gói Tour
+                        </span>
+                        <span class="arrow">
+                            <i class="material-symbols-outlined">
+                                chevron_right
+                            </i>
+                        </span>
+                    </span>
+                </a>
+            </div>
+            <div class="brach__flight__item">
+                <img src="~/busjs/assets/img/flights/paris4.jpg" alt="img">
+                <a href="flight-oneway.html" class="flitposition">
+                    <span class="location">
+                        <span class="icon">
+                            <img src="~/busjs/assets/img/booking/locate.png" alt="img">
+                        </span>
+                        <span class="text">
+                            Hạ Long
+                        </span>
+                    </span>
+                    <span class="pages leftrightb pt__10 mt__20">
+                        <span class="text">
+                            14 Gói Tour
+                        </span>
+                        <span class="arrow">
+                            <i class="material-symbols-outlined">
+                                chevron_right
+                            </i>
+                        </span>
+                    </span>
+                </a>
+            </div>
+            <div class="brach__flight__item">
+                <img src="~/busjs/assets/img/flights/paris5.jpg" alt="img">
+                <a href="flight-oneway.html" class="flitposition">
+                    <span class="location">
+                        <span class="icon">
+                            <img src="~/busjs/assets/img/booking/locate.png" alt="img">
+                        </span>
+                        <span class="text">
+                            Phú Quốc
+                        </span>
+                    </span>
+                    <span class="pages leftrightb pt__10 mt__20">
+                        <span class="text">
+                            14 Gói Tour
+                        </span>
+                        <span class="arrow">
+                            <i class="material-symbols-outlined">
+                                chevron_right
+                            </i>
+                        </span>
+                    </span>
+                </a>
+            </div>
+            <div class="brach__flight__item">
+                <img src="~/busjs/assets/img/flights/paris6.jpg" alt="img">
+                <a href="flight-oneway.html" class="flitposition">
+                    <span class="location">
+                        <span class="icon">
+                            <img src="~/busjs/assets/img/booking/locate.png" alt="img">
+                        </span>
+                        <span class="text">
+                            Nha Trang
+                        </span>
+                    </span>
+                    <span class="pages leftrightb pt__10 mt__20">
+                        <span class="text">
+                            14 Gói Tour
+                        </span>
+                        <span class="arrow">
+                            <i class="material-symbols-outlined">
+                                chevron_right
+                            </i>
+                        </span>
+                    </span>
+                </a>
+            </div>
+            <div class="brach__flight__item">
+                <img src="~/busjs/assets/img/flights/paris3.jpg" alt="img">
+                <a href="flight-oneway.html" class="flitposition">
+                    <span class="location">
+                        <span class="icon">
+                            <img src="~/busjs/assets/img/booking/locate.png" alt="img">
+                        </span>
+                        <span class="text">
+                            Hội An
+                        </span>
+                    </span>
+                    <span class="pages leftrightb pt__10 mt__20">
+                        <span class="text">
+                            14 Gói Tour
+                        </span>
+                        <span class="arrow">
+                            <i class="material-symbols-outlined">
+                                chevron_right
+                            </i>
+                        </span>
+                    </span>
+                </a>
+            </div>
+            <div class="brach__flight__item">
+                <img src="~/busjs/assets/img/flights/paris5.jpg" alt="img">
+                <a href="flight-oneway.html" class="flitposition">
+                    <span class="location">
+                        <span class="icon">
+                            <img src="~/busjs/assets/img/booking/locate.png" alt="img">
+                        </span>
+                        <span class="text">
+                            Sapa
+                        </span>
+                    </span>
+                    <span class="pages leftrightb pt__10 mt__20">
+                        <span class="text">
+                            14 Gói Tour
+                        </span>
+                        <span class="arrow">
+                            <i class="material-symbols-outlined">
+                                chevron_right
+                            </i>
+                        </span>
+                    </span>
+                </a>
+            </div>
+            <div class="brach__flight__item">
+                <img src="~/busjs/assets/img/flights/paris1.jpg" alt="img">
+                <a href="flight-oneway.html" class="flitposition">
+                    <span class="location">
+                        <span class="icon">
+                            <img src="~/busjs/assets/img/booking/locate.png" alt="img">
+                        </span>
+                        <span class="text">
+                            Đà Lạt
+                        </span>
+                    </span>
+                    <span class="pages leftrightb pt__10 mt__20">
+                        <span class="text">
+                            14 Gói Tour
+                        </span>
+                        <span class="arrow">
+                            <i class="material-symbols-outlined">
+                                chevron_right
+                            </i>
+                        </span>
+                    </span>
+                </a>
+            </div>
+            <div class="brach__flight__item">
+                <img src="~/busjs/assets/img/flights/paris2.jpg" alt="img">
+                <a href="flight-oneway.html" class="flitposition">
+                    <span class="location">
+                        <span class="icon">
+                            <img src="~/busjs/assets/img/booking/locate.png" alt="img">
+                        </span>
+                        <span class="text">
+                            Cần Thơ
+                        </span>
+                    </span>
+                    <span class="pages leftrightb pt__10 mt__20">
+                        <span class="text">
+                            14 Gói Tour
+                        </span>
+                        <span class="arrow">
+                            <i class="material-symbols-outlined">
+                                chevron_right
+                            </i>
+                        </span>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </section>
+    <section class="discount__travel bgsection pt-60 pb-100">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xxl-6 col-xl-7 col-lg-7 wow fadeInDown">
+                    <div class="wow fadeInDown section__center pb__60">
+                        <h2>
+                            Ưu Đãi Đặt Vé
+                        </h2>
+                        <p>
+                            Đặt vé xe khách với nhiều ưu đãi hấp dẫn, giúp bạn tiết kiệm chi phí cho những chuyến đi của mình.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-xxl-6 col-xl-6 col-lg-6">
+                    <div class="travel__dicount__item">
+                        <img src="~/busjs/assets/img/flights/discount1.jpg" alt="img">
+                        <div class="bestoffer__content">
+                            <h4 class="cheap">
+                                Đặt Vé Ngay, Trả Sau
+                            </h4>
+                            <p class="usa">
+                                Ưu đãi vé xe khách đến Sài Gòn
+                            </p>
+                            <h1 class="offfertitle">
+                                <span class="uptoget">
+                                    <span class="upto d-block">
+                                        Giảm
+                                    </span>
+                                    <span class="upto">
+                                        lên đến
+                                    </span>
+                                </span>
+                                45
+                                <span class="offs">
+                                    % GIÁ VÉ
+                                </span>
+                            </h1>
+                            <a href="bus-booking.html" class="cmn__btn cmn__green">
+                                <span>
+                                    Đặt Ngay
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xxl-6 col-xl-6 col-lg-6">
+                    <div class="travel__dicount__item">
+                        <img src="~/busjs/assets/img/flights/discount2.jpg" alt="img">
+                        <div class="content">
+                            <div class="boxeswidth">
+                                <h1 class="fivepercent">
+                                    5%
+                                </h1>
+                                <h4 class="instant">
+                                    GIẢM GIÁ NGAY
+                                </h4>
+                                <p class="flightbook">
+                                    khi đặt vé xe trực tuyến
+                                </p>
+                                <a href="bus-booking.html" class="cmn__btn cmn__meron">
+                                    <span>
+                                        Đặt Ngay
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6">
+                    <div class="travel__dicount__item">
+                        <img src="~/busjs/assets/img/flights/discount3.jpg" alt="img">
+                        <div class="content">
+                            <h4 class="fivtin">
+                                Giảm 15%
+                            </h4>
+                            <p class="winter pb__20">
+                                Đặt vé đi Đà Nẵng
+                            </p>
+                            <a href="bus-booking.html" class="cmn__btn cmn__base">
+                                <span>
+                                    Đặt Ngay
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6">
+                    <div class="travel__dicount__item">
+                        <img src="~/busjs/assets/img/flights/discount4.jpg" alt="img">
+                        <div class="content">
+                            <h4 class="cheap">
+                                Ưu Đãi Vé Xe
+                            </h4>
+                            <p class="winter">
+                                Khuyến mãi mùa hè đi Nha Trang
+                            </p>
+                            <span class="tharthy pb__20">
+                                30% GIẢM
+                            </span>
+                            <a href="bus-booking.html" class="cmn__btn cmn__base">
+                                <span>
+                                    Đặt Ngay
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6">
+                    <div class="travel__dicount__item">
+                        <img src="~/busjs/assets/img/flights/discount5.jpg" alt="img">
+                        <div class="content">
+                            <h4 class="cheap">
+                                Ưu Đãi Đặc Biệt
+                            </h4>
+                            <p class="winter">
+                                Kỳ nghỉ hè tại Phú Quốc
+                            </p>
+                            <span class="tharthy pb__20">
+                                50% GIẢM
+                            </span>
+                            <a href="bus-booking.html" class="cmn__btn cmn__green">
+                                <span>
+                                    Đặt Ngay
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="more__btn text-center pt__40">
+                <a href="bus-booking.html" class="cmn__btn">
+                    <span>
+                        Xem Tất Cả Ưu Đãi
+                    </span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- train booking Categoris end -->
+    <!-- train ticket here -->
+
+
+
+
+
+    <section class="hotel__facilities pt-120 pb-80">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xxl-6 col-xl-7 col-lg-7 wow fadeInDown">
+                    <div class="wow fadeInDown section__center pb__60">
+                        <h2>
+                            Tiện Nghi Xe Khách
+                        </h2>
+                        <p>
+                            Dưới đây là các tiện nghi mà chúng tôi cung cấp cho hành khách trong chuyến đi.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="flight__facilites__wrap">
+                <div class="row g-4 justify-content-center">
+                    <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 wow fadeInUp" data-wow-duration="1.2s">
+                        <div class="hotel__facilities__item">
+                            <div class="head__wrap">
+                                <img src="~/busjs/assets/img/room/breakfast.png" alt="img">
+                                <h5>
+                                    <a href="#">
+                                        Nước Uống Miễn Phí
+                                    </a>
+                                </h5>
+                            </div>
+                            <p>
+                                Hành khách sẽ được cung cấp nước uống miễn phí trong suốt chuyến đi.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 wow fadeInUp" data-wow-duration="1.6s">
+                        <div class="hotel__facilities__item">
+                            <div class="head__wrap">
+                                <img src="~/busjs/assets/img/room/seats.png" alt="img">
+                                <h5>
+                                    <a href="#">
+                                        Ghế Ngồi Thoải Mái
+                                    </a>
+                                </h5>
+                            </div>
+                            <p>
+                                Ghế ngồi được thiết kế thoải mái, giúp bạn thư giãn trong suốt hành trình.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 wow fadeInUp" data-wow-duration="1.9s">
+                        <div class="hotel__facilities__item">
+                            <div class="head__wrap">
+                                <img src="~/busjs/assets/img/room/wifi.png" alt="img">
+                                <h5>
+                                    <a href="#">
+                                        WIFI Miễn Phí
+                                    </a>
+                                </h5>
+                            </div>
+                            <p>
+                                Kết nối WIFI miễn phí giúp bạn dễ dàng truy cập internet trong suốt chuyến đi.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 wow fadeInUp" data-wow-duration="2.1s">
+                        <div class="hotel__facilities__item">
+                            <div class="head__wrap">
+                                <img src="~/busjs/assets/img/room/drinkss.png" alt="img">
+                                <h5>
+                                    <a href="#">
+                                        Đồ Uống Lạnh
+                                    </a>
+                                </h5>
+                            </div>
+                            <p>
+                                Chúng tôi cung cấp các loại đồ uống lạnh để bạn thưởng thức trong suốt hành trình.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 wow fadeInUp" data-wow-duration="2.2s">
+                        <div class="hotel__facilities__item">
+                            <div class="head__wrap">
+                                <img src="~/busjs/assets/img/room/hotcoffee.png" alt="img">
+                                <h5>
+                                    <a href="#">
+                                        Cà Phê Nóng
+                                    </a>
+                                </h5>
+                            </div>
+                            <p>
+                                Bạn có thể thưởng thức cà phê nóng để tiếp thêm năng lượng trong chuyến đi.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 wow fadeInUp" data-wow-duration="2.3s">
+                        <div class="hotel__facilities__item">
+                            <div class="head__wrap">
+                                <img src="~/busjs/assets/img/room/salat.png" alt="img">
+                                <h5>
+                                    <a href="#">
+                                        Nơi Nghỉ Ngơi
+                                    </a>
+                                </h5>
+                            </div>
+                            <p>
+                                Có không gian nghỉ ngơi thoải mái giữa các chặng đường dài.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 wow fadeInUp" data-wow-duration="2.3s">
+                        <div class="hotel__facilities__item">
+                            <div class="head__wrap">
+                                <img src="~/busjs/assets/img/room/medical.png" alt="img">
+                                <h5>
+                                    <a href="#">
+                                        Dịch Vụ Y Tế
+                                    </a>
+                                </h5>
+                            </div>
+                            <p>
+                                Đội ngũ y tế sẵn sàng hỗ trợ bạn trong trường hợp cần thiết.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 wow fadeInUp" data-wow-duration="2.3s">
+                        <div class="hotel__facilities__item">
+                            <div class="head__wrap">
+                                <img src="~/busjs/assets/img/room/supports.png" alt="img">
+                                <h5>
+                                    <a href="#">
+                                        Hỗ Trợ Khách Hàng
+                                    </a>
+                                </h5>
+                            </div>
+                            <p>
+                                Chúng tôi luôn sẵn sàng hỗ trợ bạn 24/7 trong suốt hành trình.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- train facilities End -->
+    <!--train booktour here -->
+    <section class="customer__seection bgsection pt-60 pb-120">
+        <div class="container">
+            <div class="row align-items-center justify-content-between flex-row-reverse">
+                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-7">
+                    <div class="customer__content">
+                        <div class="section__header pb__40 wow fadeInDown">
+                            <h2>
+                                Chúng tôi mang đến dịch vụ đặt vé xe tốt nhất cho khách hàng
+                            </h2>
+                            <p class="hoteltext">
+                                Hơn 20 năm kinh nghiệm trong việc kết nối hành khách với các chuyến xe.
+                            </p>
+                            <p>
+                                Đặt vé dễ dàng, thanh toán an toàn, và hỗ trợ tận tình. Hãy chọn dịch vụ của chúng tôi để có trải nghiệm di chuyển tuyệt vời trên mọi hành trình!
+                            </p>
+                        </div>
+                        <div class="customer wow fadeInUp">
+                            
+                                <img src="~/busjs/assets/img/logo/logowheely.png" alt="img">
+                           
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="col-xxl-5 col-xl-6 col-lg-6 col-md-5">
+                    <div class="customer__thumb">
+                        <img src="~/busjs/assets/img/customer/customer.png" alt="img">
+                        <div class="rounttop wow fadeInDown" data-wow-duration="2s">
+                            <img src="~/busjs/assets/img/customer/customertop.png" alt="img">
+                        </div>
+                        <div class="rountbottom wow fadeInUp" data-wow-duration="2s">
+                            <img src="~/busjs/assets/img/customer/customerbottom.png" alt="img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!--train booktour End -->
+    <!--train support end-->
+    <!--train two app end-->
+    <section class="app__section bgsection pt-60 pb-120">
+        <div class="container">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-xl-7 col-lg-7">
+                    <div class="app__content">
+                        <div class="section__header wow fadeInUp">
+                            <h2>
+                                Tải ngay ứng dụng đặt vé xe khách của chúng tôi
+                            </h2>
+                            <p class="apptext">
+                                Tải ứng dụng của chúng tôi để đặt vé xe một cách nhanh chóng và tiện lợi nhất.
+                            </p>
+                            <p class="pb__40">
+                                Ứng dụng hỗ trợ nhiều tính năng như tìm kiếm chuyến xe, thanh toán trực tuyến, và theo dõi lộ trình. Hãy tải ngay để trải nghiệm dịch vụ tuyệt vời!
+                            </p>
+                            <div class="d-flex gap-3 align-items-center">
+                                <a href="javascript:void(0)" class="storyitem">
+                                    <img src="~/busjs/assets/img/app/appplay.png" alt="img">
+                                </a>
+                                <a href="javascript:void(0)" class="storyitem">
+                                    <img src="~/busjs/assets/img/app/appstore.png" alt="img">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-5 col-lg-5 wow fadeInDown">
+                    <div class="app__thumb">
+                        <img src="~/busjs/assets/img/app/app.png" alt="img">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="app__shape">
+            <img src="~/busjs/assets/img/app/app-shape.png" alt="img">
+        </div>
+        <div class="app__shape2">
+            <img src="~/busjs/assets/img/app/appshape2.png" alt="img">
+        </div>
+    </section>
+
+    </section>
+
+    <!--train two app end-->
+    <!--train two qustions start-->
+    <section class="question__section pt-120 pb-30">
+        <div class="container">
+            <div class="row justify-content-center wow fadeInDown">
+                <div class="col-lg-6">
+                    <div class="section__header section__center pb__40">
+                        <h2>
+                            Có câu hỏi? Chúng tôi có câu trả lời!
+                        </h2>
+                        <p>
+                            Tìm câu trả lời cho những câu hỏi thường gặp về việc đặt vé xe và đi lại với chúng tôi.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-xl-6 col-lg-6">
+                    <div class="question__content">
+                        <div class="accordion__wrap">
+                            <div class="accordion" id="accordionExample">
+                                <!-- Các mục hỏi đáp -->
+                                <div class="accordion-item wow fadeInUp" data-wow-duration="0.9s">
+                                    <h2 class="accordion-header" id="headingOne">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            Làm thế nào để đặt vé xe khách?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>
+                                                Để đặt vé xe, bạn chỉ cần truy cập trang đặt vé, chọn điểm đi, điểm đến, ngày đi và hoàn tất thanh toán. Sau khi thanh toán thành công, bạn sẽ nhận được vé qua email hoặc tin nhắn SMS.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Các mục hỏi đáp -->
+                                <div class="accordion-item wow fadeInUp" data-wow-duration="1s">
+                                    <h2 class="accordion-header" id="headingTwo">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            Tôi có thể huỷ hoặc thay đổi vé đã đặt không?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>
+                                                Bạn có thể huỷ hoặc thay đổi vé đã đặt trước 24 giờ so với thời gian khởi hành. Phí huỷ vé có thể áp dụng theo chính sách của từng nhà xe.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Các mục hỏi đáp -->
+                                <div class="accordion-item wow fadeInUp" data-wow-duration="1.4s">
+                                    <h2 class="accordion-header" id="headingThree">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                            Tôi có thể thanh toán vé bằng cách nào?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>
+                                                Chúng tôi hỗ trợ nhiều phương thức thanh toán, bao gồm thẻ tín dụng, thẻ ghi nợ, chuyển khoản ngân hàng và các nền tảng thanh toán trực tuyến như Momo, ZaloPay. Bạn có thể chọn phương thức thanh toán khi hoàn tất đơn đặt vé.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Các mục hỏi đáp -->
+                                <div class="accordion-item wow fadeInUp" data-wow-duration="1.6s">
+                                    <h2 class="accordion-header" id="headingFour">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                            Tôi cần mang gì khi lên xe?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>
+                                                Bạn cần mang theo CMND (hoặc giấy tờ tùy thân hợp lệ) và vé xe (có thể là vé giấy hoặc vé điện tử). Nếu bạn chọn vé điện tử, hãy đảm bảo rằng điện thoại của bạn có thể xuất trình vé khi cần.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Các mục hỏi đáp -->
+                                <div class="accordion-item wow fadeInUp" data-wow-duration="1.8s">
+                                    <h2 class="accordion-header" id="headingFive">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                            Xe có dừng lại trên đường không?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>
+                                                Xe sẽ dừng lại tại một số điểm trên hành trình để khách hàng có thể nghỉ ngơi, ăn uống hoặc tiếp nhiên liệu. Các điểm dừng sẽ được thông báo trước khi chuyến đi bắt đầu.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Các mục hỏi đáp -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="question__content">
+                        <div class="accordion__wrap">
+                            <div class="accordion" id="accordionExample2">
+                                <!-- Các mục hỏi đáp -->
+                                <div class="accordion-item wow fadeInUp" data-wow-duration="0.9s">
+                                    <h2 class="accordion-header" id="headingOness">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOness" aria-expanded="true" aria-controls="collapseOness">
+                                            Vé xe có thể thay đổi sau khi mua không?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseOness" class="accordion-collapse collapse show" aria-labelledby="headingOness" data-bs-parent="#accordionExample2">
+                                        <div class="accordion-body">
+                                            <p>
+                                                Bạn có thể thay đổi vé xe trước 12 giờ so với giờ khởi hành. Lệ phí thay đổi vé sẽ được áp dụng tùy vào từng nhà xe.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Các mục hỏi đáp -->
+                                <div class="accordion-item wow fadeInUp" data-wow-duration="1s">
+                                    <h2 class="accordion-header" id="headingTwoss">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwoss" aria-expanded="false" aria-controls="collapseTwoss">
+                                            Tôi có thể mua vé cho người khác không?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwoss" class="accordion-collapse collapse" aria-labelledby="headingTwoss" data-bs-parent="#accordionExample2">
+                                        <div class="accordion-body">
+                                            <p>
+                                                Bạn hoàn toàn có thể mua vé cho người khác. Bạn chỉ cần nhập thông tin của người đó khi đặt vé và chuyển tiền cho họ nếu cần.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Các mục hỏi đáp -->
+                                <div class="accordion-item wow fadeInUp" data-wow-duration="1.4s">
+                                    <h2 class="accordion-header" id="headingThreess">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThreess" aria-expanded="false" aria-controls="collapseThreess">
+                                            Vé có thể được xuất khẩu ra nước ngoài không?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseThreess" class="accordion-collapse collapse" aria-labelledby="headingThreess" data-bs-parent="#accordionExample2">
+                                        <div class="accordion-body">
+                                            <p>
+                                                Vé xe chỉ có giá trị sử dụng trong lãnh thổ Việt Nam. Tuy nhiên, nếu bạn ở nước ngoài và muốn mua vé, bạn có thể thanh toán qua các phương thức quốc tế như thẻ tín dụng.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Các mục hỏi đáp -->
+                                <div class="accordion-item wow fadeInUp" data-wow-duration="1.6s">
+                                    <h2 class="accordion-header" id="headingFourss">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFourss" aria-expanded="false" aria-controls="collapseFourss">
+                                            Tôi có thể đặt vé cho nhóm không?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseFourss" class="accordion-collapse collapse" aria-labelledby="headingFourss" data-bs-parent="#accordionExample2">
+                                        <div class="accordion-body">
+                                            <p>
+                                                Bạn có thể đặt vé cho nhóm với số lượng lớn. Vui lòng liên hệ với bộ phận hỗ trợ khách hàng để nhận thông tin về chính sách và giảm giá nhóm.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Các mục hỏi đáp -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!--train two qustions start-->
+    <!-- Footer Here -->
+    <!-- Footer End -->
+    <!--Jquery 3 6 0 Min Js-->
+    <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="~/busjs/assets/js/jquery-3.6.0.min.js"></script>
+    <!--Bootstrap bundle Js-->
+    <script src="~/busjs/assets/js/bootstrap.bundle.min.js"></script>
+    <!--Viewport Jquery Js-->
+    <script src="~/busjs/assets/js/viewport.jquery.js"></script>
+    <!--Odometer min Js-->
+    <script src="~/busjs/assets/js/odometer.min.js"></script>
+    <!--date picker Js-->
+    <script src="~/busjs/assets/js/bootstrap-datepicker.js"></script>
+    <!--Magnifiw Popup Js-->
+    <script src="~/busjs/assets/js/jquery.magnific-popup.min.js"></script>
+    <!--nice select Js-->
+    <script src="~/busjs/assets/js/jquery.nice-select.min.js"></script>
+    <!--Wow min Js-->
+    <script src="~/busjs/assets/js/wow.min.js"></script>
+    <!--Owl carousel min Js-->
+    <script src="~/busjs/assets/js/owl.carousel.min.js"></script>
+    <!--Prijm Js-->
+    <script src="~/busjs/assets/js/prism.js"></script>
+    <!--main Js-->
+    <script src="~/busjs/assets/js/main.js"></script>
+    <script>
+        function validateForm(event) {
+            // Prevent form submission
+            event.preventDefault();
+
+            // Get form fields
+            const start = document.getElementById('start');
+            const end = document.getElementById('end');
+            const departureDate = document.getElementById('departureDate');
+            const seatsRequired = document.getElementById('seatsRequired');
+            const company = document.getElementById('company');
+            // Check if at least one field is filled
+            if (start.value.trim() === '' && end.value.trim() === '' && departureDate.value.trim() === '' && seatsRequired.value.trim() === '') {
+                alert('Vui lòng điền ít nhất một trường.');
+            } else {
+                // If at least one field is filled, submit the form
+                event.target.submit();
+            }
+        }
+    </script>
+    <script>
+        function validateForm(event) {
+            // Prevent form submission
+            event.preventDefault();
+
+            // Get form fields
+            const start = document.getElementById('start');
+            const end = document.getElementById('end');
+            const departureDate = document.getElementById('departureDate');
+            const seatsRequired = document.getElementById('seatsRequired');
+            const company = document.getElementById('company');
+            // Check if at least one field is filled
+            if (start.value.trim() === '' && end.value.trim() === '' && departureDate.value.trim() === '' && seatsRequired.value.trim() === '') {
+                alert('Vui lòng điền ít nhất một trường.');
+            } else {
+                // Store selected date in a variable
+                var searchedDate = departureDate.value;
+
+                // Create a hidden input to hold the searched date
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'SearchedDate';
+                input.value = searchedDate;
+                event.target.appendChild(input);
+
+                // If at least one field is filled, submit the form
+                event.target.submit();
+            }
+        }
+    </script>
+    <!-- Thêm thư viện Leaflet cho bản đồ -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <!-- Thêm thư viện Leaflet Control Geocoder để sử dụng Nominatim API -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+    <script>
+        // Mở popup khi nhấn nút
+        document.getElementById("showMapBtn").addEventListener("click", function () {
+            document.getElementById("mapPopup").style.display = "block";
+            document.getElementById("overlay").style.display = "block";
+            initializeMap();
+        });
+
+        // Đóng popup khi nhấn vào nút "Đóng"
+        function closeMapPopup() {
+            document.getElementById("mapPopup").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
+        }
+
+        // Khởi tạo bản đồ
+
+    </script>
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([10.8231, 106.6297], 13);
+
+        // Add the OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        function searchLocation() {
+            var searchInput = document.getElementById('searchInput').value;
+            var geocodeUrl = 'https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(searchInput) + '&format=json';
+
+            fetch(geocodeUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        var latitude = parseFloat(data[0].lat);
+                        var longitude = parseFloat(data[0].lon);
+                        map.setView([latitude, longitude], 13);
+
+                        // Add a marker at the searched location
+                        L.marker([latitude, longitude]).addTo(map);
+                    } else {
+                        alert('No location found for the search query.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during geocoding:', error);
+                    alert('An error occurred during the search. Please try again later.');
+                });
+        }
+
+        function suggestLocations() {
+            var searchInput = document.getElementById('searchInput').value;
+
+            if (searchInput.length > 2) {
+                var geocodeUrl = 'https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(searchInput) + '&format=json&limit=5';
+
+                fetch(geocodeUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        var suggestionsContainer = document.getElementById('suggestions');
+                        suggestionsContainer.innerHTML = '';
+                        if (data.length > 0) {
+                            data.forEach(location => {
+                                var suggestionItem = document.createElement('div');
+                                suggestionItem.textContent = location.display_name;
+                                suggestionItem.onclick = function () {
+                                    selectSuggestion(location);
+                                };
+                                suggestionsContainer.appendChild(suggestionItem);
+                            });
+                            suggestionsContainer.style.display = 'block';
+                        } else {
+                            suggestionsContainer.style.display = 'none';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching suggestions:', error);
+                    });
+            } else {
+                document.getElementById('suggestions').style.display = 'none';
+            }
+        }
+
+        function selectSuggestion(location) {
+            var searchInput = document.getElementById('searchInput');
+            searchInput.value = location.display_name;
+
+            var latitude = parseFloat(location.lat);
+            var longitude = parseFloat(location.lon);
+            map.setView([latitude, longitude], 13);
+
+            // Add a marker at the selected location
+            L.marker([latitude, longitude]).addTo(map);
+
+            document.getElementById('suggestions').style.display = 'none';
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Select all promo boxes
+            const promoBoxes = document.querySelectorAll('.promo__box');
+
+            // Input element to store the selected company
+            const companyInput = document.getElementById('company');
+
+            // Track the last selected box to manage single selection
+            let lastSelectedBox = null;
+
+            promoBoxes.forEach(box => {
+                box.addEventListener('click', function () {
+                    // Get the company name from the link text
+                    const companyName = this.querySelector('.link').textContent.trim();
+
+                    // If a box was previously selected, remove its selected state
+                    if (lastSelectedBox && lastSelectedBox !== this) {
+                        lastSelectedBox.style.backgroundColor = '';
+                        lastSelectedBox.style.border = '0.5px solid #6c757d';
+                    }
+
+                    // Update the input value with the selected company
+                    companyInput.value = companyName;
+
+                    // Highlight the selected box
+                    this.style.backgroundColor = '#e6f2ff';  // Light blue highlight
+                    this.style.border = '0.5px solid #475EC8';
+
+                    // Update the last selected box
+                    lastSelectedBox = this;
+                });
+            });
+        });
+    </script>
+    <script>
+        function openPopup() {
+            document.getElementById('popupOverlay').style.display = 'flex';
+        }
+
+        function closePopup() {
+            document.getElementById('popupOverlay').style.display = 'none';
+        }
+    </script>
+</body>
+
+
+<!-- Mirrored from pixner.net/rechargio/rechargio/train-book.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 27 Oct 2024 12:30:59 GMT -->
+</html>

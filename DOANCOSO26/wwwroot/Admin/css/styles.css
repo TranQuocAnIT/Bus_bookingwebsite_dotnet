@@ -4155,7 +4155,7 @@ textarea.form-control-lg {
 }
 
 .navbar-dark {
-  --bs-navbar-color: rgba(255, 255, 255, 0.55);
+  --bs-navbar-color: #f8f9fa;
   --bs-navbar-hover-color: rgba(255, 255, 255, 0.75);
   --bs-navbar-disabled-color: rgba(255, 255, 255, 0.25);
   --bs-navbar-active-color: #fff;
@@ -8172,13 +8172,13 @@ textarea.form-control-lg {
 }
 
 .bg-light {
-  --bs-bg-opacity: 1;
-  background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
+    --bs-bg-opacity: 1;
+    background-color: rgb(31 85 60) !important;
 }
 
 .bg-dark {
-  --bs-bg-opacity: 1;
-  background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+    --bs-bg-opacity: 1;
+    background-color: #dffdef !important;
 }
 
 .bg-black {
@@ -11019,33 +11019,33 @@ body {
 }
 
 .sb-sidenav-dark {
-  background-color: #212529;
-  color: rgba(255, 255, 255, 0.5);
+    background-color: #9bf9c8;
+    color: rgba(255, 255, 255, 0.5);
 }
-.sb-sidenav-dark .sb-sidenav-menu .sb-sidenav-menu-heading {
-  color: rgba(255, 255, 255, 0.25);
-}
+    .sb-sidenav-dark .sb-sidenav-menu .sb-sidenav-menu-heading {
+        color: #000;
+    }
 .sb-sidenav-dark .sb-sidenav-menu .nav-link {
-  color: rgba(255, 255, 255, 0.5);
+  color: #000;
 }
-.sb-sidenav-dark .sb-sidenav-menu .nav-link .sb-nav-link-icon {
-  color: rgba(255, 255, 255, 0.25);
-}
-.sb-sidenav-dark .sb-sidenav-menu .nav-link .sb-sidenav-collapse-arrow {
-  color: rgba(255, 255, 255, 0.25);
-}
+    .sb-sidenav-dark .sb-sidenav-menu .nav-link .sb-nav-link-icon {
+        color: 000;
+    }
+    .sb-sidenav-dark .sb-sidenav-menu .nav-link .sb-sidenav-collapse-arrow {
+        color: 000;
+    }
 .sb-sidenav-dark .sb-sidenav-menu .nav-link:hover {
   color: #fff;
 }
-.sb-sidenav-dark .sb-sidenav-menu .nav-link.active {
-  color: #fff;
-}
+    .sb-sidenav-dark .sb-sidenav-menu .nav-link.active {
+        color: #000;
+    }
 .sb-sidenav-dark .sb-sidenav-menu .nav-link.active .sb-nav-link-icon {
-  color: #fff;
+  color: #000;
 }
-.sb-sidenav-dark .sb-sidenav-footer {
-  background-color: #343a40;
-}
+    .sb-sidenav-dark .sb-sidenav-footer {
+        background-color: #1f553c;
+    }
 
 .sb-sidenav-light {
   background-color: #f8f9fa;

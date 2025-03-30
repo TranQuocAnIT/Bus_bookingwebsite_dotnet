@@ -15,12 +15,12 @@ namespace DOANCOSO26.Repository
 
         public async Task<IEnumerable<Stop>> GetAllAsync()
         {
-            return await _context.Stops.Include(p => p.BusTrip).ToListAsync();
+            return await _context.Stops.Include(p => p.BusRoute).ToListAsync();
         }
 
         public async Task<Stop> GetByIdAsync(int id)
         {
-            return await _context.Stops.Include(p => p.BusTrip).FirstOrDefaultAsync(p => p.Id == id);
+            return await _context.Stops.Include(p => p.BusRoute).FirstOrDefaultAsync(p => p.Id == id);
 
         }
 
@@ -38,9 +38,22 @@ namespace DOANCOSO26.Repository
 
         public async Task DeleteAsync(int id)
         {
-            var stop = await _context.Seats.FindAsync(id);
-            _context.Seats.Remove(stop);
+            var stop = await _context.Stops.FindAsync(id);
+            _context.Stops.Remove(stop);
             await _context.SaveChangesAsync();
+        }
+        public async Task<IEnumerable<Stop>> GetStopsByBusRouteId(int busRouteId)
+        {
+            return await _context.Stops.Where(s => s.BusRouteId == busRouteId).ToListAsync();
+        }
+        public async Task<IEnumerable<Stop>> GetStopsByBusTripIdAsync(int busTripId)
+        {
+            var busTrip = await _context.BusTrips
+                                        .Include(bt => bt.BusRoute)
+                                        .ThenInclude(br => br.Stops)
+                                        .FirstOrDefaultAsync(bt => bt.Id == busTripId);
+
+            return busTrip?.BusRoute?.Stops ?? Enumerable.Empty<Stop>();
         }
     }
 }

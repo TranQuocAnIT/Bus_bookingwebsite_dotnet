@@ -1,0 +1,144 @@
+﻿@model DOANCOSO26.Models.Stop
+
+<h4>Stop</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Add" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Stt" class="control-label">Vị Trí Dừng:</label>
+                <input asp-for="Stt" class="form-control" />
+                <span asp-validation-for="Stt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Location" class="control-label">Địa chỉ:</label>
+                <input asp-for="Location" class="form-control" id="Location" list="location-suggestions" />
+                <datalist id="location-suggestions"></datalist>
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Latitude" class="control-label">Kinh độ :</label>
+                <input asp-for="Latitude" class="form-control" id="Latitude" />
+                <span asp-validation-for="Latitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Longitude" class="control-label">Vĩ độ:</label>
+                <input asp-for="Longitude" class="form-control" id="Longitude" />
+                <span asp-validation-for="Longitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BusRouteId" class="control-label">Chuyến xe:</label>
+                <select asp-for="BusRouteId" asp-items="ViewBag.BusRoutes" class="form-control">
+                    <option value="">-- Chọn tuyến xe: --</option>
+                </select>
+                <span asp-validation-for="BusRouteId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <div id="map" style="height: 500px;"></div>
+    </div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+
+    <script>
+        var map = L.map('map').setView([10.8231, 106.6297], 10); // Default coordinates for Ho Chi Minh City
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var geocoder = L.Control.geocoder({
+            defaultMarkGeocode: true,
+            defaultMarkGeocodedBounds: true
+        }).addTo(map);
+
+        // Marker for selected point
+        var marker = null;
+
+        // Handle marker click
+        map.on('click', function (e) {
+            if (marker) {
+                map.removeLayer(marker); // Remove previous marker
+            }
+
+            marker = L.marker(e.latlng).addTo(map); // Add new marker
+            document.getElementById('Latitude').value = e.latlng.lat; // Update latitude
+            document.getElementById('Longitude').value = e.latlng.lng; // Update longitude
+
+            // Fetch address using reverse geocoding
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${e.latlng.lat}&lon=${e.latlng.lng}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('Location').value = data.display_name; // Update address
+                })
+                .catch(error => console.error('Error fetching address:', error));
+        });
+
+        // Existing geocoder functionality (unchanged)
+        geocoder.on('markgeocode', function (e) {
+            var latlng = e.geocode.center;
+            var bbox = e.geocode.bbox;
+            map.fitBounds(bbox);
+
+            document.getElementById('Latitude').value = latlng.lat;
+            document.getElementById('Longitude').value = latlng.lng;
+
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latlng.lat}&lon=${latlng.lng}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('Location').value = data.display_name;
+                })
+                .catch(error => console.error('Error fetching address:', error));
+        });
+
+        // Autocomplete (unchanged)
+        document.getElementById('Location').addEventListener('input', function () {
+            var query = this.value;
+            if (query.length < 3) return;
+
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}&addressdetails=1&limit=5`)
+                .then(response => response.json())
+                .then(data => {
+                    var suggestions = data.map(function (item) {
+                        return `<option value="${item.display_name}" data-lat="${item.lat}" data-lon="${item.lon}">`;
+                    }).join('');
+                    document.getElementById('location-suggestions').innerHTML = suggestions;
+                })
+                .catch(error => console.error('Error fetching location suggestions:', error));
+        });
+
+        // Update lat/lng when a suggestion is selected (unchanged)
+        document.getElementById('Location').addEventListener('change', function () {
+            var options = document.getElementById('location-suggestions').options;
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].value === this.value) {
+                    var lat = options[i].getAttribute('data-lat');
+                    var lon = options[i].getAttribute('data-lon');
+                    document.getElementById('Latitude').value = lat;
+                    document.getElementById('Longitude').value = lon;
+                    map.setView([lat, lon], 15);
+                    break;
+                }
+            }
+        });
+    </script>
+}

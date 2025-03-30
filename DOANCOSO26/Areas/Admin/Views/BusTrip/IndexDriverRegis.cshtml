@@ -1,0 +1,44 @@
+﻿@model IEnumerable<DOANCOSO26.Models.Driverregis>
+
+@{
+    ViewData["Title"] = "Danh sách phiếu đăng ký tài xế";
+}
+
+<h1>Danh sách phiếu đăng ký tài xế</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Họ và tên</th>
+            <th>Ngày sinh</th>
+            <th>Địa chỉ</th>
+            <th>Số điện thoại</th>
+            <th>Email</th>
+            <th>Số GPLX</th>
+            <th>Ngày cấp</th>
+            <th>Ngày hết hạn</th>
+            <th>Trạng thái</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.FullName</td>
+                <td>@item.DateOfBirth.ToString("dd/MM/yyyy")</td>
+                <td>@item.Address</td>
+                <td>@item.PhoneNumber</td>
+                <td>@item.Email</td>
+                <td>@item.LicenseNumber</td>
+                <td>@item.LicenseIssueDate.ToString("dd/MM/yyyy")</td>
+                <td>@item.LicenseExpiryDate.ToString("dd/MM/yyyy")</td>
+                <td>@item.ApproveStatus.ToString()</td>
+                <td>
+                    <a asp-action="DisplayDriverRegistration" asp-route-id="@item.Id" class="btn btn-info">Xem chi tiết</a>
+                  
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

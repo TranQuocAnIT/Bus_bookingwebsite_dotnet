@@ -1,0 +1,67 @@
+﻿@model IEnumerable<DOANCOSO26.Models.BusRoute>
+<div class="card shadow border-0 mt-4">
+    <div class="">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="">Danh sách tuyến </h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <div class="row pb-3">
+            <a  asp-action="Add" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Tuyến Mới
+            </a>
+        </div>
+        <table class="table table-bordered table-striped">
+            <thead>
+           
+                <tr>
+
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.Start)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.End)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Distance)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Time)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tripList">
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Start)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.End)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Distance)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Time)
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" asp-action="Update" asp-route-id="@item.Id">Edit</a> |
+                            <a class="btn btn-primary" asp-action="Display" asp-route-id="@item.Id">Details</a> |
+                        @*     <a class="btn btn-primary" asp-action="Delete" asp-route-id="@item.Id">Delete</a> *@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+

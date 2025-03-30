@@ -1,0 +1,79 @@
+﻿@model DOANCOSO26.Models.Driverregis
+@{
+    ViewData["Title"] = "Chi tiết Phiếu Đăng ký Tài xế";
+}
+
+<h1 class="text-center pt-5 pb-5 ">Chi tiết Phiếu Đăng ký Tài xế</h1>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Thông tin cá nhân</h5>
+        <ul class="list-group">
+            <li class="list-group-item"><strong>Họ và Tên:</strong> @Model.FullName</li>
+            <li class="list-group-item"><strong>Ngày Sinh:</strong> @Model.DateOfBirth.ToShortDateString()</li>
+            <li class="list-group-item"><strong>Địa chỉ:</strong> @Model.Address</li>
+            <li class="list-group-item"><strong>Số điện thoại:</strong> @Model.PhoneNumber</li>
+            <li class="list-group-item"><strong>Email:</strong> @Model.Email</li>
+            <li class="list-group-item"><strong>CCCD/CMND   :</strong> @Model.CCCDNumber</li>
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <div class=" col-6 card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">Ảnh mặt trước CCCD</h5>
+            <div class="col-md-4 mb-3 ">
+                <img src="@Model.CCCD1ImageUrl" class="img-fluid ">
+            </div>
+        </div>
+    </div>
+    <div class="col-6 card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">Ảnh mặt sau CCCD</h5>
+            <div class="col-md-4 mb-3">
+                <img src="@Model.CCCD2ImageUrl" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card mt-3">
+    <div class="card-body">
+        <h5 class="card-title">Thông tin Giấy phép lái xe (GPLX)</h5>
+        <ul class="list-group">
+            <li class="list-group-item"><strong>Số GPLX:</strong> @Model.LicenseNumber</li>
+            <li class="list-group-item"><strong>Ngày cấp GPLX:</strong> @Model.LicenseIssueDate.ToShortDateString()</li>
+            <li class="list-group-item"><strong>Cơ quan cấp GPLX:</strong> @Model.LicenseIssuingAuthority</li>
+            <li class="list-group-item"><strong>Ngày hết hạn GPLX:</strong> @Model.LicenseExpiryDate.ToShortDateString()</li>
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6 card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">Ảnh mặt trước GPLX</h5>
+            <div class="col-md-4 mb-3">
+                <img src="@Model.GPLX1ImageUrl" class="img-fluid">
+            </div>
+        </div>
+    </div>
+    <div class="col-6 card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">Ảnh mặt sau GPLX</h5>
+            <div class="col-md-4 mb-3">
+                <img src="@Model.GPLX2ImageUrl" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+

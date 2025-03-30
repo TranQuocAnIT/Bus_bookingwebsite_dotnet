@@ -1,0 +1,50 @@
+﻿@model Seat
+
+@{
+    ViewData["Title"] = "Add Seat";
+}
+
+<h2>Add Seat</h2>
+
+<form asp-action="Add">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="BusTripId" class="control-label"></label>
+        <select asp-for="BusTripId" class="form-control" asp-items="ViewBag.BusTrips"></select>
+        <span asp-validation-for="BusTripId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Price" class="control-label"></label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    @if (ViewBag.Errors != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @foreach (var error in ViewBag.Errors as IEnumerable<string>)
+            {
+                <p>@error</p>
+            }
+        </div>
+    }
+
+    <button type="submit" class="btn btn-primary">Add Seat</button>
+</form>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#BusTripId").change(function () {
+                var selectedBusTripId = $(this).val();
+                $.ajax({
+                    url: '/Bustrip/GetCapacity/' + selectedBusTripId,
+                    type: 'GET',
+                    success: function (data) {
+                        $("#busCapacity").text(data);
+                    }
+                });
+            });
+        });
+    </script>
+}

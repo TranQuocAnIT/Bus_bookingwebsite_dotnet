@@ -99,20 +99,61 @@ namespace DOANCOSO26.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("BusTripId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DropOffStopId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Goods")
+                        .HasColumnType("int");
+
+                    b.Property<string>("InvoiceCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PickupStopId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SDT")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("SeatId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("StatusBooking")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StatusOnBus")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Timebooking")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("TotalPrice")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("TripId")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("BusTripId");
+
+                    b.HasIndex("DropOffStopId");
+
+                    b.HasIndex("PickupStopId");
 
                     b.HasIndex("SeatId");
 
@@ -133,7 +174,7 @@ namespace DOANCOSO26.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Capacity")
+                    b.Property<int?>("BusType")
                         .HasColumnType("int");
 
                     b.Property<string>("Company")
@@ -145,6 +186,49 @@ namespace DOANCOSO26.Migrations
                     b.ToTable("Buses");
                 });
 
+            modelBuilder.Entity("DOANCOSO26.Models.BusRoute", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Distance")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("End")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EndLatitude")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EndLongitude")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Price")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Start")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StartLatitude")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StartLongitude")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Time")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BusRoutes");
+                });
+
             modelBuilder.Entity("DOANCOSO26.Models.BusTrip", b =>
                 {
                     b.Property<int>("Id")
@@ -153,19 +237,26 @@ namespace DOANCOSO26.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("AdminId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("BusId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BusRouteId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Capacity")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DepartureDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DepartureTime")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("DepartureTime")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("EndLocation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("DriverId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
@@ -174,13 +265,18 @@ namespace DOANCOSO26.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("StartLocation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("TripStatus")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AdminId");
+
                     b.HasIndex("BusId");
+
+                    b.HasIndex("BusRouteId");
+
+                    b.HasIndex("DriverId");
 
                     b.ToTable("BusTrips");
                 });
@@ -207,6 +303,191 @@ namespace DOANCOSO26.Migrations
                     b.ToTable("BusTripImages");
                 });
 
+            modelBuilder.Entity("DOANCOSO26.Models.CCCD1Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DriverregisId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DriverregisId");
+
+                    b.ToTable("CCCD1Image");
+                });
+
+            modelBuilder.Entity("DOANCOSO26.Models.CCCD2Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DriverregisId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DriverregisId");
+
+                    b.ToTable("CCCD2Image");
+                });
+
+            modelBuilder.Entity("DOANCOSO26.Models.Driverregis", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ApproveStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CCCD1ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CCCD2ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CCCDNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DriverId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GPLX1ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GPLX2ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LicenseExpiryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("LicenseIssueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LicenseIssuingAuthority")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LicenseNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DriverId");
+
+                    b.ToTable("Driverregis");
+                });
+
+            modelBuilder.Entity("DOANCOSO26.Models.GPLX2Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DriverregisId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DriverregisId");
+
+                    b.ToTable("GPLX2Image");
+                });
+
+            modelBuilder.Entity("DOANCOSO26.Models.GPLXImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DriverregisId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DriverregisId");
+
+                    b.ToTable("GPLXImage");
+                });
+
+            modelBuilder.Entity("DOANCOSO26.Models.RouteImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BusRouteId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BusRouteId");
+
+                    b.ToTable("RouteImage");
+                });
+
             modelBuilder.Entity("DOANCOSO26.Models.Seat", b =>
                 {
                     b.Property<int>("Id")
@@ -218,15 +499,14 @@ namespace DOANCOSO26.Migrations
                     b.Property<int>("BusTripId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsAvailable")
-                        .HasColumnType("bit");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<string>("SeatNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("SeatStatus")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -243,22 +523,71 @@ namespace DOANCOSO26.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BusTripId")
+                    b.Property<int>("BusRouteId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Latitude")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Location")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Longitude")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Stt")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BusRouteId");
+
+                    b.ToTable("Stops");
+                });
+
+            modelBuilder.Entity("DOANCOSO26.Models.TripReport", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double?>("Anothercost")
+                        .HasColumnType("float");
+
+                    b.Property<int>("BusTripId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DriverId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("DriverName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("Gascost")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Note")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("Repaircosts")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BusTripId");
 
-                    b.ToTable("Stops");
+                    b.HasIndex("DriverId");
+
+                    b.ToTable("TripReports");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -396,7 +725,19 @@ namespace DOANCOSO26.Migrations
 
             modelBuilder.Entity("DOANCOSO26.Models.Booking", b =>
                 {
-                    b.HasOne("DOANCOSO26.Models.Seat", "Seats")
+                    b.HasOne("DOANCOSO26.Models.BusTrip", "BusTrip")
+                        .WithMany()
+                        .HasForeignKey("BusTripId");
+
+                    b.HasOne("DOANCOSO26.Models.Stop", "DropOffStop")
+                        .WithMany()
+                        .HasForeignKey("DropOffStopId");
+
+                    b.HasOne("DOANCOSO26.Models.Stop", "PickupStop")
+                        .WithMany()
+                        .HasForeignKey("PickupStopId");
+
+                    b.HasOne("DOANCOSO26.Models.Seat", "Seat")
                         .WithMany("Bookings")
                         .HasForeignKey("SeatId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -404,24 +745,48 @@ namespace DOANCOSO26.Migrations
 
                     b.HasOne("DOANCOSO26.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
-                    b.Navigation("Seats");
+                    b.Navigation("BusTrip");
+
+                    b.Navigation("DropOffStop");
+
+                    b.Navigation("PickupStop");
+
+                    b.Navigation("Seat");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("DOANCOSO26.Models.BusTrip", b =>
                 {
+                    b.HasOne("DOANCOSO26.Models.ApplicationUser", "Admin")
+                        .WithMany()
+                        .HasForeignKey("AdminId");
+
                     b.HasOne("DOANCOSO26.Models.Bus", "Bus")
                         .WithMany("BusTrips")
                         .HasForeignKey("BusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DOANCOSO26.Models.BusRoute", "BusRoute")
+                        .WithMany("BusTrips")
+                        .HasForeignKey("BusRouteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DOANCOSO26.Models.ApplicationUser", "Driver")
+                        .WithMany()
+                        .HasForeignKey("DriverId");
+
+                    b.Navigation("Admin");
+
                     b.Navigation("Bus");
+
+                    b.Navigation("BusRoute");
+
+                    b.Navigation("Driver");
                 });
 
             modelBuilder.Entity("DOANCOSO26.Models.BusTripImage", b =>
@@ -433,6 +798,72 @@ namespace DOANCOSO26.Migrations
                         .IsRequired();
 
                     b.Navigation("BusTrip");
+                });
+
+            modelBuilder.Entity("DOANCOSO26.Models.CCCD1Image", b =>
+                {
+                    b.HasOne("DOANCOSO26.Models.Driverregis", "Driverregis")
+                        .WithMany("CCCD1Image")
+                        .HasForeignKey("DriverregisId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Driverregis");
+                });
+
+            modelBuilder.Entity("DOANCOSO26.Models.CCCD2Image", b =>
+                {
+                    b.HasOne("DOANCOSO26.Models.Driverregis", "Driverregis")
+                        .WithMany("CCCD2Image")
+                        .HasForeignKey("DriverregisId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Driverregis");
+                });
+
+            modelBuilder.Entity("DOANCOSO26.Models.Driverregis", b =>
+                {
+                    b.HasOne("DOANCOSO26.Models.ApplicationUser", "Driver")
+                        .WithMany()
+                        .HasForeignKey("DriverId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Driver");
+                });
+
+            modelBuilder.Entity("DOANCOSO26.Models.GPLX2Image", b =>
+                {
+                    b.HasOne("DOANCOSO26.Models.Driverregis", "Driverregis")
+                        .WithMany("GPLX2Image")
+                        .HasForeignKey("DriverregisId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Driverregis");
+                });
+
+            modelBuilder.Entity("DOANCOSO26.Models.GPLXImage", b =>
+                {
+                    b.HasOne("DOANCOSO26.Models.Driverregis", "Driverregis")
+                        .WithMany("GPLX1Image")
+                        .HasForeignKey("DriverregisId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Driverregis");
+                });
+
+            modelBuilder.Entity("DOANCOSO26.Models.RouteImage", b =>
+                {
+                    b.HasOne("DOANCOSO26.Models.BusRoute", "BusRoute")
+                        .WithMany("Images")
+                        .HasForeignKey("BusRouteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BusRoute");
                 });
 
             modelBuilder.Entity("DOANCOSO26.Models.Seat", b =>
@@ -448,13 +879,30 @@ namespace DOANCOSO26.Migrations
 
             modelBuilder.Entity("DOANCOSO26.Models.Stop", b =>
                 {
-                    b.HasOne("DOANCOSO26.Models.BusTrip", "BusTrip")
+                    b.HasOne("DOANCOSO26.Models.BusRoute", "BusRoute")
                         .WithMany("Stops")
+                        .HasForeignKey("BusRouteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BusRoute");
+                });
+
+            modelBuilder.Entity("DOANCOSO26.Models.TripReport", b =>
+                {
+                    b.HasOne("DOANCOSO26.Models.BusTrip", "BusTrip")
+                        .WithMany()
                         .HasForeignKey("BusTripId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DOANCOSO26.Models.ApplicationUser", "Driver")
+                        .WithMany()
+                        .HasForeignKey("DriverId");
+
                     b.Navigation("BusTrip");
+
+                    b.Navigation("Driver");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -513,13 +961,31 @@ namespace DOANCOSO26.Migrations
                     b.Navigation("BusTrips");
                 });
 
+            modelBuilder.Entity("DOANCOSO26.Models.BusRoute", b =>
+                {
+                    b.Navigation("BusTrips");
+
+                    b.Navigation("Images");
+
+                    b.Navigation("Stops");
+                });
+
             modelBuilder.Entity("DOANCOSO26.Models.BusTrip", b =>
                 {
                     b.Navigation("Images");
 
                     b.Navigation("Seats");
+                });
 
-                    b.Navigation("Stops");
+            modelBuilder.Entity("DOANCOSO26.Models.Driverregis", b =>
+                {
+                    b.Navigation("CCCD1Image");
+
+                    b.Navigation("CCCD2Image");
+
+                    b.Navigation("GPLX1Image");
+
+                    b.Navigation("GPLX2Image");
                 });
 
             modelBuilder.Entity("DOANCOSO26.Models.Seat", b =>

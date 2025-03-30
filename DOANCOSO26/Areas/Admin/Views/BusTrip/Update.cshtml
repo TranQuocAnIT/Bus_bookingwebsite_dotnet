@@ -4,32 +4,30 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Update">
+        <form asp-action="Update" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StartLocation" class="control-label"></label>
-                <input asp-for="StartLocation" class="form-control" />
-                <span asp-validation-for="StartLocation" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EndLocation" class="control-label"></label>
-                <input asp-for="EndLocation" class="form-control" />
-                <span asp-validation-for="EndLocation" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BusId" class="control-label"></label>
-                <select asp-for="BusId" class="form-control" asp-items="ViewBag.BusId"></select>
+                <label asp-for="BusId" class="control-label">Chọn xe:</label>
+                <select asp-for="BusId" asp-items="ViewBag.Buses" class="form-control">
+                    <option value="">-- Chọn xe:  --</option>
+                </select> 
                 <span asp-validation-for="BusId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ImageUrl" class="control-label"></label>
-                <input asp-for="ImageUrl" class="form-control" />
+                <label asp-for="BusRouteId" class="control-label">Chọn tuyến: </label>
+                <select asp-for="BusRouteId" asp-items="ViewBag.BusRoutes" class="form-control">
+                    <option value="">-- Chọn xe:  --</option>
+                </select>
+                <span asp-validation-for="BusRouteId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageUrl" class="control-label">Ảnh chuyến ::</label>
+                <input type="file" asp-for="ImageUrl" class="form-control" />
                 <span asp-validation-for="ImageUrl" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -43,7 +41,22 @@
                 <span asp-validation-for="DepartureDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label asp-for="Capacity" class="control-label"></label>
+                <input asp-for="Capacity" class="form-control" />
+                <span asp-validation-for="Capacity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TripStatus" class="control-label"></label>
+                <select asp-for="TripStatus" class="form-control">
+                    <option value="NotYetDeparted">NotYetDeparted</option>
+                    <option value="Departed">Departed</option>
+                    <option value="Running">Running</option>
+
+                </select>
+                <span asp-validation-for="TripStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -54,5 +67,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

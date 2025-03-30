@@ -9,5 +9,6 @@ namespace DOANCOSO26.Repository
         Task AddAsync(Bus buses);
         Task UpdateAsync(Bus buses);
         Task DeleteAsync(int id);
+        Task<List<string>> GetAllBusCompanyAsync();
     }
 }

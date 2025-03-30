@@ -1,0 +1,94 @@
+﻿@model IEnumerable<DOANCOSO26.Models.Booking>
+
+<div class="card shadow border-0 mt-4">
+    <div class="">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="">Danh sách vé </h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <div class="row pb-3">
+            <a  asp-action="Add" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Tạo vé mới 
+            </a>
+        </div>
+        <table class="table table-bordered table-striped">
+            <thead>
+           
+                <tr>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.InvoiceCode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Seat.BusTrip.DepartureDate)
+                    </th>
+ 
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserName)
+                    </th>
+                 
+                    <th>
+                        @Html.DisplayNameFor(model => model.Timebooking)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TotalPrice)
+                    </th>
+                   
+                    <th>
+                        @Html.DisplayNameFor(model => model.Seat.SeatNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.StatusBooking)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tripList">
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.InvoiceCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Seat.BusTrip.DepartureDate) @Html.DisplayFor(modelItem => item.Seat.BusTrip.DepartureTime)
+                        </td>
+                        
+                     
+                       
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
+                    
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Timebooking)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TotalPrice)
+                        </td>
+                     
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Seat.SeatNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StatusBooking)
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a class="btn btn-primary" asp-action="Display" asp-route-id="@item.Id">Details</a> |
+                          @*   <a class="btn btn-primary" asp-action="Delete" asp-route-id="@item.Id">Delete</a> *@
+                            <a class="btn btn-primary" asp-action="UpdateStatus" asp-route-id="@item.Id"> Thanh toán </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+

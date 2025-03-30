@@ -1,0 +1,141 @@
+﻿@model DOANCOSO26.Models.Booking
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheely - Tra Cứu Vé</title>
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #0b0e68;
+            --secondary-color: #003366;
+            --light-bg: #f0f4f8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 4rem 0;
+        }
+
+        .search-booking-section {
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: -50px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+            .btn-primary:hover {
+                background-color: var(--secondary-color);
+                transform: scale(1.05);
+            }
+
+        .input-group-custom {
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .cta-section {
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <section class="flight__onewaysection ">
+        <h5 class="text-center mb-3" style="color: #0D6EFD;"></h5>
+        <div class="bus-info-grid rounded p-3">
+            <div class="ticket__timeout mb__24">
+            </div>
+        </div>
+    </section>
+    <div class="hero-section text-center text-white">
+        <div class="container">
+            <h1 class="display-4 mb-4">Tra Cứu <span class="text-white">Vé Xe</span> Wheely</h1>
+            <p class="lead mb-4">
+                Tra cứu thông tin vé của bạn một cách nhanh chóng và dễ dàng.
+                Chỉ cần nhập mã vé để xem chi tiết chuyến đi.
+            </p>
+        </div>
+    </div>
+
+    <!-- Search Booking Section -->
+    <div class="container search-booking-section">
+        @using (Html.BeginForm("SearchBooking", "Reservation", FormMethod.Post, new { @class = "row g-3" }))
+        {
+            <div class="col-md-10">
+                <div class="input-group input-group-custom">
+                    @Html.TextBox("invoiceCode", null, new { @class = "form-control border-0 py-3", placeholder = "Nhập mã vé của bạn" })
+                    @Html.ValidationMessageFor(model => model.InvoiceCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100 py-3">Tra Cứu</button>
+            </div>
+        }
+    </div>
+
+    <!-- Guidance Section -->
+    <div class="container mt-5">
+        <div class="cta-section text-center">
+            <h2 class="mb-4">Tra Cứu Vé Xe Dễ Dàng</h2>
+            <p class="text-muted mb-4">
+                Nhập mã vé được cung cấp khi bạn đặt vé. Chúng tôi sẽ hiển thị toàn bộ
+                thông tin chi tiết về chuyến đi của bạn.
+            </p>
+            <div>
+                <a href="/" class="btn btn-outline-primary me-3">
+                    <i class="fas fa-home me-2"></i>Về Trang Chủ
+                </a>
+                <a href="#" class="btn btn-primary">
+                    <i class="fas fa-info-circle me-2"></i>Hướng Dẫn Tra Cứu
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top">
+        <i class="bi bi-arrow-up"></i>
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

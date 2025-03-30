@@ -1,0 +1,1043 @@
+﻿@model DOANCOSO26.Models.Booking
+
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    :root {
+        --primary: #1e3a8a; /* Xanh đậm */
+        --primary-light: #3b82f6; /* Xanh biển */
+        --primary-lighter: #60a5fa; /* Xanh lam */
+        --primary-lightest: #93c5fd; /* Xanh nhạt */
+        --neutral-light: #e0f2fe;
+        --neutral-lighter: #f0f9ff;
+    }
+
+    .common__filter__wrapper {
+        background: #fff;
+        padding: 15px;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(30, 58, 138, 0.1);
+        border: 1px solid var(--neutral-light);
+    }
+
+        .common__filter__wrapper img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: auto;
+        }
+
+    .hotelbooking__categoris__wrap {
+        padding: 30px; /* Compact padding */
+        margin: 0;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease, transform 0.3s ease; /* Smooth effect */
+        /* Thêm bóng đổ đậm */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 16px 32px rgba(0, 0, 0, 0.2);
+        /* Đậm hơn và rõ ràng */
+    }
+
+    .flight__onewaysection {
+        background-color: #f0f0f0; /* Thay đổi mã màu tùy ý */
+    }
+
+    .top-header {
+        background: var(--primary);
+        color: white;
+        margin: -15px -15px 20px -15px;
+        padding: 10px 10px;
+        border-radius: 16px 16px 0 0;
+    }
+
+    .promo__title {
+        font-size: 24px;
+        font-weight: 700;
+       
+    }
+
+    .quick-stats {
+        display: flex;
+        gap: 20px;
+        font-size: 14px;
+    }
+
+    .route-details ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+        .route-details ul li {
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+            color: #2c3e50;
+            font-size: 15px;
+        }
+
+            .route-details ul li:last-child {
+                border-bottom: none;
+            }
+
+    .route-details h5 {
+        margin-bottom: 10px;
+    }
+
+    .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .main-content {
+        background: white;
+        border-radius: 12px;
+    }
+
+    .quick-filters {
+        display: flex;
+        gap: 10px;
+        margin: 20px 0;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
+
+    .quick-filter-btn {
+        padding: 8px 16px;
+        border: 1px solid var(--primary-lighter);
+        border-radius: 20px;
+        color: var(--primary);
+        background: white;
+        font-size: 14px;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.3s;
+    }
+
+        .quick-filter-btn:hover,
+        .quick-filter-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+    .search__item {
+        margin: 25px 0;
+        border-bottom: 1px solid var(--neutral-light);
+        padding-bottom: 25px;
+    }
+
+    .section-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--primary);
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    .search-box {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 14px 45px 14px 18px;
+        border: 2px solid #93c5fd;
+        border-radius: 12px;
+        font-size: 15px;
+        transition: all 0.3s;
+    }
+
+
+        .search-input:focus {
+            border-color: var(--primary-lighter);
+            outline: none;
+        }
+
+    .search-icon {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary);
+    }
+
+    .feature-card {
+        background: var(--neutral-lighter);
+        border-radius: 12px;
+        padding: 15px;
+        margin: 15px 0;
+    }
+
+    .feature-title {
+        color: var(--primary);
+        font-weight: 600;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .feature-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 8px 0;
+            color: #444;
+        }
+
+            .feature-list li::before {
+                content: "✓";
+                color: var(--primary-light);
+                font-weight: bold;
+            }
+
+    .time-slot {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        border: 1px solid var(--neutral-light);
+        border-radius: 12px;
+        margin: 10px 0;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+        .time-slot:hover {
+            border-color: var(--primary-lighter);
+            background: var(--neutral-lighter);
+        }
+
+        .time-slot.popular {
+            background: var(--neutral-lighter);
+            border: 2px solid var(--primary-lighter);
+        }
+
+    .time-info {
+        flex: 1;
+        margin-left: 15px;
+        display: flex;
+        align-items: center;
+    }
+
+    .bus-logo {
+        width: 24px;
+        height: 24px;
+        border-radius: 4px;
+        margin-right: 12px;
+    }
+
+    /* Điều chỉnh layout để chứa logo */
+
+    .time-title {
+        font-weight: 600;
+        color: var(--primary);
+    }
+
+    .time-meta {
+        display: flex;
+        gap: 15px;
+        font-size: 13px;
+        color: #666;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .badge-blue {
+        background: var(--primary-lightest);
+        color: var(--primary);
+    }
+
+    .badge-light {
+        background: var(--neutral-lighter);
+        color: var(--primary);
+    }
+
+    .price-range {
+        margin: 25px 0;
+    }
+
+    .range-values {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .range-value {
+        text-align: center;
+    }
+
+    .range-amount {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--primary);
+    }
+
+    .range-label {
+        font-size: 12px;
+        color: #666;
+    }
+
+    .range-slider {
+        width: 100%;
+        height: 6px;
+        background: var(--neutral-light);
+        border-radius: 3px;
+        -webkit-appearance: none;
+    }
+
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+            .range-slider::-webkit-slider-thumb:hover {
+                transform: scale(1.1);
+            }
+
+    .bus-option {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        border: 1px solid var(--neutral-light);
+        border-radius: 12px;
+        margin: 10px 0;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+        .bus-option:hover {
+            border-color: var(--primary-lighter);
+            background: var(--neutral-lighter);
+        }
+
+    .bus-info {
+        flex: 1;
+        margin-left: 15px;
+    }
+
+    .bus-name {
+        font-weight: 600;
+        color: var(--primary);
+        margin-bottom: 5px;
+    }
+
+    .bus-meta {
+        display: flex;
+        gap: 15px;
+        font-size: 13px;
+        color: #666;
+    }
+
+    .rating-stars {
+        color: #fbbf24;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .btn {
+        flex: 1;
+        padding: 14px;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-align: center;
+    }
+
+    .btn-outline {
+        border: 2px solid var(--primary);
+        background: white;
+        color: var(--primary);
+    }
+
+        .btn-outline:hover {
+            background: var(--neutral-lighter);
+        }
+
+    .btn-primary {
+        background: var(--primary);
+        color: white;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+        }
+
+    .premium-features {
+        background: linear-gradient(to right, var(--primary), var(--primary-light));
+        color: white;
+        padding: 20px;
+        border-radius: 12px;
+        margin: 20px 0;
+    }
+
+    .premium-title {
+        font-weight: 600;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .premium-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .premium-list li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 10px 0;
+        }
+
+            .premium-list li::before {
+                content: "★";
+                color: #fbbf24;
+            }
+
+    .line {
+        flex-grow: 1;
+        border-bottom: 1px solid black;
+        margin: 0 10px; /* Khoảng cách giữa các đoạn gạch ngang */
+    }
+
+
+    .property-item.selected {
+        border: 2px solid #81c3d7;
+        background-color: #004e89;
+    }
+
+    .custom-radio {
+        position: relative;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: bold;
+        color: #333;
+    }
+
+        .custom-radio input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+    .radio-label {
+        padding: 10px 15px;
+        border: 2px solid #00296b;
+        border-radius: 15px;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .custom-radio input[type="radio"]:checked ~ .radio-label {
+        background-color: #004e89;
+        color: white;
+    }
+
+    .custom-radio .radio-label:hover {
+        background-color: #0582ca;
+        color: white;
+    }
+
+    .center-image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    /*  phan hanh trinh popup */
+    /* Thiết kế cho liên kết hiển thị */
+    /* Gạch chân khi hover hoặc active */
+    .route-link {
+        font-size: 14px;
+        color: #007bff;
+        cursor: pointer;
+        font-weight: bold;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+        .route-link:hover,
+        .route-link.active {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+    /* Các phần chi tiết hành trình */
+    .route-details {
+        padding: 15px;
+        background: #fff;
+        border-radius: 5px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .route-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+        .route-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .route-list span.badge {
+            margin-right: 10px;
+        }
+
+        .route-list i {
+            margin: 0 5px;
+        }
+
+    .service-details, .premium-features {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 16px;
+        margin: 16px 0;
+        background-color: #f9f9f9;
+    }
+
+    .service-title, .premium-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 12px;
+        color: #333;
+        display: flex;
+        align-items: center;
+    }
+
+        .service-title i, .premium-title i {
+            margin-right: 8px;
+            color: #ff9800;
+        }
+
+    .service-list, .premium-list {
+        list-style: none;
+        padding-left: 0;
+    }
+
+        .service-list li, .premium-list li {
+            margin-bottom: 8px;
+        }
+
+        .service-list ul {
+            margin: 8px 0 0 16px;
+            list-style-type: disc;
+        }
+
+</style>
+
+<head>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" />
+
+</head>
+
+<body>
+    @* <div class="container-fluid bg-breadcrumb">
+    <div class="container text-center py-5" style="max-width: 900px;">
+    <h3 class="text-white display-3 mb-4">
+    XÁC NHẬN THANH TOÁN</h1>
+    <ol class="breadcrumb justify-content-center mb-0">
+    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+    <li class="breadcrumb-item"><a href="#">Pages</a></li>
+    <li class="breadcrumb-item active text-white">Contact</li>
+    </ol>
+
+    </div>
+    </div> *@
+
+    <!-- Contact Start -->
+    <div class="container-fluid contact bg-light mt-5">
+        @* <div class="container py-5">  *@
+        <div class="mx-auto text-center mb-5" style="max-width: 900px;">
+
+
+            <h2 class="mb-0" style="color: #0d1069;">Xác nhận thanh toán </h2>
+        </div>
+
+        <div class="row g-3 ">
+            <div class="col-lg-2">
+                <div class="common__filter__wrapper">
+                    <img src="~/images/VNpayPoster.png" />
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="common__filter__wrapper">
+                    <!-- Header Section -->
+                    <div class="top-header">
+                        <div class="promo__title">Lưu ý và liên hệ</div>
+                        
+                    </div>
+
+                    <!-- Quick Filters -->
+
+                    <div class="search__item">
+                        <div class="section-title">
+                            <span>Tìm kiếm nhà xe</span>
+                            <span class="badge badge-blue">45+ nhà xe</span>
+                        </div>
+                        <div class="search-box">
+                            <input type="text" class="search-input" placeholder="Nhập tên nhà xe...">
+                            <i class="material-symbols-outlined search-icon">search</i>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-title">
+                                <i class="material-symbols-outlined">verified</i>
+                                Nhà xe được chứng nhận
+                            </div>
+                            <ul class="feature-list">
+                                <li>Đạt tiêu chuẩn an toàn của Bộ GTVT</li>
+                                <li>Tài xế có trên 5 năm kinh nghiệm</li>
+                                <li>Xe được bảo dưỡng định kỳ</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="section-title">
+                        <span>Câu hỏi thường gặp</span>
+                        <span class="badge badge-blue">Lưu ý</span>
+                    </div>
+                    <div class="search__item">
+                        <div class="question__content">
+                            <div class="accordion__wrap">
+                                <div class="accordion" id="accordionExample2">
+                                    <!-- Các mục hỏi đáp -->
+                                    <div class="accordion-item wow fadeInUp" data-wow-duration="0.9s">
+                                        <h2 class="accordion-header" id="headingOness">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOness" aria-expanded="true" aria-controls="collapseOness">
+                                                Vé xe có thể thay đổi sau khi mua không?
+                                            </button>
+                                        </h2>
+                                        <div id="collapseOness" class="accordion-collapse collapse show" aria-labelledby="headingOness" data-bs-parent="#accordionExample2">
+                                            <div class="accordion-body">
+                                                <p>
+                                                    Bạn có thể thay đổi vé xe trước 12 giờ so với giờ khởi hành. Lệ phí thay đổi vé sẽ được áp dụng tùy vào từng nhà xe.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Các mục hỏi đáp -->
+                                    <div class="accordion-item wow fadeInUp" data-wow-duration="1s">
+                                        <h2 class="accordion-header" id="headingTwoss">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwoss" aria-expanded="false" aria-controls="collapseTwoss">
+                                                Tôi có thể mua vé cho người khác không?
+                                            </button>
+                                        </h2>
+                                        <div id="collapseTwoss" class="accordion-collapse collapse" aria-labelledby="headingTwoss" data-bs-parent="#accordionExample2">
+                                            <div class="accordion-body">
+                                                <p>
+                                                    Bạn hoàn toàn có thể mua vé cho người khác. Bạn chỉ cần nhập thông tin của người đó khi đặt vé và chuyển tiền cho họ nếu cần.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Các mục hỏi đáp -->
+                                    <div class="accordion-item wow fadeInUp" data-wow-duration="1.4s">
+                                        <h2 class="accordion-header" id="headingThreess">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThreess" aria-expanded="false" aria-controls="collapseThreess">
+                                                Vé có thể được xuất khẩu ra nước ngoài không?
+                                            </button>
+                                        </h2>
+                                        <div id="collapseThreess" class="accordion-collapse collapse" aria-labelledby="headingThreess" data-bs-parent="#accordionExample2">
+                                            <div class="accordion-body">
+                                                <p>
+                                                    Vé xe chỉ có giá trị sử dụng trong lãnh thổ Việt Nam. Tuy nhiên, nếu bạn ở nước ngoài và muốn mua vé, bạn có thể thanh toán qua các phương thức quốc tế như thẻ tín dụng.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Các mục hỏi đáp -->
+                                    <div class="accordion-item wow fadeInUp" data-wow-duration="1.6s">
+                                        <h2 class="accordion-header" id="headingFourss">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFourss" aria-expanded="false" aria-controls="collapseFourss">
+                                                Tôi có thể đặt vé cho nhóm không?
+                                            </button>
+                                        </h2>
+                                        <div id="collapseFourss" class="accordion-collapse collapse" aria-labelledby="headingFourss" data-bs-parent="#accordionExample2">
+                                            <div class="accordion-body">
+                                                <p>
+                                                    Bạn có thể đặt vé cho nhóm với số lượng lớn. Vui lòng liên hệ với bộ phận hỗ trợ khách hàng để nhận thông tin về chính sách và giảm giá nhóm.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Các mục hỏi đáp -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search__item">
+                        <div class="section-title">
+                            <span>Bảng giá hành lý </span>
+                            <span class="badge badge-blue">Lưu ý </span>
+                        </div>
+
+                       
+                            <table class="table table-bordered table-striped">
+                                <tr>
+                                    <th>Loại hành lý</th>
+                                    <th>Giá (VND)</th>
+
+                                </tr>
+                                <tr>
+                                    <td>Hành lý xách tay  5kg <i>với kích thước tối đa 40 x 22 x 55 cm</i></td>
+                                    <td>Miễn Phí</td>
+
+
+                                </tr>
+
+                                <tr>
+                                    <td>Hành lý xách tay  10kg <i>với kích thước tối đa 50 x 25 x 55 cm</i></td>
+                                    <td>10.000 VND</td>
+
+
+                                </tr>
+                                <tr>
+
+                                    <td>Hành lý xách tay  15kg <i>với kích thước tối đa 50 x 30 x 55 cm</i></td>
+                                    <td>20.000 VND</td>
+                                </tr>
+
+                                <tr>
+
+                                    <td>Hành lý xách tay  20kg <i>với kích thước tối đa 55 x 35 x 55 cm</i></td>
+                                    <td>30.000 VND</td>
+
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>Hành lý xách tay trên 25kg <i>với kích thước tối đa 55 x 40 x 70 cm</i></td>
+                                    <td>50.000 VND</td>
+
+                                </tr>
+
+
+                            </table>
+                       
+                    </div>
+                    <div class="service-details">
+                        <ul class="service-list">
+                            <li>
+                                <strong class="badge badge-blue">Quy tắc chuyển đổi</strong>
+                                Chỉ được chuyển đổi vé 1 lần duy nhất
+                            </li>
+                            <li>
+                                <strong class="badge badge-light">Chi phí hủy vé</strong>
+                                Chi phí hủy vé từ 10% – 30% giá vé tùy thuộc:
+                                <ul>
+                                    <li>Thời gian hủy vé so với giờ khởi hành ghi trên vé</li>
+                                    <li>Số lượng vé cá nhân/tập thể (áp dụng theo quy định hiện hành)</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong class="badge badge-blue">Hướng dẫn thay đổi hoặc hủy vé</strong>
+                                <p>Quý khách cần liên hệ trước 24h so với giờ xe khởi hành:</p>
+                                <ul>
+                                    <li>Trung tâm tổng đài: <a href="tel:19006067" class="route-link">1900 6067</a></li>
+                                    <li>Quầy vé</li>
+                                    <li>Qua email hoặc tin nhắn để được hướng dẫn</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong class="badge badge-light">Lưu ý quan trọng</strong>
+                                <ul>
+                                    <li>Có mặt tại bến xuất phát của xe trước ít nhất 30 phút</li>
+                                    <li>Mang theo thông báo thanh toán vé thành công có chứa mã vé</li>
+                                    <li>Liên hệ Trung tâm tổng đài <a href="tel:19006067" class="route-link">1900 6067</a> để được hỗ trợ</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong class="badge badge-blue">Dịch vụ trung chuyển</strong>
+                                <ul>
+                                    <li>Liên hệ Tổng đài trung chuyển <a href="tel:19006918" class="route-link">1900 6918</a> trước khi đặt vé</li>
+                                    <li>Không đón/trung chuyển tại những điểm xe trung chuyển không thể tới được</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+            <div class="col-lg-5">
+                <div class="common__filter__wrapper">
+                    <div class="top-header">
+                        <div class="text-center promo__title">Thông tin cá nhân</div>
+                    </div>
+                    <form asp-action="Add">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="col-12">
+                            <div class="form-floating mb-3">
+                                <input asp-for="UserName" class="form-control search-input" id="name" placeholder="Your Name" />
+                                <label for="name" class="form-label">Tên của bạn</label>
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="tel" asp-for="SDT" class="form-control search-input" id="phonenumber" placeholder="Số điện thoại" />
+                                <label for="phonenumber" class="form-label">Số điện thoại</label>
+                                <span asp-validation-for="SDT" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="email" asp-for="Email" class="form-control search-input" id="email" placeholder="Email" />
+                                <label for="email" class="form-label">Email</label>
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+
+                            <input type="hidden" asp-for="TripId" value="@ViewBag.TripId" />
+
+                            @if (ViewBag.SelectedSeat != null)
+                            {
+                                <p>Selected Seat: @ViewBag.SelectedSeat.SeatNumber</p>
+                            }
+
+                            <input type="hidden" asp-for="SeatId" value="@ViewBag.SelectedSeat.Id" id="seatSelect" />
+
+                            <div id="seatInfo">
+                                <!-- Thông tin về ghế, chuyến xe, và xe bus sẽ được hiển thị tại đây -->
+                            </div>
+
+                            <div id="seatInfo" class="mb-3 pt-3">
+                                <!-- Thông tin về ghế, chuyến xe, và xe bus sẽ được hiển thị tại đây -->
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select asp-for="PickupStopId" asp-items="ViewBag.Stops" class="form-select mb-3 search-input" id="pickupSelect" onchange="updateDropOffOptions()">
+                                    <option value="">-- Chọn điểm lên xe --</option>
+                                </select>
+
+
+                            </div>
+
+                            <div class="form-floating ">
+                                <select asp-for="DropOffStopId" asp-items="ViewBag.Stops" class="form-select mb-3 search-input" id="dropoffSelect" onchange="updatePickupOptions()">
+                                    <option value="">-- Chọn điểm xuống xe --</option>
+                                </select>
+
+
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select asp-for="Goods" class="form-select mb-3 search-input" id="goodsSelect">
+                                    <option value="">---- Chọn hàng hóa kí gửi ----</option>
+                                    <option value="weight5kg">Hành lý xách tay 5kg - Miễn Phí</option>
+                                    <option value="weight10kg">Hành lý xách tay 10kg - Phụ phí: 10.000 VND</option>
+                                    <option value="weight15Kg">Hành lý xách tay 15kg - Phụ phí: 20.000 VND</option>
+                                    <option value="weight20kg">Hành lý xách tay 20kg - Phụ phí: 30.000 VND</option>
+                                    <option value="weight25kg">Hành lý xách tay trên 25kg - Phụ phí: 50.000 VND</option>
+                                </select>
+
+                            </div>
+
+                            <input type="submit" name="payment" class="btn btn-primary mb-3" style="margin-top: 10px" value="Đặt vé (Thanh Toán sau)">
+
+                            <div class="container">
+                                <div class="row">
+                                    
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="agreeCheckbox">
+                                        <label class="form-check-label" for="agreeCheckbox">
+                                            Tôi đồng ý với <a asp-controller="Home" asp-action="Privacy" style="color: #007bff; text-decoration: underline;">Điều khoản và Chính sách</a>
+                                        </label>
+                                    </div>
+
+                                   
+
+                                    <div class="text-center mb-5">
+                                        <h5 class="section-title px-3" style="margin-top: 30px">hoặc thanh toán bằng</h5>
+                                    </div>
+                                    <div class="col-4 text-center mb-3">
+                                        <img src="/images/VNpayLogo.jpg" alt="VNPay Logo" class="img-fluid mb-2" style="max-height: 100px;">
+                                        <input type="submit" name="payment" class="btn btn-outline-primary" value="Thanh Toán VNPay">
+                                    </div>
+
+                                    <div class="col-4 text-center mb-3">
+                                        <img src="/images/MomoLogo.png" alt="Momo Logo" class="img-fluid mb-2" style="max-height: 100px;">
+                                        <input type="submit" name="payment" class="btn btn-outline-primary" value="Thanh Toán MoMo">
+                                    </div>
+
+                                    <div class="col-4 text-center mb-3">
+                                        <img src="/images/PaypalLogo.jpg" alt="Paypal Logo" class="img-fluid mb-2" style="max-height: 100px;">
+                                        <input type="submit" name="payment" class="btn btn-outline-primary" value="Thanh Toán PayPal">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="common__filter__wrapper">
+                    <img src="/images/MomoPoster.png" />
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- Contact End -->
+    <!-- Subscribe Start -->
+    @* <div class="container-fluid subscribe py-5">
+    <div class="container text-center py-5">
+    <div class="mx-auto text-center" style="max-width: 900px;">
+    <h5 class="subscribe-title px-3">Subscribe</h5>
+    <h1 class="text-white mb-4">Our Newsletter</h1>
+    <p class="text-white mb-5">
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum tempore nam, architecto doloremque velit explicabo? Voluptate sunt eveniet fuga eligendi! Expedita laudantium fugiat corrupti eum cum repellat a laborum quasi.
+    </p>
+    <div class="position-relative mx-auto">
+    <input class="search-input border-primary rounded-pill w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
+    <button type="button" class="btn btn-primary rounded-pill position-absolute top-0 end-0 py-2 px-4 mt-2 me-2">Subscribe</button>
+    </div>
+    </div>
+    </div>
+    </div> *@
+
+    <!-- Subscribe End -->
+    <!-- Footer End -->
+    <!-- Copyright Start -->
+    <!-- Copyright End -->
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary btn-primary-outline-0 btn-md-square back-to-top"><i class="fa fa-arrow-up"></i></a>
+    <!-- Thêm mã JavaScript vào cuối trang HTML -->
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    @if (ViewBag.SelectedSeat != null)
+    {
+        <p>Selected Seat: @ViewBag.SelectedSeat.SeatNumber</p>
+    }
+
+    <input type="hidden" asp-for="SeatId" value="@ViewBag.SelectedSeat.Id" id="seatSelect" />
+
+    <div id="seatInfo">
+        <!-- Thông tin về ghế, chuyến xe, và xe bus sẽ được hiển thị tại đây -->
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            var seatId = $('#seatSelect').val(); // Get the seat ID from the hidden field
+
+            // Call the GetBusTripAndBusInfo action via AJAX
+            $.ajax({
+                url: '@Url.Action("GetBusTripAndBusInfo", "Reservation")', // Replace with your controller and action
+                type: 'GET',
+                data: { seatId: seatId },
+                success: function (data) {
+                    // Dynamically populate seat and bus trip information
+                    var seatInfoHtml = `
+                            <div class="common__filter__wrapper" style="margin-top: 50px;">
+                                <div class="route-details" style="padding: 15px;">
+                                    <ul>
+                                        <li><strong>Số ghế:</strong> <span class="badge badge-blue">${data.seatnumber}</span></li>
+                                        <li><strong>Giá vé:</strong> <span class="badge badge-light">${data.price}</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="common__filter__wrapper" style="margin-top: 20px;">
+                                <div class="top-header">
+                                    <div class="text-center promo__title">Thông tin chuyến xe</div>
+                                </div>
+
+                                <div class="route-details" style="padding: 15px;">
+                                    <ul>
+                                        <li><strong>Điểm đi:</strong> ${data.start}</li>
+                                        <li><strong>Điểm đến:</strong> ${data.end}</li>
+                                        <li><strong>Thời gian khởi hành:</strong> ${data.departureTime}</li>
+                                        <li><strong>Ngày khởi hành:</strong> ${data.departtureDate}</li>
+                                        <li><strong>Số xe:</strong> ${data.busnumber}</li>
+                                        <li><strong>Hãng xe:</strong> ${data.company}</li>
+                                        <li><strong>Điểm lên xe:</strong> </li>
+                                        <li><strong>Thời gian đến điểm lên xe:</strong> ${data.pickuptime}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        `;
+
+                    $('#seatInfo').html(seatInfoHtml); // Insert the generated HTML into the seatInfo div
+                },
+                error: function (xhr, status, error) {
+                    alert("An error occurred while fetching seat and bus information.");
+                }
+            });
+        });
+    </script>
+    <script>
+        function updateDropOffOptions() {
+            var pickupSelect = document.getElementById('pickupSelect');
+            var dropoffSelect = document.getElementById('dropoffSelect');
+            var selectedPickup = pickupSelect.value;
+
+            for (var i = 0; i < dropoffSelect.options.length; i++) {
+                var option = dropoffSelect.options[i];
+                if (option.value === selectedPickup) {
+                    option.disabled = true;
+                } else {
+                    option.disabled = false;
+                }
+            }
+        }
+
+        function updatePickupOptions() {
+            var pickupSelect = document.getElementById('pickupSelect');
+            var dropoffSelect = document.getElementById('dropoffSelect');
+            var selectedDropoff = dropoffSelect.value;
+
+            for (var i = 0; i < pickupSelect.options.length; i++) {
+                var option = pickupSelect.options[i];
+                if (option.value === selectedDropoff) {
+                    option.disabled = true;
+                } else {
+                    option.disabled = false;
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('pickupSelect').addEventListener('change', updateDropOffOptions);
+            document.getElementById('dropoffSelect').addEventListener('change', updatePickupOptions);
+        });
+    </script>
+
+
+    <!-- Template Javascript -->
+
+</body>
+
+</html>

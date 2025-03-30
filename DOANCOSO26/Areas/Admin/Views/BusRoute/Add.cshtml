@@ -1,0 +1,118 @@
+﻿@model DOANCOSO26.Models.BusRoute
+
+@{
+    ViewData["Title"] = "Add Route";
+}
+
+<h1>Add Route</h1>
+
+<h4>Route</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Add" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Start" class="control-label"></label>
+                <input asp-for="Start" class="form-control" />
+                <span asp-validation-for="Start" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="End" class="control-label"></label>
+                <input asp-for="End" class="form-control" />
+                <span asp-validation-for="End" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Time" class="control-label"></label>
+                <input asp-for="Time" class="form-control" />
+                <span asp-validation-for="Time" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Distance" class="control-label"></label>
+                <input asp-for="Distance" class="form-control" />
+                <span asp-validation-for="Distance" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartLatitude" class="control-label"></label>
+                <input asp-for="StartLatitude" class="form-control"/>
+                <span asp-validation-for="StartLatitude" class="text-danger"></span>
+            </div>  
+            <div class="form-group">
+                <label asp-for="StartLongitude" class="control-label"></label>
+                <input asp-for="StartLongitude" class="form-control" />
+                <span asp-validation-for="StartLongitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndLatitude" class="control-label"></label>
+                <input asp-for="EndLatitude" class="form-control" />
+                <span asp-validation-for="EndLatitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndLongitude" class="control-label"></label>
+                <input asp-for="EndLongitude" class="form-control" />
+                <span asp-validation-for="EndLongitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageUrl" class="control-label">Ảnh chuyến ::</label>
+                <input type="file" asp-for="ImageUrl" class="form-control" />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="SearchedLatitude" class="control-label">Searched Latitude</label>
+                <input id="SearchedLatitude" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <label for="SearchedLongitude" class="control-label">Searched Longitude</label>
+                <input id="SearchedLongitude" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <input type="text" id="searchBox" class="form-control" placeholder="Nhập địa chỉ để tìm kiếm..." />
+        </div>
+        <div id="map" style="height: 500px;"></div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+
+    <script>
+        var map = L.map('map').setView([10.8231, 106.6297], 10); // Tọa độ mặc định của Hồ Chí Minh
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var geocoder = L.Control.geocoder({
+            defaultMarkGeocode: true,
+            defaultMarkGeocodedBounds: true
+        }).addTo(map);
+
+        geocoder.on('markgeocode', function (e) {
+            map.fitBounds(e.geocode.bbox);
+            document.getElementById('SearchedLatitude').value = e.geocode.center.lat;
+            document.getElementById('SearchedLongitude').value = e.geocode.center.lng;
+        });
+
+    
+    </script>
+   
+}

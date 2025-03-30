@@ -1,0 +1,41 @@
+﻿@model DOANCOSO26.Models.Seat
+
+@{
+    ViewData["Title"] = "Add Seat";
+}
+
+<h2>Add Seat</h2>
+
+<form asp-action="Update">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="SeatNumber" class="control-label"></label>
+        <input asp-for="SeatNumber" class="form-control" />
+        <span asp-validation-for="SeatNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Price" class="control-label"></label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="SeatStatus" class="control-label"></label>
+        <select asp-for="SeatStatus" class="form-control">
+            <option value="Available">Available</option>
+            <option value="Booked">Booked</option>
+            <!-- Add other options if needed -->
+        </select>
+        <span asp-validation-for="SeatStatus" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="BusTripId" class="control-label">Chuyến xe:</label>
+        <select asp-for="BusTripId" asp-items="ViewBag.BusTrips" class="form-control">
+            <option value="">-- Chọn chuyến xe:  --</option>
+        </select>
+        <span asp-validation-for="BusTripId" class="text-danger"></span>
+    </div>
+    <!-- Add other fields if needed -->
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>

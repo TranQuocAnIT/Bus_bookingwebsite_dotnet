@@ -41,5 +41,12 @@ namespace DOANCOSO26.Repository
             _context.Buses.Remove(buses);
             await _context.SaveChangesAsync();
         }
+        public async Task<List<string>> GetAllBusCompanyAsync()
+        {
+            return await _context.Buses
+                                 .Select(br => br.Company)
+                                 .Distinct()
+                                 .ToListAsync();
+        }
     }
 }

@@ -15,8 +15,10 @@ namespace DOANCOSO26.Data
         public DbSet<BusTrip> BusTrips { get; set; }
         public DbSet<Seat> Seats { get; set; }
         public DbSet<Booking> Bookings { get; set; }
+        public DbSet<BusRoute> BusRoutes { get; set; }
         public DbSet<BusTripImage> BusTripImages { get; set; }
-
+        public DbSet<TripReport> TripReports { get; set; }
+        public DbSet<Driverregis> Driverregis { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -30,6 +32,11 @@ namespace DOANCOSO26.Data
                 .HasOne(b => b.User)
                 .WithMany()
                 .HasForeignKey(b => b.UserId);
+            modelBuilder.Entity<BusTrip>()
+               .HasMany(bt => bt.Seats)
+               .WithOne(s => s.BusTrip)
+               .HasForeignKey(s => s.BusTripId);
+
         }
     }
 }

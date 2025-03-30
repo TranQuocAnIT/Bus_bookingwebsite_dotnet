@@ -6,20 +6,33 @@
     <div class="col-md-4">
         <form asp-action="Add">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+           
             <div class="form-group">
                 <label asp-for="Company" class="control-label"></label>
-                <input asp-for="Company" class="form-control" />
+                <select asp-for="Company" class="form-control">
+                    <option value="Phương Trang">Phương Trang</option>
+                    <option value="Tuấn Nga">Tuấn Nga</option>
+                    <option value="Mai Linh">Mai Linh</option>
+                    <option value="Thành Bưởi">Thành Bưởi</option>
+                    <option value="Kumho">Kumho Samco</option>
+                </select>
                 <span asp-validation-for="Company" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="BusNumber" class="control-label"></label>
                 <input asp-for="BusNumber" class="form-control" />
                 <span asp-validation-for="BusNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Capacity" class="control-label"></label>
-                <input asp-for="Capacity" class="form-control" />
-                <span asp-validation-for="Capacity" class="text-danger"></span>
+                <label asp-for="BusType" class="control-label"></label>
+                <select asp-for="BusType" class="form-control">
+                    <option value="Limousine">Limousine</option>
+                    <option value="Standard">Standard</option>
+                   
+
+                </select>
+                <span asp-validation-for="BusType" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -30,8 +43,5 @@
 
 <div>
     <a asp-action="Index">Back to List</a>
-</div>
+</div> 
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

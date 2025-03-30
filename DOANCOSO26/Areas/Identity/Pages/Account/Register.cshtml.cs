@@ -133,6 +133,15 @@ namespace   DOANCOSO26.Areas.Identity.Pages.Account
 
                 _roleManager.CreateAsync(new IdentityRole(Roles.Role_Admin)).GetAwaiter().GetResult();
 
+         
+            }
+            if (!_roleManager.RoleExistsAsync(Roles.Role_Admin).GetAwaiter().GetResult())
+            {
+                _roleManager.CreateAsync(new IdentityRole(Roles.Role_Admin)).GetAwaiter().GetResult();
+            }
+            if (!_roleManager.RoleExistsAsync(Roles.Role_Driver).GetAwaiter().GetResult())
+            {
+                _roleManager.CreateAsync(new IdentityRole(Roles.Role_Driver)).GetAwaiter().GetResult();
             }
             Input = new()
             {

@@ -9,5 +9,8 @@ namespace DOANCOSO26.Repository
         Task AddAsync(Seat seat);
         Task UpdateAsync(Seat seat);
         Task DeleteAsync(int id);
+        IEnumerable<Seat> GetSeatsByBusTripId(int busTripId);
+        Task AddRangeAsync(IEnumerable<Seat> seats);
+        Task<Seat> GetSeatByBookingIdAsync(int bookingId);
     }
 }

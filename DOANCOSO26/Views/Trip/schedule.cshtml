@@ -1,0 +1,474 @@
+﻿@model Dictionary<string, List<DOANCOSO26.Models.BusRoute>>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheely - Đặt Vé Xe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<style>
+    .text-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 80px; /* Increased font size */
+        font-weight: bold;
+        white-space: nowrap; /* Prevents text from wrapping */
+        z-index: 2;
+        text-shadow: 5px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .common__filter__wrapper {
+        background: #fff;
+        padding: 10px;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(30, 58, 138, 0.1);
+        border: 1px solid var(--neutral-light);
+        margin: 15px;
+    }
+
+    #slideshow {
+        width: 100%;
+        position: relative;
+        transition: transform 1s ease-in-out;
+    }
+
+    .slide-out-right {
+        transform: translateX(100%);
+    }
+
+    .slide-in-left {
+        transform: translateX(-100%);
+    }
+
+    .job-item {
+        border-radius: 15px; /* Điều chỉnh giá trị để có độ cong mong muốn */
+        border: 1px solid #ddd; /* Thêm border nếu cần */
+    }
+
+    .team-item {
+        border-radius: 30px; /* hoặc bất kỳ giá trị nào bạn muốn */
+        border: 1px solid #00B98E;
+    }
+
+    .routes-list {
+        max-height: 240px; /* Giới hạn chiều cao của khối */
+        overflow-y: auto;
+        overflow-x: none; /* Thêm thanh cuộn dọc nếu nội dung vượt quá chiều cao */
+    }
+
+    .custom-col {
+        flex: 1;
+    }
+
+
+    :root {
+        --primary-color: #0b0e68; /* Deep ocean blue */
+        --secondary-color: #003366; /* Even deeper blue */
+        --light-bg: #f0f4f8;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--light-bg);
+    }
+
+    .hero-section {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: white;
+        padding: 4rem 0;
+    }
+
+    .search-section {
+        background-color: white;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border-radius: 15px;
+        padding: 2rem;
+        margin-top: -50px;
+        position: relative;
+        z-index: 10;
+    }
+
+    .route-card {
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+        margin-bottom: 1rem;
+        transition: transform 0.3s ease;
+    }
+
+        .route-card:hover {
+            transform: translateY(-5px);
+        }
+
+    .input-group-custom {
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .btn-primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        transition: all 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.05);
+        }
+
+    .route-details {
+        padding: 15px;
+        background: #fff;
+        border-radius: 5px;
+    }
+
+    .route-link {
+        font-size: 14px;
+        color: #007bff;
+        cursor: pointer;
+        font-weight: bold;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+</style>
+
+<body>
+
+    <section class="flight__onewaysection ">
+        <h5 class="text-center mb-3" style="color: #0D6EFD;"></h5>
+        <div class="bus-info-grid rounded p-3">
+            <div class="ticket__timeout mb__24">
+            </div>
+        </div>
+    </section>
+    <div class="hero-section text-center text-white">
+        <div class="container">
+            <h1 class="display-4 mb-4">Cùng khám phá <span class="text-white">Các điểm đến tuyệt vời</span> cùng Whelly</h1>
+            <p class="lead mb-4">
+                Hãy để chúng tôi làm điều đó cho bạn - mỗi hành trình là một chuyến đi đầy ấn tượng và tiện ích,
+                Với Wheely, chúng tôi kết nối bạn đến mọi nơi một cách thông minh và hiệu quả.
+            </p>
+            <a href="#" class="cmn__btn  btn-lg px-5 py-3"><span>Đặt vé ngay !</span></a>
+        </div>
+    </div>
+
+    <!-- Search Section -->
+    <div class="container search-section">
+
+        <div class="row g-3">
+            <div class="col-md-5">
+                <div class="input-group input-group-custom">
+                    <input type="text" class="form-control border-0 py-3" placeholder="Nhập điểm đi">
+                </div>
+            </div>
+            <div class="col-md-2 text-center">
+                <button class="bt w-100 py-3" onclick="swapInputs()" style="border-block-color: #0d6efd; border-radius: 12px;">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+            <div class="col-md-5">
+                <div class="input-group input-group-custom">
+                    <input type="text" class="form-control border-0 py-3" placeholder="Nhập điểm đến">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Routes Section -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="route-card p-4">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <h5 class="text-primary">Tuyến xe</h5>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <h5 class="text-primary">Quãng đường</h5>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <h5 class="text-primary">Thời gian hành trình</h5>
+                        </div>
+                        <div class="col-md-1 text-center">
+                            <h5 class="text-primary">Giá vé</h5>
+                        </div>
+                    </div>
+                </div>
+
+                @foreach (var group in Model)
+                {
+                    <div class="mb-4">
+                        <h6 class="text-secondary mb-3">@group.Key</h6>
+                        @foreach (var item in group.Value)
+                        {
+                            <div class="common__filter__wrapper">
+                                <div style="margin-top: 10px; text-align: left;">
+                                    <!-- Liên kết hiển thị hành trình -->
+                                    <span class="badge badge-blue route-link" style="margin-bottom: 8px; padding: 5px;">Xem hành trình</span>
+
+                                </div>
+
+                                <!-- Phần chi tiết hành trình -->
+                                <div class="route-details" style="display: none;">
+
+                                 
+
+                                    <div id="map-@item.Id" style="height: 300px; margin-top: 20px;"></div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <h5 class="mb-0">
+                                            <span class="text-primary">@item.Start</span>
+                                            <i class="fas fa-random mx-2 text-muted"></i>
+                                            <span class="text-secondary">@item.End</span>
+                                        </h5>
+                                    </div>
+                                    <div class="col-md-2 text-center">
+                                        <p class="mb-0 text-muted">@item.Distance</p>
+                                    </div>
+                                    <div class="col-md-3 text-center">
+                                        <p class="mb-0 text-muted">@item.Time</p>
+                                    </div>
+                                    <div class="col-md-1 text-center">
+                                        <p class="mb-0 text-primary fw-bold">@item.Price</p>
+                                    </div>
+                                    <div class="col-md-2 text-end">
+                                        <form asp-action="Search">
+                                            <button class="cmn__btn" style="margin:0px;">Tìm tuyến xe</button>
+                                            <input type="hidden" id="Start" name="Start" value="@item.Start" />
+                                            <input type="hidden" id="End" name="End" value="@item.End" />
+                                        </form>
+                                    </div>
+                                </div>
+                              
+                            </div>
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    var map = L.map('map-@item.Id');
+
+                                    // Calculate the bounds to include both start and end points
+                                    var startLatLng = L.latLng(
+                                        parseFloat('@item.StartLatitude'),
+                                        parseFloat('@item.StartLongitude')
+                                    );
+                                    var endLatLng = L.latLng(
+                                        parseFloat('@item.EndLatitude'),
+                                        parseFloat('@item.EndLongitude')
+                                    );
+
+                                    // Fit the map to show both points with some padding
+                                    map.fitBounds([startLatLng, endLatLng], {
+                                        padding: [50, 50], // Add some padding around the points
+                                        maxZoom: 13 // Limit the maximum zoom level
+                                    });
+
+                                    // Thêm lớp bản đồ
+                                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                        maxZoom: 19,
+                                        attribution: '© OpenStreetMap contributors'
+                                    }).addTo(map);
+
+                                    // Đánh dấu điểm bắt đầu
+                                    var startMarker = L.marker(startLatLng)
+                                        .addTo(map)
+                                        .bindPopup('Điểm đi: @item.Start')
+                                        .openPopup();
+
+                                    // Đánh dấu điểm kết thúc
+                                    var endMarker = L.marker(endLatLng)
+                                        .addTo(map)
+                                        .bindPopup('Điểm đến: @item.End')
+                                        .openPopup();
+
+                                    // Sử dụng Leaflet Routing Machine để tìm tuyến đường xe hơi
+                                    L.Routing.control({
+                                        waypoints: [startLatLng, endLatLng],
+                                        routeWhileDragging: true,
+                                        router: L.Routing.osrmv1({
+                                            serviceUrl: 'https://router.project-osrm.org/route/v1',
+                                            profile: 'driving' // Chọn chế độ lái xe
+                                        }),
+                                        createMarker: function (i, waypoint, n) {
+                                            // Tùy chỉnh marker để không tạo marker trung gian
+                                            return null;
+                                        },
+                                        lineOptions: {
+                                            styles: [
+                                                { color: 'blue', opacity: 0.7, weight: 5 }
+                                            ]
+                                        },
+                                        addWaypoints: false,
+                                        draggableWaypoints: false,
+                                        fitSelectedRoutes: true,
+                                        show: true
+                                    }).addTo(map);
+                                });
+                            </script>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="container py-5">
+        <div class="bg-light rounded p-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <img src="/images/Picture10.png" alt="Wheely" class="img-fluid rounded">
+                </div>
+                <div class="col-md-6">
+                    <h2 class="mb-3">Đặt vé xe nhanh cùng <span class="text-primary">Wheely</span></h2>
+                    <p class="text-muted mb-4">
+                        Trải nghiệm đặt vé xe thuận tiện và nhanh chóng với nền tảng của chúng tôi.
+                    </p>
+                    <div class="d-flex">
+                        <a href="#" class="btn btn-primary me-3">
+                            <i class="fa fa-phone-alt me-2"></i>Liên hệ
+                        </a>
+                        <a href="#" class="btn btn-outline-primary">
+                            <i class="fa fa-calendar-alt me-2"></i>Đặt lịch
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function swapInputs() {
+            // Placeholder for input swapping logic
+            console.log('Swapping inputs');
+        }
+    </script>
+
+    <!-- Call to Action End -->
+    <!-- Scripts -->
+    <!-- Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <script>
+        let images = ["/images/Picture3.png", "/images/Picture8.png", "/images/Picture7.png"];
+        let currentIndex = 0;
+        const imageElement = document.getElementById('slideshow');
+
+        function changeImage() {
+            imageElement.classList.add('fade-out');
+            setTimeout(() => {
+                currentIndex = (currentIndex + 1) % images.length;
+                imageElement.src = images[currentIndex];
+                imageElement.classList.remove('fade-out');
+                imageElement.classList.add('fade-in');
+            }, 1000); // 1 second for fade-out effect
+        }
+
+        setInterval(changeImage, 2000); // 2 seconds interval
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#searchInput').on('keyup', function () {
+                var searchText = $(this).val().toLowerCase();
+                $('.job-item').each(function () {
+                    var rowData = $(this).find('.col-md-4').text().toLowerCase();
+                    if (rowData.indexOf(searchText) === -1) {
+                        $(this).hide();
+                    } else {
+                        $(this).show();
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        // Tạo đối tượng Date mới cho ngày hôm nay
+        var today = new Date();
+
+        // Định dạng ngày theo định dạng YYYY-MM-DD
+        var formattedDate = today.toISOString().split('T')[0];
+
+        // Gán giá trị cho trường input
+        document.getElementById('departureDate').value = formattedDate;
+    </script>
+    <script>
+        // Sử dụng sự kiện click cho tất cả các nút "Xem hành trình"
+        document.querySelectorAll('.route-link').forEach(function (link) {
+            link.addEventListener('click', function () {
+                // Lấy chi tiết hành trình của phần tử hiện tại
+                const details = this.closest('.common__filter__wrapper').querySelector('.route-details');
+
+                // Kiểm tra nếu chi tiết hành trình đang hiển thị
+                if (details.style.display === 'block') {
+                    // Nếu đang hiển thị, ẩn chi tiết và đổi tên nút thành "Xem hành trình"
+                    details.style.display = 'none';
+                    this.textContent = 'Xem hành trình';
+                } else {
+                    // Nếu không hiển thị, ẩn tất cả các chi tiết hành trình khác
+                    document.querySelectorAll('.route-details').forEach(function (otherDetails) {
+                        otherDetails.style.display = 'none';
+                    });
+
+                    // Hiển thị chi tiết hành trình của phần tử hiện tại
+                    details.style.display = 'block';
+                    this.textContent = 'Đóng hành trình';
+
+                    // Thêm hoặc bỏ active class cho nút
+                    document.querySelectorAll('.route-link').forEach(function (otherLink) {
+                        otherLink.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

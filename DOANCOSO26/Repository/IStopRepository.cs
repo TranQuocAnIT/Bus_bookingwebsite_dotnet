@@ -9,5 +9,7 @@ namespace DOANCOSO26.Repository
         Task AddAsync(Stop stop);
         Task UpdateAsync(Stop stop);
         Task DeleteAsync(int id);
+        Task<IEnumerable<Stop>> GetStopsByBusRouteId(int busRouteId);
+        Task<IEnumerable<Stop>> GetStopsByBusTripIdAsync(int busTripId);
     }
 }
